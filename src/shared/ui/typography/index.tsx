@@ -1,13 +1,20 @@
+import { Body } from "./body";
+import { Caption } from "./caption";
+import { H1 } from "./heading-h1";
+import { H2 } from "./heading-h2";
+import { H3 } from "./heading-h3";
+import { Hero } from "./hero-title";
+import { Subtitle } from "./subtitle";
+
 export const Typography = Object.assign(
   {},
   {
-    Heading: Heading,
-    Body: Body,
-    Caption: Caption,
-    Link: Link,
-    Button: Button,
-    Logo: Logo,
-    Image: Image,
-    Video: Video,
+    Body,
+    Caption,
+    H1,
+    H2,
+    H3,
+    Hero,
+    Subtitle,
   }
 );

@@ -1,10 +1,10 @@
 import { cva } from "class-variance-authority";
 
-export const SubtitleVariant = cva("text-Subtitle leading-normal", {
+export const SubtitleVariant = cva("text-[20px] leading-normal", {
   variants: {
     variant: {
-      primary: "font-nunito",
-      secondary: "font-multiround-pro",
+      secondary: "font-nunito font-normal font-semibold",
+      primary: "font-multiround-pro font-semibold",
     },
   },
   defaultVariants: {

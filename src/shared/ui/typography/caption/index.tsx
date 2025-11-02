@@ -3,7 +3,7 @@ import { CaptionProps } from "./props";
 import { CaptionVariant } from "./variant";
 
 export const Caption = forwardRef<HTMLParagraphElement, CaptionProps>(
-  ({ className, component = "p", variant, ...props }, ref) => {
+  ({ className, component = "span", variant, ...props }, ref) => {
     const Comp = component;
     return (
       <Comp

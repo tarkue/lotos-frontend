@@ -1,10 +1,10 @@
 import { cva } from "class-variance-authority";
 
-export const BodyVariant = cva("text-body leading-normal", {
+export const BodyVariant = cva("text-[18px] leading-normal", {
   variants: {
     variant: {
-      primary: "font-nunito",
-      secondary: "font-multiround-pro",
+      secondary: "font-nunito font-semibold",
+      primary: "font-multiround-pro font-normal",
     },
   },
   defaultVariants: {

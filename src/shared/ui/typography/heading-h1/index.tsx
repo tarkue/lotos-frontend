@@ -3,7 +3,7 @@ import { H1Props } from "./props";
 import { H1Variant } from "./variant";
 
 export const H1 = forwardRef<HTMLParagraphElement, H1Props>(
-  ({ className, component = "p", variant, ...props }, ref) => {
+  ({ className, component = "h1", variant, ...props }, ref) => {
     const Comp = component;
     return (
       <Comp

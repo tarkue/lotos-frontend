@@ -1,10 +1,10 @@
 import { cva } from "class-variance-authority";
 
-export const HeroVariant = cva("text-Hero leading-normal", {
+export const HeroVariant = cva("text-[64px] leading-normal", {
   variants: {
     variant: {
-      primary: "font-nunito",
-      secondary: "font-multiround-pro",
+      secondary: "font-nunito font-light",
+      primary: "font-multiround-pro font-normal",
     },
   },
   defaultVariants: {
