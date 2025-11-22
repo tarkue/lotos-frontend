@@ -7,7 +7,6 @@ export const validateChildrenOrThrow = (
   children: JSX.Element[],
   size: VariantProps<typeof TabElementVariant>["size"]
 ) => {
-  console.log(children);
   children.forEach((el) => {
     const props = el.props as TabElementProps;
 

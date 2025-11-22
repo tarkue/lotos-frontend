@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
+import { Endpoint } from "../shared/models/endpoint-enum";
 
 export default function RedirectFn() {
-  redirect("/catalog/all");
+  redirect(Endpoint.ALL_COURSES);
 }

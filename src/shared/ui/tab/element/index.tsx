@@ -1,4 +1,3 @@
-"use client";
 import { forwardRef } from "react";
 import { TabElementProps } from "./props";
 import { TabElementVariant } from "./variant";

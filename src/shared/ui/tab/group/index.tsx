@@ -6,7 +6,6 @@ import { TabGroupProps } from "./props";
 import { validateChildrenOrThrow } from "./utils/validate-children";
 import { TabGroupVariant } from "./variant";
 
-// Добавляем дженерик к компоненту
 export const TabGroup = ({
   size = "small",
   className,

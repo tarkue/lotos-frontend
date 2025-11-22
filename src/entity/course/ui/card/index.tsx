@@ -1,4 +1,5 @@
 import { cn } from "@/src/shared/libs/utils";
+import { Endpoint } from "@/src/shared/models/endpoint-enum";
 import { Typography } from "@/src/shared/ui/typography";
 import Link from "next/link";
 import { forwardRef } from "react";
@@ -6,17 +7,19 @@ import { CourseCardProps } from "./props";
 import { CourseCardVariant } from "./variant";
 
 export const CourseCard = forwardRef<HTMLAnchorElement, CourseCardProps>(
-  ({ size, className, course, ...props }, ref) => {
+  ({ size, className, course, action, ...props }, ref) => {
+    const Act = action;
     return (
       <Link
-        href={`/catalog/course/${course.id}`}
+        href={`${Endpoint.COURSES}/${course.id}`}
         className={cn(CourseCardVariant({ size, className }))}
         ref={ref}
         {...props}
       >
-        <Typography.Subtitle className="p-2 text-center uppercase">
+        <Typography.Subtitle className="w-full">
           {course.title}
         </Typography.Subtitle>
+        {Act && <Act course={course} />}
       </Link>
     );
   }

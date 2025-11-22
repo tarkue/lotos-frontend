@@ -11,11 +11,13 @@ export const Icon = forwardRef<HTMLElement, IconProps>(
     };
 
     return (
-      <i
-        className={IconVariants({ size, color, className })}
-        style={iconStyle}
-        ref={ref}
-      />
+      <div>
+        <i
+          className={IconVariants({ size, color, className })}
+          style={iconStyle}
+          ref={ref}
+        />
+      </div>
     );
   }
 );

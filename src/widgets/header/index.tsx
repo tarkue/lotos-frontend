@@ -1,4 +1,4 @@
-import { Button } from "@/src/shared/ui/button";
+import { LoginRedirect } from "@/src/features/login-redirect";
 import { Container } from "@/src/shared/ui/container";
 import { Logo } from "@/src/shared/ui/logo";
 import Link from "next/link";
@@ -10,9 +10,7 @@ export const Header = () => {
         <Link href="/catalog/all">
           <Logo />
         </Link>
-        <Button size="large" variant="primary">
-          Войти в профиль
-        </Button>
+        <LoginRedirect />
       </Container>
     </header>
   );

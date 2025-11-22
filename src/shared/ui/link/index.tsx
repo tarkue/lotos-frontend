@@ -8,7 +8,7 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
     return (
       <NextLink
         className={cn(
-          "text-[16px] font-semibold duration-300 transition-colors text-base-400 hover:text-primary-300",
+          "font-nunito text-[18px] font-semibold duration-300 transition-colors text-base-400 hover:text-primary-300",
           className
         )}
         ref={ref}

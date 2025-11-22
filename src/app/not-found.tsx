@@ -3,7 +3,7 @@ import { Typography } from "../shared/ui/typography";
 
 export default function Custom404() {
   return (
-    <Container className="flex flex-col items-center absolute pb-[117px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+    <Container className="flex flex-col items-center justify-center pb-[117px] min-h-[calc(100dvh-167px)]">
       <Typography.Hero className="text-[160px] font-extrabold! text-base-500">
         404
       </Typography.Hero>

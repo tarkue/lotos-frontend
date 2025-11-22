@@ -1,13 +1,16 @@
 import { cva } from "class-variance-authority";
 
-export const H1Variant = cva("text-[34px] leading-normal", {
-  variants: {
-    variant: {
-      secondary: "font-nunito font-semibold",
-      primary: "font-multiround-pro font-normal",
+export const H1Variant = cva(
+  "font-nunito text-[34px] leading-[110%] font-bold",
+  {
+    variants: {
+      variant: {
+        secondary: "",
+        primary: "",
+      },
     },
-  },
-  defaultVariants: {
-    variant: "primary",
-  },
-});
+    defaultVariants: {
+      variant: "primary",
+    },
+  }
+);

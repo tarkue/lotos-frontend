@@ -1,4 +1,3 @@
-// tabs/index.ts
 import { TabElement } from "./element";
 import { TabGroup } from "./group";
 import { TabMap } from "./map";

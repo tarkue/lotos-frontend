@@ -1,6 +1,6 @@
 import { cva } from "class-variance-authority";
 
-const IconVariants = cva("inline-block bg-no-repeat", {
+const IconVariants = cva("block bg-no-repeat", {
   variants: {
     size: {
       "12": "w-3 h-3",
@@ -9,6 +9,8 @@ const IconVariants = cva("inline-block bg-no-repeat", {
       "24": "w-6 h-6",
     },
     color: {
+      white: "bg-base-100",
+      gray: "bg-base-300",
       default: "bg-base-500",
     },
   },

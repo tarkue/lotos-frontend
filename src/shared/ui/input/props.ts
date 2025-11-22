@@ -1,9 +1,11 @@
 import { VariantProps } from "class-variance-authority";
-import { ControllerFieldState } from "react-hook-form";
+import { JSX } from "react";
 import { InputVariant } from "./variant";
 
 export interface InputProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size">,
     VariantProps<typeof InputVariant> {
-  fieldState?: ControllerFieldState;
+  leftIcon?: JSX.Element;
+  rightIcon?: JSX.Element;
+  isValid?: boolean;
 }

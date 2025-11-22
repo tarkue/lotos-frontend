@@ -1,21 +1,34 @@
-import { forwardRef } from "react";
+"use client";
+import { forwardRef, useRef } from "react";
 import { cn } from "../../libs/utils";
 import { InputProps } from "./props";
 import { InputVariant } from "./variant";
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ className, size, type, fieldState, ...props }, ref) => {
+export const Input = forwardRef<HTMLDivElement, InputProps>(
+  (
+    { className, size, type, isValid, leftIcon, rightIcon, ...props },
+    elementRef
+  ) => {
+    const ref = useRef<HTMLInputElement>(null);
     return (
-      <input
-        type={type}
+      <div
         className={cn(
           InputVariant({ size }),
-          fieldState?.invalid && "border-red hover:border-gray",
+          isValid === false && "border-warning hover:border-base-200",
           className
         )}
-        ref={ref}
-        {...props}
-      />
+        onClick={() => ref.current?.focus()}
+        ref={elementRef}
+      >
+        {leftIcon}
+        <input
+          type={type}
+          ref={ref}
+          className="font-nunito placeholder-base-300 font-medium w-full outline-0"
+          {...props}
+        />
+        {rightIcon}
+      </div>
     );
   }
 );

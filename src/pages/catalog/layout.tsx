@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 
 export default function CatalogLayout({ children }: { children?: ReactNode }) {
   return (
-    <Container className="w-full h-max mt-6">
+    <Container className="w-full h-max">
       <CourseCatalog.Wrapper>{children}</CourseCatalog.Wrapper>
     </Container>
   );

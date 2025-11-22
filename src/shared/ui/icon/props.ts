@@ -24,4 +24,6 @@ export type glyphs =
   | "log-out"
   | "return"
   | "send"
-  | "user";
+  | "user"
+  | "plus"
+  | "search";

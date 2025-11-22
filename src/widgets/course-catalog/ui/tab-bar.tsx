@@ -8,16 +8,21 @@ export const CourseCatalogTabBar = () => {
   const { isAuthorized } = { isAuthorized: false };
   const { defaultValue, onChange } = useTabOptionsCourseCatalog();
 
-  return isAuthorized ? (
-    <Tab.Map
-      elements={COURSE_CATALOG_TABS}
-      defaultValue={defaultValue}
-      className="max-w-58"
-      onChange={onChange}
-    />
-  ) : (
-    <Typography.H1 className="font-bold text-base-500" variant="secondary">
-      Все курсы
-    </Typography.H1>
+  return (
+    <>
+      {isAuthorized && (
+        <Tab.Map
+          elements={COURSE_CATALOG_TABS}
+          defaultValue={defaultValue}
+          className="max-w-58"
+          onChange={onChange}
+        />
+      )}{" "}
+      {!isAuthorized && (
+        <Typography.H1 className="font-bold text-base-500" variant="secondary">
+          Все курсы
+        </Typography.H1>
+      )}
+    </>
   );
 };

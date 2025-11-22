@@ -1,1 +1,1 @@
-export const COURSE_CATALOG_TABS = ["Все курсы", "Твои курсы"] as const;
+export const COURSE_CATALOG_TABS = ["Все курсы", "Мои курсы"] as const;

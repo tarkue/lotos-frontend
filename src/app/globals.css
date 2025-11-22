@@ -47,6 +47,10 @@ html {
 
   height: 100dvh;
   width: 100%;
+
+  background-color: #FFFFFF;
+  background-image: url('/body.svg');
+  background-repeat: repeat
 }
 
 body {
@@ -62,6 +66,8 @@ body {
   padding: 0;
 
   overscroll-behavior-y: contain;
+
+  background: none;
 }
 
 
