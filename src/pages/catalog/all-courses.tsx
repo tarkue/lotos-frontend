@@ -40,7 +40,7 @@ export default async function AllCoursePage() {
         <QuerySearch />
         <CourseCatalog.List courses={courses} action={CourseAction.Enroll} />
       </div>
-      <QueryPagination total={3} />
+      <QueryPagination total={10} />
     </div>
   );
 }

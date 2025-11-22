@@ -1,0 +1,197 @@
+import { BaseClient } from "../base/base.client";
+import { MessageResponseDTO } from "../dto/auth.dto";
+import {
+  AddEditorRequestDTO,
+  CourseApplicationDetailResponseDTO,
+  CourseApplicationResponseDTO,
+  CourseCreateRequestDTO,
+  CourseResponseDTO,
+  CourseUpdateRequestDTO,
+  CourseWithModulesResponseDTO,
+  EditorResponseDTO,
+  FileResponseDTO,
+  MaterialCreateRequestDTO,
+  MaterialFileResponseDTO,
+  MaterialResponseDTO,
+  MaterialUpdateRequestDTO,
+  ModuleCreateRequestDTO,
+  ModuleResponseDTO,
+  ModuleUpdateRequestDTO,
+  ModuleWithMaterialsResponseDTO,
+} from "../dto/teacher.dto";
+
+export class TeacherClient extends BaseClient {
+  constructor(baseURL?: string) {
+    super(baseURL);
+  }
+
+  // Courses
+  async getMyCourses(): Promise<CourseResponseDTO[]> {
+    return await this.get<CourseResponseDTO[]>("/teacher/courses");
+  }
+
+  async createCourse(data: CourseCreateRequestDTO): Promise<CourseResponseDTO> {
+    return await this.post("/teacher/courses", data);
+  }
+
+  async getCourse(courseId: number): Promise<CourseWithModulesResponseDTO> {
+    return await this.get<CourseWithModulesResponseDTO>(
+      `/teacher/courses/${courseId}`
+    );
+  }
+
+  async updateCourse(
+    courseId: number,
+    data: CourseUpdateRequestDTO
+  ): Promise<CourseResponseDTO> {
+    return await this.put(`/teacher/courses/${courseId}`, data);
+  }
+
+  async deleteCourse(courseId: number): Promise<MessageResponseDTO> {
+    return await this.delete(`/teacher/courses/${courseId}`);
+  }
+
+  // Modules
+  async createModule(
+    courseId: number,
+    data: ModuleCreateRequestDTO
+  ): Promise<ModuleResponseDTO> {
+    return await this.post(`/teacher/courses/${courseId}/modules`, data);
+  }
+
+  async getModule(
+    courseId: number,
+    moduleId: number
+  ): Promise<ModuleWithMaterialsResponseDTO> {
+    return await this.get(`/teacher/courses/${courseId}/modules/${moduleId}`);
+  }
+
+  async updateModule(
+    courseId: number,
+    moduleId: number,
+    data: ModuleUpdateRequestDTO
+  ): Promise<ModuleResponseDTO> {
+    return await this.put(
+      `/teacher/courses/${courseId}/modules/${moduleId}`,
+      data
+    );
+  }
+
+  async deleteModule(
+    courseId: number,
+    moduleId: number
+  ): Promise<MessageResponseDTO> {
+    return await this.delete(
+      `/teacher/courses/${courseId}/modules/${moduleId}`
+    );
+  }
+
+  // Materials
+  async createMaterial(
+    courseId: number,
+    moduleId: number,
+    data: MaterialCreateRequestDTO
+  ): Promise<MaterialResponseDTO> {
+    return await this.post(
+      `/teacher/courses/${courseId}/modules/${moduleId}/materials`,
+      data
+    );
+  }
+
+  async updateMaterial(
+    courseId: number,
+    moduleId: number,
+    materialId: number,
+    data: MaterialUpdateRequestDTO
+  ): Promise<MaterialResponseDTO> {
+    return await this.put(
+      `/teacher/courses/${courseId}/modules/${moduleId}/materials/${materialId}`,
+      data
+    );
+  }
+
+  async deleteMaterial(
+    courseId: number,
+    moduleId: number,
+    materialId: number
+  ): Promise<MessageResponseDTO> {
+    return await this.delete(
+      `/teacher/courses/${courseId}/modules/${moduleId}/materials/${materialId}`
+    );
+  }
+
+  // Files
+  async uploadFile(file: File): Promise<FileResponseDTO> {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    return await this.post("/teacher/files/upload", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  }
+
+  async attachFiles(
+    courseId: number,
+    moduleId: number,
+    materialId: number,
+    fileIds: number[]
+  ): Promise<MaterialFileResponseDTO[]> {
+    return await this.post(
+      `/teacher/courses/${courseId}/modules/${moduleId}/materials/${materialId}/files`,
+      fileIds
+    );
+  }
+
+  async detachFile(
+    courseId: number,
+    moduleId: number,
+    materialId: number,
+    fileId: number
+  ): Promise<MessageResponseDTO> {
+    return await this.delete(
+      `/teacher/courses/${courseId}/modules/${moduleId}/materials/${materialId}/files/${fileId}`
+    );
+  }
+
+  // Editors
+  async addEditor(
+    courseId: number,
+    data: AddEditorRequestDTO
+  ): Promise<EditorResponseDTO> {
+    return await this.post(`/teacher/courses/${courseId}/editors`, data);
+  }
+
+  async getEditors(courseId: number): Promise<EditorResponseDTO[]> {
+    return await this.get(`/teacher/courses/${courseId}/editors`);
+  }
+
+  async removeEditor(
+    courseId: number,
+    editorId: number
+  ): Promise<MessageResponseDTO> {
+    return await this.delete(
+      `/teacher/courses/${courseId}/editors/${editorId}`
+    );
+  }
+
+  // Applications
+  async getCourseApplications(
+    courseId: number
+  ): Promise<CourseApplicationResponseDTO[]> {
+    return await this.get(`/teacher/courses/${courseId}/applications`);
+  }
+
+  async approveApplication(
+    applicationId: number
+  ): Promise<CourseApplicationDetailResponseDTO> {
+    return await this.post(`/teacher/applications/${applicationId}/approve`);
+  }
+
+  async rejectApplication(
+    applicationId: number
+  ): Promise<CourseApplicationDetailResponseDTO> {
+    return await this.post(`/teacher/applications/${applicationId}/reject`);
+  }
+}
