@@ -1,6 +1,7 @@
 import { AdminClient } from "./controllers/admin.controller";
 import { AIClient } from "./controllers/ai.controller";
 import { AuthClient } from "./controllers/auth.controller";
+import { CourseClient } from "./controllers/course.controller";
 import { StudentClient } from "./controllers/student.controller";
 import { TeacherClient } from "./controllers/teacher.controller";
 import { TestClient } from "./controllers/test.controller";
@@ -15,8 +16,9 @@ export class ApiClient {
   public test: TestClient;
   public student: StudentClient;
   public ai: AIClient;
+  public course: CourseClient;
 
-  constructor(baseURL: string = "/api") {
+  constructor(baseURL: string = process.env.NEXT_PUBLIC_API + "/api") {
     this.auth = new AuthClient(baseURL);
     this.users = new UsersClient(baseURL);
     this.admin = new AdminClient(baseURL);
@@ -24,6 +26,7 @@ export class ApiClient {
     this.test = new TestClient(baseURL);
     this.student = new StudentClient(baseURL);
     this.ai = new AIClient(baseURL);
+    this.course = new CourseClient(baseURL);
 
     this.setupTokenSharing();
   }
@@ -36,6 +39,7 @@ export class ApiClient {
       this.test,
       this.student,
       this.ai,
+      this.course,
     ];
 
     // Когда auth клиент получает токены, делимся ими с другими клиентами

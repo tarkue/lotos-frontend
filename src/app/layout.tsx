@@ -1,8 +1,11 @@
+import { AuthProvider } from "@/src/shared/api/context/auth-context";
+import { TanstackQueryProvider } from "@/src/shared/context/tanstack";
+import { Toaster } from "@/src/shared/ui/toast";
+import { Footer } from "@/src/widgets/footer";
+import { Header } from "@/src/widgets/header";
 import { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import Head from "next/head";
-import { Footer } from "../widgets/footer";
-import { Header } from "../widgets/header";
 import "./globals.css";
 
 const nunito = Nunito({
@@ -22,14 +25,19 @@ export default function RootLayout({
   return (
     <>
       <html lang="en">
-        <Head>
-          <title>Лотос</title>
-        </Head>
-        <body className={`${nunito.variable} ${nunito.variable}`}>
-          <Header />
-          {children}
-          <Footer />
-        </body>
+        <AuthProvider>
+          <TanstackQueryProvider>
+            <Head>
+              <title>Лотос</title>
+            </Head>
+            <body className={`${nunito.variable} ${nunito.variable}`}>
+              <Header />
+              {children}
+              <Footer />
+              <Toaster />
+            </body>
+          </TanstackQueryProvider>
+        </AuthProvider>
       </html>
     </>
   );

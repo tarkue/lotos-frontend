@@ -7,12 +7,16 @@ export const ProgressBarAction: React.FC<CourseProps> = ({
   course,
 }: CourseProps) => {
   const percent =
-    course.total && course.all ? (course.total / course.all) * 100 : 0;
+    course.progress && course.progress
+      ? course.progress.progress_percentage * 100
+      : 0;
+
   return (
     <div className="flex gap-3 items-center">
       <ProgressBar percent={percent} />
       <Typography.Caption className="text-base-300 w-max min-w-44 text-right">
-        {course.total}/{course.all} занятий пройдено
+        {course.progress?.completed_items}/{course.progress?.total_items}{" "}
+        занятий пройдено
       </Typography.Caption>
     </div>
   );

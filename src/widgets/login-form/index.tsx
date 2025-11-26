@@ -1,8 +1,13 @@
 "use client";
+import { useAuth } from "@/src/shared/api/context/auth-context";
 import { createFieldProps } from "@/src/shared/libs/form-utils";
+import { Endpoint } from "@/src/shared/models/endpoint-enum";
 import { Button } from "@/src/shared/ui/button";
 import { Input } from "@/src/shared/ui/input";
+import { toast } from "@/src/shared/ui/toast";
 import { createFormHook, createFormHookContexts } from "@tanstack/react-form";
+import { useRouter } from "next/navigation";
+
 import z from "zod";
 
 const { fieldContext, formContext } = createFormHookContexts();
@@ -19,31 +24,43 @@ const { useAppForm } = createFormHook({
 });
 
 export const LoginForm = () => {
+  const router = useRouter();
+  const { login } = useAuth();
+
   const form = useAppForm({
     defaultValues: {
-      login: "",
+      email: "",
       password: "",
     },
     validators: {
       onChange: z.object({
-        login: z.email({ error: "Неправильно написана электронная почта" }),
+        email: z.email({ error: "Неправильно написана электронная почта" }),
         password: z
           .string()
           .min(8, { error: "Пароль должен быть больше 8-ми символов" }),
       }),
     },
-    onSubmit: ({ value }) => {
-      // Do something with form data
-      alert(JSON.stringify(value, null, 2));
+    onSubmit: async ({ value }) => {
+      try {
+        await login(value);
+        router.push(Endpoint.MY_COURSES);
+      } catch {
+        toast({
+          title: "Некорректные данные",
+          description: "Попробуйте ввести данные заново.",
+          variant: "warning",
+        });
+      }
     },
   });
 
   return (
     <form
       className="flex flex-col gap-4 w-full"
-      onSubmit={(e) => {
+      onSubmit={async (e) => {
         e.preventDefault();
-        form.handleSubmit();
+        e.stopPropagation();
+        await form.handleSubmit();
       }}
     >
       <div className="flex flex-col gap-3 w-full">
@@ -54,7 +71,7 @@ export const LoginForm = () => {
       </div>
 
       <form.AppForm>
-        <form.Button size="large" className="w-min">
+        <form.Button type="submit" size="large" className="w-min">
           Вход
         </form.Button>
       </form.AppForm>

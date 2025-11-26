@@ -14,7 +14,7 @@ const Label = forwardRef<
   <div
     className={cn(
       labelVariants({ padding, className }),
-      !isValid && "text-warning"
+      !isValid && "text-error"
     )}
   >
     <LabelPrimitive.Root ref={ref} {...props} />

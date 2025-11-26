@@ -1,6 +1,6 @@
 import { BaseClient } from "../base/base.client";
 import { MessageResponseDTO } from "../dto/auth.dto";
-import { PaginationParams } from "../dto/common.dto";
+import { CoursesCatalogParams } from "../dto/course.dto";
 import {
   CourseCardResponseDTO,
   EnrolledCourseDetailResponseDTO,
@@ -19,12 +19,6 @@ import {
 } from "../dto/student.dto";
 import { CourseApplicationResponseDTO } from "../dto/teacher.dto";
 
-export interface CoursesCatalogParams extends PaginationParams {
-  search?: string | null;
-}
-
-type NewType = CoursesCatalogParams;
-
 export class StudentClient extends BaseClient {
   constructor(baseURL?: string) {
     super(baseURL);
@@ -32,7 +26,7 @@ export class StudentClient extends BaseClient {
 
   // Courses Catalog
   async getCoursesCatalog(
-    params?: NewType
+    params?: CoursesCatalogParams
   ): Promise<PaginatedCoursesResponseDTO> {
     return await this.get("/students/courses", { params });
   }

@@ -5,4 +5,5 @@ export enum Endpoint {
   REGISTER = "/register",
   FORGET_PASSWORD = "forget-password",
   COURSES = "/catalog/courses",
+  PROFILE = "/profile",
 }

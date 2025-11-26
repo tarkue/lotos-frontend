@@ -1,11 +1,16 @@
 "use client";
+import { useAuth } from "@/src/shared/api/context/auth-context";
 import { createFieldProps } from "@/src/shared/libs/form-utils";
+import { Endpoint } from "@/src/shared/models/endpoint-enum";
 import { Button } from "@/src/shared/ui/button";
+import { toast } from "@/src/shared/ui/toast";
 import {
   AnyFieldApi,
   createFormHook,
   createFormHookContexts,
 } from "@tanstack/react-form";
+import { useRouter } from "next/navigation";
+
 import z from "zod";
 
 const { fieldContext, formContext } = createFormHookContexts();
@@ -20,10 +25,12 @@ const { useAppForm } = createFormHook({
 });
 
 export const RegisterForm = () => {
+  const router = useRouter();
+  const { register } = useAuth();
   const form = useAppForm({
     defaultValues: {
-      lastName: "",
-      firstName: "",
+      last_name: "",
+      first_name: "",
       patronymic: "",
       email: "",
       password: "",
@@ -31,10 +38,10 @@ export const RegisterForm = () => {
     },
     validators: {
       onChange: z.object({
-        lastName: z
+        last_name: z
           .string()
           .min(2, "Фамилия должна содержать минимум 2 символа"),
-        firstName: z.string().min(2, "Имя должно содержать минимум 2 символа"),
+        first_name: z.string().min(2, "Имя должно содержать минимум 2 символа"),
         patronymic: z.string(),
         email: z.email("Введите корректный email"),
         password: z
@@ -43,9 +50,17 @@ export const RegisterForm = () => {
         confirmPassword: z.string().min(8, "Подтвердите пароль"),
       }),
     },
-    onSubmit: ({ value }) => {
-      // Do something with form data
-      alert(JSON.stringify(value, null, 2));
+    onSubmit: async ({ value }) => {
+      try {
+        await register(value);
+        router.push(Endpoint.MY_COURSES);
+      } catch {
+        toast({
+          title: "Возникла ошибка",
+          description: "Пользователь с такой почтой уже существует",
+          variant: "error",
+        });
+      }
     },
   });
 
@@ -54,12 +69,13 @@ export const RegisterForm = () => {
       className="flex flex-col gap-4 w-full"
       onSubmit={(e) => {
         e.preventDefault();
+        e.stopPropagation();
         form.handleSubmit();
       }}
     >
       <div className="flex flex-col gap-3 w-full">
-        <form.AppField {...createFieldProps("lastName", "Фамилия")} />
-        <form.AppField {...createFieldProps("firstName", "Имя")} />
+        <form.AppField {...createFieldProps("last_name", "Фамилия")} />
+        <form.AppField {...createFieldProps("first_name", "Имя")} />
         <form.AppField {...createFieldProps("patronymic", "Отчество")} />
         <form.AppField {...createFieldProps("email", "Email", "email")} />
         <form.AppField

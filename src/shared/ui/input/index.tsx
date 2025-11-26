@@ -14,7 +14,7 @@ export const Input = forwardRef<HTMLDivElement, InputProps>(
       <div
         className={cn(
           InputVariant({ size }),
-          isValid === false && "border-warning hover:border-base-200",
+          isValid === false && "border-error hover:border-base-200",
           className
         )}
         onClick={() => ref.current?.focus()}
@@ -24,7 +24,7 @@ export const Input = forwardRef<HTMLDivElement, InputProps>(
         <input
           type={type}
           ref={ref}
-          className="font-nunito placeholder-base-300 font-medium w-full outline-0"
+          className="font-nunito text-black placeholder-base-300 font-medium w-full outline-0"
           {...props}
         />
         {rightIcon}

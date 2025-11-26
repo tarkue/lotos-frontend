@@ -27,10 +27,9 @@ export const FormField = ({
         onChange={(e) => field.handleChange(e.currentTarget.value)}
         onBlur={field.handleBlur}
         isValid={field.state.meta.isValid}
-        className={hasError ? "border-red-500" : ""}
       />
       {hasError && (
-        <Label className="text-red-500 text-sm">
+        <Label isValid={field.state.meta.isValid}>
           {field.state.meta.errors.map((el) => el.message).join(", ")}
         </Label>
       )}

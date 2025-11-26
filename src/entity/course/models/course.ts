@@ -1,16 +1,17 @@
-import { Module } from "../../module";
-
 export interface Course {
-  id: string;
+  id: number;
   title: string;
-  description?: string;
-  img_url?: string;
-
-  status?: string;
-  modules?: Module[];
-
-  total?: number;
-  all?: number;
+  description?: string | null;
+  img_url?: string | null;
+  progress?: {
+    id: number;
+    course_id: number;
+    user_id: number;
+    completed_items: number;
+    total_items: number;
+    progress_percentage: number;
+    last_accessed_at: string;
+  } | null;
 }
 
 export interface CourseProps {

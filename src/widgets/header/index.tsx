@@ -1,4 +1,4 @@
-import { LoginRedirect } from "@/src/features/login-redirect";
+import { HeaderAction } from "@/src/features/header-action";
 import { Container } from "@/src/shared/ui/container";
 import { Logo } from "@/src/shared/ui/logo";
 import Link from "next/link";
@@ -10,7 +10,7 @@ export const Header = () => {
         <Link href="/catalog/all">
           <Logo />
         </Link>
-        <LoginRedirect />
+        <HeaderAction />
       </Container>
     </header>
   );

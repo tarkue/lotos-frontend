@@ -1,5 +1,5 @@
-import { Container } from "../shared/ui/container";
-import { Typography } from "../shared/ui/typography";
+import { Container } from "@/src/shared/ui/container";
+import { Typography } from "@/src/shared/ui/typography";
 
 export default function Custom404() {
   return (

@@ -1,3 +1,4 @@
+import axios from "axios";
 import { BaseClient } from "../base/base.client";
 import {
   LoginRequestDTO,
@@ -18,26 +19,35 @@ export class AuthClient extends BaseClient {
   }
 
   async login(data: LoginRequestDTO): Promise<TokenResponseDTO> {
-    const response = await this.post<LoginRequestDTO, TokenResponseDTO>(
-      "/auth/login",
+    // Используем базовый axios для логина, чтобы избежать интерцепторов
+    const response = await axios.post<TokenResponseDTO>(
+      `${this.client.defaults.baseURL}/auth/login`,
       data
     );
-    this.setToken(response.access_token);
-    return response;
+    this.setTokens(response.data);
+    return response.data;
   }
 
-  async refreshToken(
+  async forceRefreshToken(
     data: RefreshTokenRequestDTO
-  ): Promise<Record<string, string>> {
-    return await this.post("/auth/refresh", data);
+  ): Promise<TokenResponseDTO> {
+    const response = await this.post<RefreshTokenRequestDTO, TokenResponseDTO>(
+      "/auth/refresh",
+      data
+    );
+    this.setTokens(response);
+    return response;
   }
 
   async logout(data: RefreshTokenRequestDTO): Promise<MessageResponseDTO> {
-    const response = await this.post<
-      RefreshTokenRequestDTO,
-      MessageResponseDTO
-    >("/auth/logout", data);
-    this.clearToken();
-    return response;
+    try {
+      const response = await this.post<
+        RefreshTokenRequestDTO,
+        MessageResponseDTO
+      >("/auth/logout", data);
+      return response;
+    } finally {
+      this.clearTokens();
+    }
   }
 }

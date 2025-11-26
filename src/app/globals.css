@@ -2,8 +2,8 @@
 @import "tw-animate-css";
 
 @theme {
-  --color-warning: #D84C4C;
-  --color-danger: #FBB866;
+  --color-error: #D84C4C;
+  --color-warning: #FBB866;
   --color-success: #70B980;
 
   --color-primary-100: #FFD3D3;

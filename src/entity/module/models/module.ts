@@ -1,7 +1,7 @@
 import { Theme } from "../../theme/models/theme";
 
 export interface Module {
-  id: string;
+  id: number;
   title: string;
   position?: number;
 

@@ -37,6 +37,7 @@ export interface EnrolledCourseDetailResponseDTO {
   description?: string | null;
   img_url?: string | null;
   creator?: UserResponseDTO | null;
+  is_enrolled?: boolean;
   created_at: string;
   overall_progress: number;
   completed_materials: number;

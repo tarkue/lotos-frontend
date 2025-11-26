@@ -9,10 +9,17 @@ import axios, {
 import { TokenPair, TokenStorage } from "../models/token.model";
 import { CookieTokenStorage } from "../utils/cookie-store";
 
+// Тип для элементов в очереди запросов
+type QueueItem = {
+  resolve: (value?: string | null | unknown) => void;
+  reject: (error?: string | null | unknown) => void;
+};
+
 export class BaseClient {
   protected client: AxiosInstance;
-  private tokenStorage: TokenStorage;
-  private refreshPromise: Promise<string> | null = null;
+  public tokenStorage: TokenStorage;
+  private isRefreshing = false;
+  private failedQueue: QueueItem[] = [];
 
   constructor(baseURL: string = "/api") {
     this.tokenStorage = new CookieTokenStorage();
@@ -27,10 +34,30 @@ export class BaseClient {
     this.setupInterceptors();
   }
 
+  private processQueue(
+    error: string | null | unknown,
+    token: string | null = null
+  ): void {
+    this.failedQueue.forEach(({ resolve, reject }) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(token);
+      }
+    });
+
+    this.failedQueue = [];
+  }
+
   private setupInterceptors(): void {
     // Request interceptor to add auth token
     this.client.interceptors.request.use(
       (config: InternalAxiosRequestConfig) => {
+        // Не добавляем токен для эндпоинтов аутентификации
+        if (config.url?.includes("/auth/")) {
+          return config;
+        }
+
         const token = this.tokenStorage.getAccessToken();
         if (token) {
           config.headers.Authorization = `Bearer ${token}`;
@@ -48,73 +75,78 @@ export class BaseClient {
       async (error) => {
         const originalRequest = error.config;
 
-        // If error is 401 and we haven't tried to refresh yet
-        if (error.response?.status === 401 && !originalRequest._retry) {
-          if (this.refreshPromise) {
-            // If refresh is already in progress, wait for it
-            try {
-              await this.refreshPromise;
-              return this.client(originalRequest);
-            } catch {
-              this.handleAuthError();
-              return Promise.reject(error);
-            }
-          }
-
-          originalRequest._retry = true;
-
-          try {
-            await this.refreshToken();
-            return this.client(originalRequest);
-          } catch (refreshError) {
-            this.handleAuthError();
-            return Promise.reject(refreshError);
-          }
+        // Пропускаем все не 401 ошибки и запросы на аутентификацию
+        if (
+          error.response?.status !== 401 ||
+          originalRequest.url?.includes("/auth/") ||
+          originalRequest._retry
+        ) {
+          return Promise.reject(error);
         }
 
-        return Promise.reject(error);
+        // Если уже обновляем токен - добавляем запрос в очередь
+        if (this.isRefreshing) {
+          return new Promise((resolve, reject) => {
+            this.failedQueue.push({ resolve, reject });
+          })
+            .then((token) => {
+              if (originalRequest.headers && token) {
+                originalRequest.headers.Authorization = `Bearer ${token}`;
+              }
+              return this.client(originalRequest);
+            })
+            .catch((err) => {
+              return Promise.reject(err);
+            });
+        }
+
+        originalRequest._retry = true;
+        this.isRefreshing = true;
+
+        try {
+          const refreshToken = this.tokenStorage.getRefreshToken();
+          if (!refreshToken) {
+            throw new Error("No refresh token");
+          }
+
+          // Создаем новый экземпляр axios для запроса обновления
+          const refreshClient = axios.create({
+            baseURL: this.client.defaults.baseURL,
+          });
+
+          const response = await refreshClient.post<TokenPair>(
+            "/auth/refresh",
+            {
+              refresh_token: refreshToken,
+            }
+          );
+
+          this.tokenStorage.setTokens(response.data);
+
+          // Обрабатываем очередь запросов
+          this.processQueue(null, response.data.access_token);
+          this.isRefreshing = false;
+
+          // Повторяем оригинальный запрос
+          const token = this.tokenStorage.getAccessToken();
+          if (token && originalRequest.headers) {
+            originalRequest.headers.Authorization = `Bearer ${token}`;
+          }
+          return this.client(originalRequest);
+        } catch (refreshError) {
+          this.processQueue(refreshError, null);
+          this.isRefreshing = false;
+          this.handleAuthError();
+          return Promise.reject(error);
+        }
       }
     );
   }
 
-  private async refreshToken(): Promise<void> {
-    if (this.refreshPromise) {
-      await this.refreshPromise;
-    }
-
-    this.refreshPromise = new Promise(async (resolve, reject) => {
-      try {
-        const refreshToken = this.tokenStorage.getRefreshToken();
-
-        if (!refreshToken) {
-          throw new Error("No refresh token available");
-        }
-
-        // Используем базовый axios чтобы избежать рекурсивных интерцепторов
-        const response = await axios.post<TokenPair>("/api/auth/refresh", {
-          refresh_token: refreshToken,
-        });
-
-        this.tokenStorage.setTokens(response.data);
-        resolve(response.data.access_token);
-      } catch (error) {
-        this.handleAuthError();
-        reject(error);
-      } finally {
-        this.refreshPromise = null;
-      }
-    });
-
-    await this.refreshPromise;
-  }
-
   private handleAuthError(): void {
-    this.tokenStorage.clearTokens();
-
-    // Redirect to login page if we're in browser environment
-    if (typeof window !== "undefined") {
-      window.location.href = "/login";
-    }
+    this.clearTokens();
+    // Не делаем автоматический редирект здесь - пусть компоненты решают сами
+    console.warn("Authentication error - tokens cleared");
   }
 
   public setTokens(tokens: TokenPair): void {
