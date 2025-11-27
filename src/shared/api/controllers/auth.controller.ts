@@ -24,7 +24,6 @@ export class AuthClient extends BaseClient {
       `${this.client.defaults.baseURL}/auth/login`,
       data
     );
-    this.setTokens(response.data);
     return response.data;
   }
 

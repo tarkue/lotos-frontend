@@ -1,6 +1,7 @@
 import { api } from "@/src/shared/api";
 import { sfwr } from "@/src/shared/libs/server-fetch-with-refresh";
-import { notFound } from "next/navigation";
+import { Endpoint } from "@/src/shared/models/endpoint-enum";
+import { notFound, redirect } from "next/navigation";
 
 export async function fetchMaterial(slug: [string, string, string]) {
   if (!slug.every((e) => Number.isInteger(Number.parseInt(e)))) {
@@ -11,12 +12,16 @@ export async function fetchMaterial(slug: [string, string, string]) {
   const moduleId = Number.parseInt(slug[1]);
   const materialId = Number.parseInt(slug[1]);
 
-  return await sfwr(
-    api.student.getMaterialDetail,
-    courseId,
-    moduleId,
-    materialId
-  );
+  try {
+    return await sfwr(
+      api.student.getMaterialDetail,
+      courseId,
+      moduleId,
+      materialId
+    );
+  } catch {
+    redirect(Endpoint.LOGIN);
+  }
 }
 
 export default async function MaterialPage({

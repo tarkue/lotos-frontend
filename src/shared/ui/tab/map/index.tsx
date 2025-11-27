@@ -7,14 +7,12 @@ export const TabMap = <T extends readonly string[]>({
   defaultValue,
   onChange,
   width,
-  size = "small",
   className,
 }: TabListProps<T>) => {
   return (
     <TabGroup
       defaultValue={defaultValue}
       onChange={onChange}
-      size={size}
       style={{ width }}
       className={className}
     >

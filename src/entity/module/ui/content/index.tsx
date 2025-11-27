@@ -22,6 +22,7 @@ export const ModuleContent = forwardRef<HTMLDivElement, ModuleCardProps>(
         {module.materials && (
           <MaterialList
             materials={module.materials}
+            moduleId={module.id}
             courseId={module.course_id}
           />
         )}

@@ -6,17 +6,13 @@ import { TabGroupProps } from "./props";
 import { validateChildrenOrThrow } from "./utils/validate-children";
 
 export const TabGroup = ({
-  size = "small",
   className,
   defaultValue,
   children,
   onChange,
   ...props
 }: TabGroupProps) => {
-  useMemo(
-    () => validateChildrenOrThrow(children, size),
-    [children.length, size]
-  );
+  useMemo(() => validateChildrenOrThrow(children), [children.length]);
 
   const [activeTab, setActiveTab] = useState<string | undefined>(defaultValue);
 

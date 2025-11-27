@@ -7,7 +7,7 @@ import axios, {
   InternalAxiosRequestConfig,
 } from "axios";
 import { TokenPair, TokenStorage } from "../models/token.model";
-import { CookieTokenStorage } from "../utils/cookie-store";
+import { createTokenStorage } from "../utils/cookie-store";
 
 // Тип для элементов в очереди запросов
 type QueueItem = {
@@ -22,7 +22,7 @@ export class BaseClient {
   private failedQueue: QueueItem[] = [];
 
   constructor(baseURL: string = "/api") {
-    this.tokenStorage = new CookieTokenStorage();
+    this.tokenStorage = createTokenStorage();
     this.client = axios.create({
       baseURL,
       timeout: 30000,
@@ -151,14 +151,17 @@ export class BaseClient {
   }
 
   public setTokens(tokens: TokenPair): void {
+    "use client";
     this.tokenStorage.setTokens(tokens);
   }
 
   public clearTokens(): void {
+    "use client";
     this.tokenStorage.clearTokens();
   }
 
   public isAuthenticated(): boolean {
+    "use client";
     return !!this.tokenStorage.getAccessToken();
   }
 

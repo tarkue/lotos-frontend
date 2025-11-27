@@ -5,16 +5,24 @@ import { Material } from "../../models/material";
 import { MaterialCard } from "../card";
 import { MaterialListProps } from "./props";
 
-export const MaterialList = ({ materials, courseId }: MaterialListProps) => {
-  if (materials === undefined || courseId) {
+export const MaterialList = ({
+  materials,
+  courseId,
+  moduleId,
+}: MaterialListProps) => {
+  if (
+    materials === undefined ||
+    courseId === undefined ||
+    moduleId === undefined
+  ) {
     return <></>;
   }
 
   const generateHref = (material: Material) =>
     formatEndpoint(Endpoint.MATERIAL, [
       courseId,
-      material.module_id,
-      material.id,
+      moduleId,
+      material.material_id,
     ]);
 
   return (

@@ -5,4 +5,5 @@ export interface MaterialListProps
   extends React.HTMLAttributes<HTMLDivElement> {
   materials?: Material[];
   courseId?: number;
+  moduleId?: number;
 }

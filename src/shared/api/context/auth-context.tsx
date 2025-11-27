@@ -80,7 +80,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } catch (error) {
       console.error("Auth check failed:", error);
       if (
-        (error as { response: { status: number } })?.response?.status === 403
+        (error as { response: { status: number } })?.response?.status === 403 ||
+        (error as { response: { status: number } })?.response?.status === 401
       ) {
         api.auth.clearTokens();
       }
@@ -92,7 +93,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     async (data: LoginRequestDTO) => {
       try {
         dispatch({ type: "SET_ERROR" });
-        await api.auth.login(data);
+        const tokens = await api.auth.login(data);
+        api.auth.setTokens(tokens);
+        api.setTokens(tokens);
         await checkAuth();
       } catch (error) {
         dispatch({ type: "SET_ERROR" });

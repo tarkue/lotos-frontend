@@ -1,6 +1,6 @@
 import { TokenPair, TokenStorage } from "../models/token.model";
 
-export class CookieTokenStorage implements TokenStorage {
+class CookieTokenStorage implements TokenStorage {
   private readonly ACCESS_TOKEN_KEY = "access_token";
   private readonly REFRESH_TOKEN_KEY = "refresh_token";
   private readonly TOKEN_TYPE_KEY = "token_type";
@@ -30,10 +30,6 @@ export class CookieTokenStorage implements TokenStorage {
       const date = new Date();
       date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
       cookie += `; expires=${date.toUTCString()}`;
-    }
-
-    if (process.env.NODE_ENV === "production") {
-      cookie += "; secure";
     }
 
     document.cookie = cookie;
@@ -77,4 +73,34 @@ export class CookieTokenStorage implements TokenStorage {
     this.removeCookie(this.REFRESH_TOKEN_KEY);
     this.removeCookie(this.TOKEN_TYPE_KEY);
   }
+}
+class ServerTokenStorage implements TokenStorage {
+  getAccessToken(): string | null {
+    return null;
+  }
+
+  getRefreshToken(): string | null {
+    return null;
+  }
+
+  getTokenType(): string {
+    return "bearer";
+  }
+
+  setTokens(tokens: TokenPair): void {
+    // На сервере не делаем ничего, либо логируем
+    console.warn("Attempted to set tokens on server side");
+  }
+
+  clearTokens(): void {
+    // На сервере не делаем ничего
+    console.warn("Attempted to clear tokens on server side");
+  }
+}
+
+export function createTokenStorage(): TokenStorage {
+  if (typeof window === "undefined") {
+    return new ServerTokenStorage();
+  }
+  return new CookieTokenStorage();
 }
