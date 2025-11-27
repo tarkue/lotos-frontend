@@ -64,7 +64,9 @@ export const LoginForm = () => {
       }}
     >
       <div className="flex flex-col gap-3 w-full">
-        <form.AppField {...createFieldProps("email", "Email", "email")} />
+        <form.AppField
+          {...createFieldProps("email", "example@mail.ru", "email")}
+        />
         <form.AppField
           {...createFieldProps("password", "Пароль", "password")}
         />

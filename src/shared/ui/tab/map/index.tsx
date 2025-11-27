@@ -6,6 +6,7 @@ export const TabMap = <T extends readonly string[]>({
   elements,
   defaultValue,
   onChange,
+  width,
   size = "small",
   className,
 }: TabListProps<T>) => {
@@ -14,6 +15,7 @@ export const TabMap = <T extends readonly string[]>({
       defaultValue={defaultValue}
       onChange={onChange}
       size={size}
+      style={{ width }}
       className={className}
     >
       {elements.map((tab, index) => (

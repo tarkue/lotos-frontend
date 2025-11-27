@@ -3,9 +3,9 @@ import { ModuleList } from "@/src/entity/module";
 import { BackButton } from "@/src/features/back";
 import { CourseAction } from "@/src/features/course-action";
 import { api } from "@/src/shared/api";
-import { GetTokenPairFromCookie } from "@/src/shared/libs/cookie";
+import { sfwr } from "@/src/shared/libs/server-fetch-with-refresh";
+import { Endpoint } from "@/src/shared/models/endpoint-enum";
 import { Container } from "@/src/shared/ui/container";
-import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
 export async function fetchCourse(slug: string) {
@@ -13,23 +13,20 @@ export async function fetchCourse(slug: string) {
     notFound();
   }
 
-  const id = Number.parseInt(slug);
-  const cookieStore = await cookies();
-  const tokenPair = GetTokenPairFromCookie(cookieStore);
-
-  if (tokenPair !== undefined) {
-    try {
-      api.student.setTokens(tokenPair);
-      const course = await api.student.getEnrolledCourse(id);
-      course.is_enrolled = true;
-      return { course: course, modules: course.modules };
-    } catch {}
-  }
+  const courseId = Number.parseInt(slug);
 
   try {
-    const course = await api.course.getCoursePublicInfo(id);
+    const course = await sfwr(api.student.getEnrolledCourse, courseId);
+    course.is_enrolled = true;
+
+    return course;
+  } catch {}
+
+  try {
+    const course = await api.course.getCoursePublicInfo(courseId);
     course.is_enrolled = false;
-    return { course: course, modules: undefined };
+    course.modules = [];
+    return course;
   } catch {
     notFound();
   }
@@ -41,12 +38,12 @@ export default async function CoursePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const { course, modules } = await fetchCourse(slug);
+  const course = await fetchCourse(slug);
 
   return (
     <Container className="flex flex-col gap-6 items-center pb-[117px] min-h-[calc(100dvh-167px)]">
       <div className="w-full">
-        <BackButton />
+        <BackButton endpoint={Endpoint.ALL_COURSES} />
       </div>
       <CourseDescription
         course={course}
@@ -54,7 +51,7 @@ export default async function CoursePage({
           course.is_enrolled ? CourseAction.ProgressBar : CourseAction.Enroll
         }
       />
-      {modules && <ModuleList modules={modules} />}
+      {course.modules && <ModuleList modules={course.modules} />}
     </Container>
   );
 }

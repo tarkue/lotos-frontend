@@ -77,7 +77,9 @@ export const RegisterForm = () => {
         <form.AppField {...createFieldProps("last_name", "Фамилия")} />
         <form.AppField {...createFieldProps("first_name", "Имя")} />
         <form.AppField {...createFieldProps("patronymic", "Отчество")} />
-        <form.AppField {...createFieldProps("email", "Email", "email")} />
+        <form.AppField
+          {...createFieldProps("email", "example@mail.ru", "email")}
+        />
         <form.AppField
           {...createFieldProps("password", "Пароль", "password")}
         />

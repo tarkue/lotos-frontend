@@ -78,6 +78,7 @@ export class BaseClient {
         // Пропускаем все не 401 ошибки и запросы на аутентификацию
         if (
           error.response?.status !== 401 ||
+          error.response?.status !== 403 ||
           originalRequest.url?.includes("/auth/") ||
           originalRequest._retry
         ) {

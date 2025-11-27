@@ -4,7 +4,6 @@ import { cn } from "@/src/shared/libs/utils";
 import { useMemo, useState } from "react";
 import { TabGroupProps } from "./props";
 import { validateChildrenOrThrow } from "./utils/validate-children";
-import { TabGroupVariant } from "./variant";
 
 export const TabGroup = ({
   size = "small",
@@ -27,7 +26,10 @@ export const TabGroup = ({
   };
 
   return (
-    <ul className={cn(TabGroupVariant({ size, className }))} {...props}>
+    <ul
+      className={cn("flex w-auto gap-0 first:rounded-l-2xl", className)}
+      {...props}
+    >
       {children.map((child, index) => (
         <child.type
           {...child.props}

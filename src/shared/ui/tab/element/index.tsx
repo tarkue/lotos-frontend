@@ -1,16 +1,18 @@
 import { forwardRef } from "react";
+import { Typography } from "../../typography";
 import { TabElementProps } from "./props";
 import { TabElementVariant } from "./variant";
 
 export const TabElement = forwardRef<HTMLLIElement, TabElementProps>(
-  ({ isActive, size = "small", className, children, ...props }, ref) => {
+  ({ isActive, className, children, ...props }, ref) => {
     return (
       <li
-        className={TabElementVariant({ isActive, size, className })}
+        className={TabElementVariant({ isActive, className })}
+        style={{ height: "43px" }}
         {...props}
         ref={ref}
       >
-        {children}
+        <Typography.Subtitle>{children}</Typography.Subtitle>
       </li>
     );
   }

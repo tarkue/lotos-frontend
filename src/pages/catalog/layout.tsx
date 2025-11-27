@@ -5,7 +5,9 @@ import { ReactNode } from "react";
 export default function CatalogLayout({ children }: { children?: ReactNode }) {
   return (
     <Container className="w-full h-max min-h-[calc(100dvh-167px)]">
-      <CourseCatalog.Wrapper>{children}</CourseCatalog.Wrapper>
+      <CourseCatalog.Wrapper tabBarWidth="280px">
+        {children}
+      </CourseCatalog.Wrapper>
     </Container>
   );
 }

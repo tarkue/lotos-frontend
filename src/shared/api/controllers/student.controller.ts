@@ -22,6 +22,23 @@ import { CourseApplicationResponseDTO } from "../dto/teacher.dto";
 export class StudentClient extends BaseClient {
   constructor(baseURL?: string) {
     super(baseURL);
+
+    this.getCoursesCatalog = this.getCoursesCatalog.bind(this);
+    this.getCoursePublicInfo = this.getCoursePublicInfo.bind(this);
+    this.applyForCourse = this.applyForCourse.bind(this);
+    this.getMyApplications = this.getMyApplications.bind(this);
+    this.cancelApplication = this.cancelApplication.bind(this);
+    this.getMyCourses = this.getMyCourses.bind(this);
+    this.getEnrolledCourse = this.getEnrolledCourse.bind(this);
+    this.getModule = this.getModule.bind(this);
+    this.getMaterialDetail = this.getMaterialDetail.bind(this);
+    this.completeMaterial = this.completeMaterial.bind(this);
+    this.getTest = this.getTest.bind(this);
+    this.startTest = this.startTest.bind(this);
+    this.submitAnswer = this.submitAnswer.bind(this);
+    this.finishTest = this.finishTest.bind(this);
+    this.getTestResult = this.getTestResult.bind(this);
+    this.getMyTestAttempts = this.getMyTestAttempts.bind(this);
   }
 
   // Courses Catalog
@@ -51,14 +68,37 @@ export class StudentClient extends BaseClient {
   }
 
   // My Courses
-  async getMyCourses(): Promise<MyCoursesResponseDTO> {
-    return await this.get("/students/my-courses");
+  async getMyCourses(options?: {
+    accessToken?: string;
+  }): Promise<MyCoursesResponseDTO> {
+    return await this.get(
+      "/students/my-courses",
+      options
+        ? {
+            headers: {
+              Authorization: `Bearer ${options.accessToken}`,
+            },
+          }
+        : undefined
+    );
   }
 
   async getEnrolledCourse(
-    courseId: number
+    courseId: number,
+    options?: {
+      accessToken?: string;
+    }
   ): Promise<EnrolledCourseDetailResponseDTO> {
-    return await this.get(`/students/my-courses/${courseId}`);
+    return await this.get(
+      `/students/my-courses/${courseId}`,
+      options
+        ? {
+            headers: {
+              Authorization: `Bearer ${options.accessToken}`,
+            },
+          }
+        : undefined
+    );
   }
 
   async getModule(

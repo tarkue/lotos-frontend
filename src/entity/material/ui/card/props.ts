@@ -1,6 +1,6 @@
 import React from "react";
-import { Theme } from "../../models/theme";
+import { Material } from "../../models/material";
 
 export interface ThemeCardProps extends React.HTMLAttributes<HTMLDivElement> {
-  theme?: Theme;
+  material?: Material;
 }

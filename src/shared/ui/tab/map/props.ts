@@ -4,4 +4,5 @@ export interface TabListProps<T extends readonly string[]> {
   onChange?: (value: T[number]) => void;
   size?: "small" | "large";
   className?: string;
+  width?: `${string}px`;
 }

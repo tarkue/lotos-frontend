@@ -4,7 +4,7 @@ export const BodyVariant = cva("font-nunito text-[18px] leading-[140%]", {
   variants: {
     variant: {
       secondary: "font-semibold",
-      primary: "font-normal",
+      primary: "font-medium",
     },
   },
   defaultVariants: {

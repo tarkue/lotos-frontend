@@ -1,5 +1,6 @@
 "use client";
 import { useSearchParamSetter } from "@/src/shared/hooks/search-param-setter";
+import { Button } from "@/src/shared/ui/button";
 import { Icon } from "@/src/shared/ui/icon";
 import { Input } from "@/src/shared/ui/input";
 import { useSearchParams } from "next/navigation";
@@ -21,11 +22,20 @@ export const QuerySearch = () => {
   };
 
   return (
-    <Input
-      placeholder="Поиск"
-      value={searchValue}
-      rightIcon={<Icon glyph="search" color="gray" />}
-      onChange={(e) => handle(e.currentTarget.value)}
-    />
+    <div className="flex w-full">
+      <Input
+        placeholder="Поиск"
+        className="rounded-l-[16px] rounded-r-none border-r-0"
+        value={searchValue}
+        onChange={(e) => handle(e.currentTarget.value)}
+      />
+      <Button
+        variant="primary"
+        size="icon-small"
+        className="rounded-none rounded-l-none rounded-r-[16px] w-11"
+      >
+        <Icon glyph="search" color="white" />
+      </Button>
+    </div>
   );
 };

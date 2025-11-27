@@ -8,6 +8,9 @@ import {
 export class CourseClient extends BaseClient {
   constructor(baseURL?: string) {
     super(baseURL);
+
+    this.getCoursePublicInfo.bind(this);
+    this.getCoursesCatalog.bind(this);
   }
 
   // Courses Catalog

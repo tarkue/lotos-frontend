@@ -1,4 +1,4 @@
-import { ThemeList } from "@/src/entity/theme/ui/theme-list";
+import { MaterialList } from "@/src/entity/material/ui/material-list";
 import { cn } from "@/src/shared/libs/utils";
 import { Typography } from "@/src/shared/ui/typography";
 import { forwardRef } from "react";
@@ -16,8 +16,8 @@ export const ModuleContent = forwardRef<HTMLDivElement, ModuleCardProps>(
         {...props}
       >
         <Typography.Body>{module.title}</Typography.Body>
-        <div className="bg-base-300 h-[1px] w-full"></div>
-        <ThemeList themes={module.themes} />
+        <div className="bg-base-300 h-px w-full"></div>
+        {module.materials && <MaterialList materials={module.materials} />}
       </div>
     );
   }

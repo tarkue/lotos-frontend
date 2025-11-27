@@ -23,6 +23,28 @@ import {
 export class TeacherClient extends BaseClient {
   constructor(baseURL?: string) {
     super(baseURL);
+
+    this.getMyCourses = this.getMyCourses.bind(this);
+    this.createCourse = this.createCourse.bind(this);
+    this.getCourse = this.getCourse.bind(this);
+    this.updateCourse = this.updateCourse.bind(this);
+    this.deleteCourse = this.deleteCourse.bind(this);
+    this.createModule = this.createModule.bind(this);
+    this.getModule = this.getModule.bind(this);
+    this.updateModule = this.updateModule.bind(this);
+    this.deleteModule = this.deleteModule.bind(this);
+    this.createMaterial = this.createMaterial.bind(this);
+    this.updateMaterial = this.updateMaterial.bind(this);
+    this.deleteMaterial = this.deleteMaterial.bind(this);
+    this.uploadFile = this.uploadFile.bind(this);
+    this.attachFiles = this.attachFiles.bind(this);
+    this.detachFile = this.detachFile.bind(this);
+    this.addEditor = this.addEditor.bind(this);
+    this.getEditors = this.getEditors.bind(this);
+    this.removeEditor = this.removeEditor.bind(this);
+    this.getCourseApplications = this.getCourseApplications.bind(this);
+    this.approveApplication = this.approveApplication.bind(this);
+    this.rejectApplication = this.rejectApplication.bind(this);
   }
 
   // Courses

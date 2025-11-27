@@ -152,8 +152,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // Проверяем аутентификацию только при монтировании провайдера
   useEffect(() => {
+    refresh();
     checkAuth();
-  }, [checkAuth]);
+  }, [checkAuth, refresh]);
 
   const value = {
     ...state,

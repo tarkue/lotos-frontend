@@ -6,7 +6,7 @@ import { Typography } from "@/src/shared/ui/typography";
 import { useTabOptionsCourseCatalog } from "../libs/use-tab-options";
 import { COURSE_CATALOG_TABS } from "../models/tabs";
 
-export const CourseCatalogTabBar = () => {
+export const CourseCatalogTabBar = ({ width }: { width?: `${string}px` }) => {
   const { isAuthenticated } = useAuth();
   const { defaultValue, onChange } = useTabOptionsCourseCatalog();
 
@@ -16,7 +16,7 @@ export const CourseCatalogTabBar = () => {
         <Tab.Map
           elements={COURSE_CATALOG_TABS}
           defaultValue={defaultValue}
-          className="max-w-58"
+          width={width}
           onChange={onChange}
         />
       )}{" "}

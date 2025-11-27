@@ -16,6 +16,17 @@ import {
 export class TestClient extends BaseClient {
   constructor(baseURL?: string) {
     super(baseURL);
+
+    this.createTest = this.createTest.bind(this);
+    this.getTest = this.getTest.bind(this);
+    this.updateTest = this.updateTest.bind(this);
+    this.deleteTest = this.deleteTest.bind(this);
+    this.createQuestion = this.createQuestion.bind(this);
+    this.updateQuestion = this.updateQuestion.bind(this);
+    this.deleteQuestion = this.deleteQuestion.bind(this);
+    this.addAnswerOption = this.addAnswerOption.bind(this);
+    this.updateAnswerOption = this.updateAnswerOption.bind(this);
+    this.deleteAnswerOption = this.deleteAnswerOption.bind(this);
   }
 
   // Tests

@@ -4,10 +4,11 @@ import { CourseCatalogTabBar } from "./tab-bar";
 
 export const CourseCatalogWrapper = ({
   children,
+  tabBarWidth,
 }: CourseCatalogWrapperProps) => {
   return (
     <Container className="flex flex-col gap-5 pb-12">
-      <CourseCatalogTabBar />
+      <CourseCatalogTabBar width={tabBarWidth} />
       {children}
     </Container>
   );

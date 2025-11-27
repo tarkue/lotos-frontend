@@ -5,6 +5,8 @@ import { TestWithQuestionsResponseDTO } from "../dto/test.dto";
 export class AIClient extends BaseClient {
   constructor(baseURL?: string) {
     super(baseURL);
+
+    this.generateTest.bind(this);
   }
 
   async generateTest(

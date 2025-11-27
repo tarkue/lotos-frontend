@@ -29,7 +29,7 @@ export interface UserListResponseDTO {
   last_name: string;
   patronymic?: string | null;
   group_name?: string | null;
-  role_id: number;
+  role_id: RoleType;
   created_at: string;
 }
 

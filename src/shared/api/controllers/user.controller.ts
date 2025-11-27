@@ -8,10 +8,25 @@ import {
 export class UsersClient extends BaseClient {
   constructor(baseURL?: string) {
     super(baseURL);
+
+    this.getMyProfile = this.getMyProfile.bind(this);
+    this.updateMyProfile = this.updateMyProfile.bind(this);
+    this.changePassword = this.changePassword.bind(this);
   }
 
-  async getMyProfile(): Promise<UserResponseDTO> {
-    return await this.get("/users/profile");
+  async getMyProfile(options?: {
+    accessToken?: string;
+  }): Promise<UserResponseDTO> {
+    return await this.get(
+      "/users/profile",
+      options
+        ? {
+            headers: {
+              Authorization: `Bearer ${options?.accessToken}`,
+            },
+          }
+        : undefined
+    );
   }
 
   async updateMyProfile(

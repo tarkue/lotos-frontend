@@ -19,6 +19,14 @@ export interface AdminUsersParams extends PaginationParams {
 export class AdminClient extends BaseClient {
   constructor(baseURL?: string) {
     super(baseURL);
+
+    this.changeUserRole.bind(this);
+    this.deleteUser.bind(this);
+    this.getStatistics.bind(this);
+    this.updateUser.bind(this);
+    this.getUser.bind(this);
+    this.getUsers.bind(this);
+    this.createUser.bind(this);
   }
 
   async createUser(data: CreateUserRequestDTO): Promise<UserListResponseDTO> {

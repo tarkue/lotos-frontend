@@ -1,3 +1,5 @@
+import { RoleType } from "../enum/role-type.enum";
+
 export interface RegisterRequestDTO {
   email: string;
   password: string;
@@ -29,7 +31,7 @@ export interface UserResponseDTO {
   last_name: string;
   patronymic?: string | null;
   group_name?: string | null;
-  role_id: number;
+  role_id: RoleType;
   created_at: string;
 }
 

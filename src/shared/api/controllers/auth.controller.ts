@@ -35,7 +35,7 @@ export class AuthClient extends BaseClient {
       "/auth/refresh",
       data
     );
-    this.setTokens(response);
+    this.setTokens({ ...response, refresh_token: data.refresh_token });
     return response;
   }
 

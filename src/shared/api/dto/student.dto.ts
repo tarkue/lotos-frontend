@@ -13,6 +13,7 @@ export interface CourseCardResponseDTO {
   creator?: UserResponseDTO | null;
   is_enrolled?: boolean;
   application_status?: ApplicationStatus | null;
+  modules?: ModuleWithProgressResponseDTO[];
 }
 
 export interface PaginatedCoursesResponseDTO {
