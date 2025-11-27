@@ -6,4 +6,7 @@ export enum Endpoint {
   FORGET_PASSWORD = "forget-password",
   COURSES = "/catalog/courses",
   PROFILE = "/profile",
+  COURSE = `${Endpoint.COURSES}/{}`,
+  MODULE = `${Endpoint.COURSE}/{}`,
+  MATERIAL = `${Endpoint.MODULE}/{}`,
 }

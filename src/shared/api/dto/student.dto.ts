@@ -13,7 +13,7 @@ export interface CourseCardResponseDTO {
   creator?: UserResponseDTO | null;
   is_enrolled?: boolean;
   application_status?: ApplicationStatus | null;
-  modules?: ModuleWithProgressResponseDTO[];
+  modules?: ModuleWithMaterialsResponse[];
 }
 
 export interface PaginatedCoursesResponseDTO {
@@ -43,7 +43,7 @@ export interface EnrolledCourseDetailResponseDTO {
   overall_progress: number;
   completed_materials: number;
   total_materials: number;
-  modules: ModuleWithProgressResponseDTO[];
+  modules: ModuleWithMaterialsResponse[];
 }
 
 export interface CourseProgressResponseDTO {
@@ -56,7 +56,7 @@ export interface CourseProgressResponseDTO {
   last_accessed_at: string;
 }
 
-export interface ModuleWithProgressResponseDTO {
+export interface ModuleWithMaterialsResponse {
   id: number;
   title: string;
   position: number;
@@ -66,7 +66,8 @@ export interface ModuleWithProgressResponseDTO {
 }
 
 export interface MaterialProgressInfoDTO {
-  material_id: number;
+  id: number;
+  module_id: number;
   title: string;
   type: string;
   position: number;

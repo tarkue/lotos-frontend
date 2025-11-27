@@ -8,6 +8,7 @@ export interface Course {
   overall_progress?: number;
   completed_materials?: number;
   total_materials?: number;
+  is_enrolled?: boolean;
   modules?: Module[];
 }
 

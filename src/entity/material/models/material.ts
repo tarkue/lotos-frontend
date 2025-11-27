@@ -1,5 +1,6 @@
 export interface Material {
-  material_id: number;
+  id: number;
+  module_id: number;
   title: string;
   type: string;
   position: number;

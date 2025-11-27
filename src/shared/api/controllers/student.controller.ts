@@ -6,7 +6,7 @@ import {
   EnrolledCourseDetailResponseDTO,
   LessonProgressResponseDTO,
   MaterialDetailForStudentDTO,
-  ModuleWithProgressResponseDTO,
+  ModuleWithMaterialsResponse,
   MyCoursesResponseDTO,
   MyTestAttemptSummaryDTO,
   PaginatedCoursesResponseDTO,
@@ -103,20 +103,40 @@ export class StudentClient extends BaseClient {
 
   async getModule(
     courseId: number,
-    moduleId: number
-  ): Promise<ModuleWithProgressResponseDTO> {
+    moduleId: number,
+    options?: {
+      accessToken?: string;
+    }
+  ): Promise<ModuleWithMaterialsResponse> {
     return await this.get(
-      `/students/my-courses/${courseId}/modules/${moduleId}`
+      `/students/my-courses/${courseId}/modules/${moduleId}`,
+      options
+        ? {
+            headers: {
+              Authorization: `Bearer ${options.accessToken}`,
+            },
+          }
+        : undefined
     );
   }
 
   async getMaterialDetail(
     courseId: number,
     moduleId: number,
-    materialId: number
+    materialId: number,
+    options?: {
+      accessToken?: string;
+    }
   ): Promise<MaterialDetailForStudentDTO> {
     return await this.get(
-      `/students/my-courses/${courseId}/modules/${moduleId}/materials/${materialId}`
+      `/students/my-courses/${courseId}/modules/${moduleId}/materials/${materialId}`,
+      options
+        ? {
+            headers: {
+              Authorization: `Bearer ${options.accessToken}`,
+            },
+          }
+        : undefined
     );
   }
 

@@ -15,9 +15,16 @@ export const ModuleContent = forwardRef<HTMLDivElement, ModuleCardProps>(
         )}
         {...props}
       >
-        <Typography.Body>{module.title}</Typography.Body>
+        <Typography.Body>
+          <strong>{module.title}</strong>
+        </Typography.Body>
         <div className="bg-base-300 h-px w-full"></div>
-        {module.materials && <MaterialList materials={module.materials} />}
+        {module.materials && (
+          <MaterialList
+            materials={module.materials}
+            courseId={module.course_id}
+          />
+        )}
       </div>
     );
   }
