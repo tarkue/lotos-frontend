@@ -6,7 +6,7 @@ export const GetTokenPairFromCookieOrThrow = (
   const accessToken = cookieStore.get("access_token")?.value;
   const refreshToken = cookieStore.get("refresh_token")?.value;
 
-  if (accessToken === undefined || refreshToken === undefined) {
+  if (accessToken === undefined && refreshToken === undefined) {
     throw new Error("not found tokens!");
   }
 

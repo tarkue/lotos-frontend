@@ -62,11 +62,14 @@ export interface ModuleWithMaterialsResponse {
   position: number;
   course_id: number;
   materials?: MaterialProgressInfoDTO[] | null;
+  completed_materials: number;
+  total_materials: number;
   progress_percentage: number;
 }
 
 export interface MaterialProgressInfoDTO {
   id: number;
+  material_id: number;
   module_id: number;
   title: string;
   type: string;

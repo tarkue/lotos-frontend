@@ -5,7 +5,7 @@ import { Icon } from "@/src/shared/ui/icon";
 import { Typography } from "@/src/shared/ui/typography";
 import { useRouter } from "next/navigation";
 
-export const BackButton = ({ endpoint }: { endpoint: Endpoint }) => {
+export const BackButton = ({ endpoint }: { endpoint: Endpoint | string }) => {
   const router = useRouter();
   const handle = () => router.push(endpoint);
   return (

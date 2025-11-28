@@ -1,13 +1,19 @@
+import { File } from "../../files/models/file";
+import { Test } from "./test";
+
 export interface Material {
   id: number;
-  module_id: number;
   material_id?: number;
-  title: string;
+  module?: { id: number; title: string; position: number; course_id: number };
   type: string;
+  title?: string;
+  content_url?: string | null;
+  text_content?: string | null;
+  transcript?: string | null;
   position: number;
-  is_completed: boolean;
-  completed_at?: string | null;
-  is_locked?: boolean;
-  lock_reason?: string | null;
+  files?: File[];
   has_tests?: boolean;
+  tests?: Test[];
+  is_completed: boolean;
+  completed_at?: null | string;
 }

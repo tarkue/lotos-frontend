@@ -1,7 +1,8 @@
 import { Container } from "@/src/shared/ui/container";
+import { Loader } from "@/src/shared/ui/loader";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import CoursePage from "./course";
-import MaterialPage from "./material";
 import ModulePage from "./module";
 
 export default async function UniversalPage({
@@ -16,11 +17,16 @@ export default async function UniversalPage({
   }
 
   return (
-    <Container className="flex flex-col gap-6 items-center pb-[117px] min-h-[calc(100dvh-167px)]">
-      {slug.length === 1 && <CoursePage slug={slug[0]} />}
-      {slug.length === 2 && <ModulePage slug={slug as [string, string]} />}
-      {slug.length === 3 && (
-        <MaterialPage slug={slug as [string, string, string]} />
+    <Container className="flex flex-col gap-6 items-center pb-[117px] min-h-[calc(100dvh-167px)] h-[calc(100dvh-167px)]">
+      {slug.length === 1 && (
+        <Suspense fallback={<Loader />}>
+          <CoursePage slug={slug[0]} />
+        </Suspense>
+      )}
+      {slug.length >= 2 && (
+        <Suspense fallback={<Loader />}>
+          <ModulePage slug={slug as [string, string]} />
+        </Suspense>
       )}
     </Container>
   );
