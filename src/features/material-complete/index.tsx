@@ -1,5 +1,6 @@
 "use client";
 import { Material } from "@/src/entity/material";
+import { api } from "@/src/shared/api";
 import { formatEndpoint } from "@/src/shared/libs/endpoint";
 import { Endpoint } from "@/src/shared/models/endpoint-enum";
 import { Button } from "@/src/shared/ui/button";
@@ -23,7 +24,7 @@ export const MaterialComplete = ({
   const handle = async () => {
     if (material.module) {
       const ids = [Number.parseInt(courseId), material.module.id];
-      //await api.student.completeMaterial(ids[0], ids[1], material.id);
+      await api.student.completeMaterial(ids[0], ids[1], material.id);
       setIsCompleted(true);
       if (nextMaterial !== undefined) {
         router.push(

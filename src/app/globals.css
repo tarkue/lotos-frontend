@@ -119,4 +119,8 @@ a {
 
 .media-time-range {
   --media-primary-color: var(--color-primary-400);
+  --media-secondary-color: rgba(0,0,0,0);
+  --media-preview-background: rgba(0,0,0,0.3);
+  --media-preview-border-radius: 20px;
+  --media-control-hover-background: rgba(0,0,0,0);
 }
