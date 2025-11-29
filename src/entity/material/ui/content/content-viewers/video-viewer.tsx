@@ -1,9 +1,20 @@
-export const VideoViewer = ({
+"use client";
+import dynamic from "next/dynamic";
+import { Suspense } from "react";
+
+const Player = dynamic(() => import("@/src/shared/ui/player"));
+
+export const MaterialVideoViewer = ({
   url,
-  transcript,
 }: {
   url: string;
-  transcript: string;
+  transcript?: string | null;
 }) => {
-  <video></video>;
+  return (
+    <div className="rounded-[12px]">
+      <Suspense>
+        <Player url={url} />
+      </Suspense>
+    </div>
+  );
 };

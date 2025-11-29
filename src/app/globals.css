@@ -22,6 +22,15 @@
   --color-gray: #AAAAAA;
 }
 
+:root {
+  --media-box-border-radius: 16px;
+  --media-font-family: var(--font-nunito);
+  --media-control-background: rgba(0, 0, 0, 0);
+  --media-text-color: #FFFFFF;
+  --media-primary-color: #FFFFFF;
+  --media-control-hover-background: rgba(100, 100, 100, 0.25);
+}
+
 .elevation-1 {
   box-shadow: 0 1px 3px 1px rgba(0, 0, 0, 0.1), 0 1px 7px 0 rgba(0, 0, 0, 0.1);
 }
@@ -88,4 +97,26 @@ svg {
 
 a {
   cursor: pointer;
+}
+
+.markdown-content {
+  font-family: var(--nunito-font);
+  font-size: 18px;
+  line-height: 140%;
+}
+
+.markdown-content img {
+  padding: 32px;
+  width: 100%;
+  height: auto;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.markdown-content p {
+  margin-bottom: 24px;
+}
+
+.media-time-range {
+  --media-primary-color: var(--color-primary-400);
 }

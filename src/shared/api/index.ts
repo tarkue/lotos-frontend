@@ -9,6 +9,7 @@ import { UsersClient } from "./controllers/user.controller";
 import { TokenPair } from "./models/token.model";
 
 export class ApiClient {
+  private baseURL: string;
   public auth: AuthClient;
   public users: UsersClient;
   public admin: AdminClient;
@@ -19,6 +20,7 @@ export class ApiClient {
   public course: CourseClient;
 
   constructor(baseURL: string = process.env.NEXT_PUBLIC_API + "/api") {
+    this.baseURL = baseURL;
     this.auth = new AuthClient(baseURL);
     this.users = new UsersClient(baseURL);
     this.admin = new AdminClient(baseURL);
@@ -55,6 +57,10 @@ export class ApiClient {
       originalClearTokens();
       clients.forEach((client) => client.clearTokens());
     };
+  }
+
+  public getFile(url: string) {
+    return new URL(url, this.baseURL).toString();
   }
 
   public setTokens(tokens: TokenPair): void {

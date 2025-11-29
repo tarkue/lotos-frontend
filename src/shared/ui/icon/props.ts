@@ -25,5 +25,7 @@ export type glyphs =
   | "return"
   | "send"
   | "user"
+  | "download"
   | "plus"
+  | "presentation"
   | "search";

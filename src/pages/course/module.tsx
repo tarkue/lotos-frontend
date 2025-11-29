@@ -1,11 +1,14 @@
+import { Material } from "@/src/entity/material";
 import { MaterialContent } from "@/src/entity/material/ui/content";
 import { ModuleContent } from "@/src/entity/module";
 import { BackButton } from "@/src/features/back";
+import { MaterialComplete } from "@/src/features/material-complete";
 import { api } from "@/src/shared/api";
 import { formatEndpoint } from "@/src/shared/libs/endpoint";
 import { sfwr } from "@/src/shared/libs/server-fetch-with-refresh";
 import { Endpoint } from "@/src/shared/models/endpoint-enum";
 import { Loader } from "@/src/shared/ui/loader";
+import { Typography } from "@/src/shared/ui/typography";
 import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
 
@@ -66,9 +69,15 @@ export async function ModulePage({
   slug: [string, string] | [string, string, string];
 }) {
   const moduleFromCourse = await fetchModule([slug[0], slug[1]]);
-  const currentMaterial = moduleFromCourse.materials?.find(
-    (el) => el.position === moduleFromCourse.position
-  );
+
+  const currentMaterial =
+    slug[2] !== undefined
+      ? moduleFromCourse.materials?.find(
+          (el) => el.material_id === Number.parseInt(slug[2] as string)
+        )
+      : moduleFromCourse.materials?.find(
+          (el) => el.position === moduleFromCourse.position
+        );
 
   if (
     slug.length === 2 &&
@@ -84,12 +93,24 @@ export async function ModulePage({
     );
   }
 
+  if (!currentMaterial) {
+    return (
+      <Typography.Body className="text-centere">
+        Здесь пока ничего нет
+      </Typography.Body>
+    );
+  }
+
+  const nextMaterial = moduleFromCourse.materials?.find(
+    (el) => el.position === currentMaterial.position + 1
+  );
+
   return (
     <>
-      <div className="flex w-full min-h-full h-full gap-6">
+      <div className="flex w-full min-h-full h-full gap-6 relative">
         {slug.length === 3 && (
           <Suspense fallback={<Loader />}>
-            <MaterialPage slug={slug} />
+            <MaterialPage slug={slug} nextMaterial={nextMaterial} />
           </Suspense>
         )}
         <ModuleContent module={moduleFromCourse} className="w-75" />
@@ -100,15 +121,26 @@ export async function ModulePage({
 
 export async function MaterialPage({
   slug,
+  nextMaterial,
 }: {
   slug: [string, string, string];
+  nextMaterial?: Material;
 }) {
   const material = await fetchMaterial(slug);
   console.log(material);
 
   return (
-    <div className="w-full min-h-full h-full flex">
+    <div className="w-full min-h-full h-full flex flex-col">
       <MaterialContent material={material} />
+      <div className="flex justify-end">
+        <Suspense>
+          <MaterialComplete
+            nextMaterial={nextMaterial}
+            material={material}
+            courseId={slug[0]}
+          />
+        </Suspense>
+      </div>
     </div>
   );
 }

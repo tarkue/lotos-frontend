@@ -10,7 +10,7 @@ export const ModuleContent = forwardRef<HTMLDivElement, ModuleContentProps>(
       <div
         ref={ref}
         className={cn(
-          "bg-base-100 elevation-1 p-5 flex flex-col items-center gap-3 rounded-[14px] h-min",
+          "bg-base-100 elevation-1 p-5 flex flex-col items-center gap-3 rounded-[14px] h-min sticky top-8",
           className
         )}
         {...props}

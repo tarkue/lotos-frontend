@@ -3,9 +3,9 @@ import { Icon } from "@/src/shared/ui/icon";
 import { Link } from "@/src/shared/ui/link";
 import { Typography } from "@/src/shared/ui/typography";
 import { forwardRef } from "react";
-import { ThemeCardProps } from "./props";
+import { MaterialCardProps } from "./props";
 
-export const MaterialCard = forwardRef<HTMLDivElement, ThemeCardProps>(
+export const MaterialCard = forwardRef<HTMLDivElement, MaterialCardProps>(
   ({ material, href, className, ...props }, ref) => {
     if (material === undefined) {
       return <></>;

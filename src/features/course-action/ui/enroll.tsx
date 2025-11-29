@@ -18,7 +18,7 @@ export const Enroll: React.FC<CourseProps> = ({ course }) => {
       });
     } catch {
       toast({
-        title: "Вы уже отправили заявку",
+        title: "Вы уже отправили заявку или уже записаны",
         variant: "warning",
       });
     }
