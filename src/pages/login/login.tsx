@@ -6,7 +6,7 @@ import { LoginForm } from "@/src/widgets/login-form";
 
 export default function LoginPage() {
   return (
-    <Container className="flex flex-col items-center justify-center pb-[117px] min-h-[calc(100dvh-167px)]">
+    <Container className="flex flex-col items-center justify-center pb-[117px] min-h-[calc(100dvh-var(--footer-height-and-padding))]">
       <div className="max-w-[500px] w-full flex flex-col gap-6">
         <Typography.H1 className="-mt-12 text-center text-base-500">
           Вход в личный кабинет

@@ -26,7 +26,7 @@ export const MaterialList = ({
     ]);
 
   return (
-    <ScrollArea className="h-full overflow-y-hidden w-full">
+    <ScrollArea className="h-full overflow-y-hidden w-full pr-3">
       {materials.map((material, index) => (
         <MaterialCard
           material={material}

@@ -13,7 +13,7 @@ export async function fetchProfile() {
 export default async function ProfilePage() {
   const user = await fetchProfile();
   return (
-    <Container className="flex flex-col gap-4 items-center pb-[117px] min-h-[calc(100dvh-167px)] w-full">
+    <Container className="flex flex-col gap-4 items-center pb-[117px] min-h-[calc(100dvh-var(--footer-height-and-padding))] w-full">
       <div className="w-full">
         <BackButton endpoint={Endpoint.MY_COURSES} />
       </div>

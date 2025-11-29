@@ -87,15 +87,9 @@ class ServerTokenStorage implements TokenStorage {
     return "bearer";
   }
 
-  setTokens(tokens: TokenPair): void {
-    // На сервере не делаем ничего, либо логируем
-    console.warn("Attempted to set tokens on server side");
-  }
+  setTokens(tokens: TokenPair): void {}
 
-  clearTokens(): void {
-    // На сервере не делаем ничего
-    console.warn("Attempted to clear tokens on server side");
-  }
+  clearTokens(): void {}
 }
 
 export function createTokenStorage(): TokenStorage {

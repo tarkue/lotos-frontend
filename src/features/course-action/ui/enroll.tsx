@@ -30,7 +30,7 @@ export const Enroll: React.FC<CourseProps> = ({ course }) => {
       variant="primary"
       onClick={handle}
       disabled={!isAuthenticated}
-      className="w-min"
+      className="md:w-min w-full"
     >
       Записаться
       <Icon glyph="plus" size="20" color={isAuthenticated ? "white" : "gray"} />

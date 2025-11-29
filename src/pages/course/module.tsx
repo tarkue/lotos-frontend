@@ -2,7 +2,7 @@ import { Material } from "@/src/entity/material";
 import { MaterialContent } from "@/src/entity/material/ui/content";
 import { ModuleContent } from "@/src/entity/module";
 import { BackButton } from "@/src/features/back";
-import { MaterialComplete } from "@/src/features/material-complete";
+import { MaterialAction } from "@/src/features/material-action";
 import { api } from "@/src/shared/api";
 import { formatEndpoint } from "@/src/shared/libs/endpoint";
 import { sfwr } from "@/src/shared/libs/server-fetch-with-refresh";
@@ -95,8 +95,8 @@ export async function ModulePage({
 
   if (!currentMaterial) {
     return (
-      <Typography.Body className="text-centere">
-        Здесь пока ничего нет
+      <Typography.Body className="text-base-300 text-center w-full">
+        <strong>Здесь пока ничего нет</strong>
       </Typography.Body>
     );
   }
@@ -107,13 +107,15 @@ export async function ModulePage({
 
   return (
     <>
-      <div className="flex w-full min-h-full h-full gap-6 relative">
+      <div className="flex w-full min-h-full h-full gap-6 flex-col-reverse md:flex-row">
         {slug.length === 3 && (
           <Suspense fallback={<Loader />}>
             <MaterialPage slug={slug} nextMaterial={nextMaterial} />
           </Suspense>
         )}
-        <ModuleContent module={moduleFromCourse} className="w-75" />
+        <div className="md:sticky md:top-6 h-min">
+          <ModuleContent module={moduleFromCourse} className="w-full md:w-75" />
+        </div>
       </div>
     </>
   );
@@ -127,14 +129,13 @@ export async function MaterialPage({
   nextMaterial?: Material;
 }) {
   const material = await fetchMaterial(slug);
-  console.log(material);
 
   return (
     <div className="w-full min-h-full h-full flex flex-col">
       <MaterialContent material={material} />
       <div className="flex justify-end">
         <Suspense>
-          <MaterialComplete
+          <MaterialAction
             nextMaterial={nextMaterial}
             material={material}
             courseId={slug[0]}

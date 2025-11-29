@@ -1,14 +1,10 @@
 export const FOOTER_LINKS = [
   {
-    href: "/about",
-    title: "О нас",
-  },
-  {
     href: "/contacts",
-    title: "Контакты",
+    title: "Политика конфиденциальности",
   },
   {
     href: "/polite.pdf",
-    title: "Политика конфиденциальности",
+    title: "Контактные данные",
   },
 ] as const;

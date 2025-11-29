@@ -1,5 +1,4 @@
 "use client";
-import { Material } from "@/src/entity/material";
 import { api } from "@/src/shared/api";
 import { formatEndpoint } from "@/src/shared/libs/endpoint";
 import { Endpoint } from "@/src/shared/models/endpoint-enum";
@@ -7,16 +6,13 @@ import { Button } from "@/src/shared/ui/button";
 import { Icon } from "@/src/shared/ui/icon";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { MaterialActionProps } from "../models/material-action";
 
 export const MaterialComplete = ({
   material,
   nextMaterial,
   courseId,
-}: {
-  nextMaterial?: Material;
-  material: Material;
-  courseId: string;
-}) => {
+}: MaterialActionProps) => {
   const [isCompleted, setIsCompleted] = useState<boolean>(
     material.is_completed
   );

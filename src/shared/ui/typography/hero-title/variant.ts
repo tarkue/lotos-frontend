@@ -1,6 +1,6 @@
 import { cva } from "class-variance-authority";
 
-export const HeroVariant = cva("font-nunito text-[64px] leading-normal", {
+export const HeroVariant = cva("font-nunito text-[32px] leading-normal", {
   variants: {
     variant: {
       secondary: "font-light",

@@ -1,13 +1,16 @@
 import { cva } from "class-variance-authority";
 
-export const BodyVariant = cva("font-nunito text-[18px] leading-[140%]", {
-  variants: {
-    variant: {
-      secondary: "font-semibold",
-      primary: "font-medium",
+export const BodyVariant = cva(
+  "font-nunito md:text-[18px] text-[16px] leading-[140%]",
+  {
+    variants: {
+      variant: {
+        secondary: "font-semibold",
+        primary: "font-medium",
+      },
     },
-  },
-  defaultVariants: {
-    variant: "primary",
-  },
-});
+    defaultVariants: {
+      variant: "primary",
+    },
+  }
+);

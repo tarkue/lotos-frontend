@@ -3,6 +3,8 @@ import { Typography } from "@/src/shared/ui/typography";
 
 export const ProgressPercentage: React.FC<CourseProps> = ({ course }) => (
   <Typography.Body className="text-black">
-    {course.overall_progress ? course.overall_progress : "0%"}
+    {course?.progress?.progress_percentage
+      ? course.progress.progress_percentage + "%"
+      : "0%"}
   </Typography.Body>
 );

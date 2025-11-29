@@ -9,6 +9,9 @@ export interface Course {
   completed_materials?: number;
   total_materials?: number;
   is_enrolled?: boolean;
+  progress?: {
+    progress_percentage?: number;
+  } | null;
   modules?: Module[];
 }
 

@@ -8,18 +8,26 @@ import { CourseCardVariant } from "./variant";
 
 export const CourseCard = forwardRef<HTMLAnchorElement, CourseCardProps>(
   ({ size, className, course, action, ...props }, ref) => {
+    console.log(course);
     const Act = action;
     return (
       <Link
         href={`${Endpoint.COURSES}/${course.id}`}
-        className={cn(CourseCardVariant({ size, className }))}
+        className={cn(
+          CourseCardVariant({ size, className }),
+          course.progress ? "max-md:flex-row" : "max-md:flex-col"
+        )}
         ref={ref}
         {...props}
       >
         <Typography.Subtitle className="w-full">
-          {course.title}
+          {course.title + "fdf sfs f dfdsf df dsfsfsffsf df ds fd"}
         </Typography.Subtitle>
-        {Act && <Act course={course} />}
+        {Act && (
+          <div className={cn(!course.progress && "w-full md:w-auto")}>
+            <Act course={course} />
+          </div>
+        )}
       </Link>
     );
   }

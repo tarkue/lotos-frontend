@@ -19,8 +19,8 @@ export default async function MyCoursePage() {
 
   if (courses.length === 0) {
     return (
-      <Typography.Body className="text-base-300 text-center">
-        Здесь пока ничего нет
+      <Typography.Body className="text-base-300 text-center w-full">
+        <strong>Здесь пока ничего нет</strong>
       </Typography.Body>
     );
   }
