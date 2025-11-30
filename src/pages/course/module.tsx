@@ -9,6 +9,7 @@ import { Typography } from "@/src/shared/ui/typography";
 import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
 import { MaterialPage } from "./material";
+import TestPage from "./test";
 
 export async function fetchModule(slug: [string, string]) {
   if (!slug.every((e) => Number.isInteger(Number.parseInt(e)))) {
@@ -43,7 +44,10 @@ export default async function SuspensedModulePage({
 export async function ModulePage({
   slug,
 }: {
-  slug: [string, string] | [string, string, string];
+  slug:
+    | [string, string]
+    | [string, string, string]
+    | [string, string, string, string];
 }) {
   const moduleFromCourse = await fetchModule([slug[0], slug[1]]);
 
@@ -88,6 +92,11 @@ export async function ModulePage({
         {slug.length === 3 && (
           <Suspense fallback={<Loader />}>
             <MaterialPage slug={slug} nextMaterial={nextMaterial} />
+          </Suspense>
+        )}
+        {slug.length === 4 && (
+          <Suspense fallback={<Loader />}>
+            <TestPage slug={slug} />
           </Suspense>
         )}
         <div className="md:sticky md:top-6 h-min">

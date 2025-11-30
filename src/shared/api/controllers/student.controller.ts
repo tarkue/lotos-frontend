@@ -155,10 +155,20 @@ export class StudentClient extends BaseClient {
     courseId: number,
     moduleId: number,
     materialId: number,
-    testId: number
+    testId: number,
+    options?: {
+      accessToken?: string;
+    }
   ): Promise<TestForStudentDTO> {
     return await this.get(
-      `/students/my-courses/${courseId}/modules/${moduleId}/materials/${materialId}/tests/${testId}`
+      `/students/my-courses/${courseId}/modules/${moduleId}/materials/${materialId}/tests/${testId}`,
+      options
+        ? {
+            headers: {
+              Authorization: `Bearer ${options?.accessToken}`,
+            },
+          }
+        : undefined
     );
   }
 
@@ -166,10 +176,21 @@ export class StudentClient extends BaseClient {
     courseId: number,
     moduleId: number,
     materialId: number,
-    testId: number
+    testId: number,
+    options?: {
+      accessToken?: string;
+    }
   ): Promise<TestAttemptResponseDTO> {
     return await this.post(
-      `/students/my-courses/${courseId}/modules/${moduleId}/materials/${materialId}/tests/${testId}/start`
+      `/students/my-courses/${courseId}/modules/${moduleId}/materials/${materialId}/tests/${testId}/start`,
+      undefined,
+      options
+        ? {
+            headers: {
+              Authorization: `Bearer ${options?.accessToken}`,
+            },
+          }
+        : undefined
     );
   }
 
@@ -207,10 +228,20 @@ export class StudentClient extends BaseClient {
     courseId: number,
     moduleId: number,
     materialId: number,
-    testId: number
+    testId: number,
+    options?: {
+      accessToken?: string;
+    }
   ): Promise<MyTestAttemptSummaryDTO[]> {
     return await this.get(
-      `/students/my-courses/${courseId}/modules/${moduleId}/materials/${materialId}/tests/${testId}/attempts`
+      `/students/my-courses/${courseId}/modules/${moduleId}/materials/${materialId}/tests/${testId}/attempts`,
+      options
+        ? {
+            headers: {
+              Authorization: `Bearer ${options?.accessToken}`,
+            },
+          }
+        : undefined
     );
   }
 }

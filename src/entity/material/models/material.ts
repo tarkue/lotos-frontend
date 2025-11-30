@@ -1,5 +1,5 @@
 import { File } from "../../files/models/file";
-import { Test } from "./test";
+import { Test } from "../../test/models/test";
 
 export interface Material {
   id: number;

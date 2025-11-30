@@ -12,7 +12,7 @@ export default async function UniversalPage({
 }) {
   const { slug } = await params;
 
-  if (slug.length > 3) {
+  if (slug.length > 4) {
     return notFound();
   }
 

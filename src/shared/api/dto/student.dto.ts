@@ -143,7 +143,7 @@ export interface TestAttemptResponseDTO {
 
 export interface SubmitAnswerRequestDTO {
   question_id: number;
-  answer: Record<string, string>;
+  answer: Record<string, string | number[]>;
   hint_used?: boolean;
 }
 

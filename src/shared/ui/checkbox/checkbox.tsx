@@ -14,6 +14,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckBoxProps>(
         <Icon
           glyph="done"
           size="12"
+          color="white"
           className="invisible group-has-checked:nth-[1]:visible"
         />
         <label

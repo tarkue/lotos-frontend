@@ -1,9 +1,10 @@
+"use client";
 import { Time } from "@/src/shared/ui/timer/props";
 import { Timer } from "@/src/shared/ui/timer/timer";
 import { useEffect, useRef, useState } from "react";
 
 interface CountDownTimerProps {
-  startedAt: Date;
+  startedAt: string;
   initialTime?: Time; // Начальное время таймера
 }
 

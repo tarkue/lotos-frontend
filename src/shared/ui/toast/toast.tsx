@@ -32,6 +32,8 @@ const toastVariants = cva(
         success: "bg-success",
         error: "bg-error",
         warning: "bg-warning",
+        neuro:
+          "bg-white border-4 rounded-3xl border-primary-100 text-black neuro-toast",
       },
     },
     defaultVariants: {

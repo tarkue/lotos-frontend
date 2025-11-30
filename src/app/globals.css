@@ -134,3 +134,7 @@ a {
 .slot span {
   line-height: 22px;
 }
+
+.neuro-toast i {
+  background: var(--color-black);
+}

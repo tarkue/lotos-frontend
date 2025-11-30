@@ -15,13 +15,15 @@ export const Timer = forwardRef<HTMLDivElement, TimerProps>(
                 time.hours === 0 && "origin-right scale-0 width-0"
               )}
             >
-              <TimeSlot value={time.hours ? time.hours : 0} />:
+              <TimeSlot value={time.hours ? time.hours : 0} />
             </div>
           </>
         )}
-        <TimeSlot value={time.minutes ? time.minutes : 0} />
-        {":"}
-        <TimeSlot value={time.seconds} />
+        <TimeSlot
+          value={time.minutes ? time.minutes : 0}
+          withColon={!!time.hours}
+        />
+        <TimeSlot value={time.seconds} withColon={true} />
       </div>
     );
   }

@@ -8,7 +8,7 @@ export const RadioField = forwardRef<HTMLInputElement, RadioFieldProps>(
   ({ variant, field, className, ...props }, ref) => {
     const id = useId();
     return (
-      <fieldset className="flex w-full items-center gap-4">
+      <fieldset className="flex w-full items-center gap-4 cursor-pointer">
         <div className="w-4 h-4">
           <RadioButton
             variant={variant}
@@ -19,7 +19,7 @@ export const RadioField = forwardRef<HTMLInputElement, RadioFieldProps>(
           />
         </div>
         <label htmlFor={id}>
-          <Typography.Body className="w-full text-wrap">
+          <Typography.Body className="w-full text-wrap select-none">
             {field}
           </Typography.Body>
         </label>

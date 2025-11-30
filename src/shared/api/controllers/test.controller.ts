@@ -46,10 +46,20 @@ export class TestClient extends BaseClient {
     courseId: number,
     moduleId: number,
     materialId: number,
-    testId: number
+    testId: number,
+    options?: {
+      accessToken?: string;
+    }
   ): Promise<TestWithQuestionsResponseDTO> {
     return await this.get(
-      `/test/courses/${courseId}/modules/${moduleId}/materials/${materialId}/tests/${testId}`
+      `/test/courses/${courseId}/modules/${moduleId}/materials/${materialId}/tests/${testId}`,
+      options
+        ? {
+            headers: {
+              Authorization: `Bearer ${options?.accessToken}`,
+            },
+          }
+        : undefined
     );
   }
 

@@ -8,7 +8,6 @@ import { CourseCardVariant } from "./variant";
 
 export const CourseCard = forwardRef<HTMLAnchorElement, CourseCardProps>(
   ({ size, className, course, action, ...props }, ref) => {
-    console.log(course);
     const Act = action;
     return (
       <Link
