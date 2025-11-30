@@ -1,8 +1,5 @@
-import { Material } from "@/src/entity/material";
-import { MaterialContent } from "@/src/entity/material/ui/content";
 import { ModuleContent } from "@/src/entity/module";
 import { BackButton } from "@/src/features/back";
-import { MaterialAction } from "@/src/features/material-action";
 import { api } from "@/src/shared/api";
 import { formatEndpoint } from "@/src/shared/libs/endpoint";
 import { sfwr } from "@/src/shared/libs/server-fetch-with-refresh";
@@ -11,6 +8,7 @@ import { Loader } from "@/src/shared/ui/loader";
 import { Typography } from "@/src/shared/ui/typography";
 import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
+import { MaterialPage } from "./material";
 
 export async function fetchModule(slug: [string, string]) {
   if (!slug.every((e) => Number.isInteger(Number.parseInt(e)))) {
@@ -24,27 +22,6 @@ export async function fetchModule(slug: [string, string]) {
     return await sfwr(api.student.getModule, courseId, moduleId);
   } catch {
     notFound();
-  }
-}
-
-export async function fetchMaterial(slug: [string, string, string]) {
-  if (!slug.every((e) => Number.isInteger(Number.parseInt(e)))) {
-    notFound();
-  }
-
-  const courseId = Number.parseInt(slug[0]);
-  const moduleId = Number.parseInt(slug[1]);
-  const materialId = Number.parseInt(slug[2]);
-
-  try {
-    return await sfwr(
-      api.student.getMaterialDetail,
-      courseId,
-      moduleId,
-      materialId
-    );
-  } catch {
-    redirect(Endpoint.LOGIN);
   }
 }
 
@@ -118,30 +95,5 @@ export async function ModulePage({
         </div>
       </div>
     </>
-  );
-}
-
-export async function MaterialPage({
-  slug,
-  nextMaterial,
-}: {
-  slug: [string, string, string];
-  nextMaterial?: Material;
-}) {
-  const material = await fetchMaterial(slug);
-
-  return (
-    <div className="w-full min-h-full h-full flex flex-col">
-      <MaterialContent material={material} />
-      <div className="flex justify-end">
-        <Suspense>
-          <MaterialAction
-            nextMaterial={nextMaterial}
-            material={material}
-            courseId={slug[0]}
-          />
-        </Suspense>
-      </div>
-    </div>
   );
 }

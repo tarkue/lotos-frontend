@@ -6,6 +6,7 @@ import { Header } from "@/src/widgets/header";
 import { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import Head from "next/head";
+import { ModalProvider } from "../shared/ui/modal";
 import "./globals.css";
 
 const nunito = Nunito({
@@ -31,10 +32,12 @@ export default function RootLayout({
               <title>Лотос</title>
             </Head>
             <body className={`${nunito.variable} ${nunito.variable}`}>
-              <Header />
-              {children}
-              <Footer />
-              <Toaster />
+              <ModalProvider>
+                <Header />
+                {children}
+                <Footer />
+                <Toaster />
+              </ModalProvider>
             </body>
           </TanstackQueryProvider>
         </AuthProvider>

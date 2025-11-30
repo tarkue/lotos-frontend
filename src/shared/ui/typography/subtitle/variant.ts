@@ -5,7 +5,7 @@ export const SubtitleVariant = cva(
   {
     variants: {
       variant: {
-        secondary: "font-normal font-semibold",
+        secondary: "font-semibold",
         primary: "font-semibold",
       },
     },

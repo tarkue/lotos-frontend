@@ -9,4 +9,5 @@ export enum Endpoint {
   COURSE = `${Endpoint.COURSES}/{}`,
   MODULE = `${Endpoint.COURSE}/{}`,
   MATERIAL = `${Endpoint.MODULE}/{}`,
+  TEST = `${Endpoint.MATERIAL}/{}`,
 }

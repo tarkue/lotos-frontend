@@ -41,7 +41,7 @@ export const MaterialComplete = ({
       Изучено
       <Icon
         size="20"
-        glyph="arrow-right"
+        glyph="done"
         color="gray"
         className="duration-300 transition group-hover:bg-black group-disabled:group-hover:bg-gray"
       />
