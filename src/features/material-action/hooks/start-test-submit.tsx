@@ -9,9 +9,11 @@ import { useRouter } from "next/navigation";
 
 const StartTestButton = ({ material }: { material: Material }) => {
   const router = useRouter();
+  const { clear } = useModals();
 
   const handle = () => {
     if (material.tests !== undefined && material.tests.length > 0) {
+      clear();
       const link = formatEndpoint(Endpoint.TEST, [
         material.module?.course_id,
         material.module?.id,
