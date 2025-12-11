@@ -80,6 +80,7 @@ export interface MaterialResponseDTO {
   id: number;
   module_id: number;
   type: MaterialType;
+  material_id?: number;
   title: string;
   content_url?: string | null;
   text_content?: string | null;

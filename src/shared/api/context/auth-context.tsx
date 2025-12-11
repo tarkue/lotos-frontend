@@ -7,15 +7,18 @@ import React, {
   useReducer,
 } from "react";
 import { api } from "..";
+import { setCookie } from "../../libs/cookie";
 import { AuthClient } from "../controllers/auth.controller";
 import {
   LoginRequestDTO,
   RegisterRequestDTO,
   UserResponseDTO,
 } from "../dto/auth.dto";
+import { RoleType } from "../enum/role-type.enum";
 
 interface AuthState {
   isAuthenticated?: boolean;
+  role?: RoleType;
   isLoading: boolean;
   user: UserResponseDTO | null;
 }
@@ -34,10 +37,12 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
       return {
         isAuthenticated: true,
         isLoading: false,
+        role: action.payload.user.role_id,
         user: action.payload.user,
       };
     case "CLEAR_AUTH":
       return {
+        role: undefined,
         isAuthenticated: false,
         isLoading: false,
         user: null,
@@ -64,6 +69,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     isAuthenticated: undefined,
     isLoading: true,
     user: null,
+    role: undefined,
   });
 
   const checkAuth = useCallback(async () => {
@@ -76,6 +82,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
 
       const userProfile = await api.users.getMyProfile();
+      setCookie("role", userProfile.role_id.toString(), { expires: 7 });
       dispatch({ type: "SET_AUTH", payload: { user: userProfile } });
     } catch (error) {
       console.error("Auth check failed:", error);

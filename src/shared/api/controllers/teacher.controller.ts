@@ -48,17 +48,40 @@ export class TeacherClient extends BaseClient {
   }
 
   // Courses
-  async getMyCourses(): Promise<CourseResponseDTO[]> {
-    return await this.get<CourseResponseDTO[]>("/teacher/courses");
+  async getMyCourses(options?: {
+    accessToken?: string;
+  }): Promise<CourseResponseDTO[]> {
+    return await this.get<CourseResponseDTO[]>(
+      "/teacher/courses",
+      options
+        ? {
+            headers: {
+              Authorization: `Bearer ${options.accessToken}`,
+            },
+          }
+        : undefined
+    );
   }
 
   async createCourse(data: CourseCreateRequestDTO): Promise<CourseResponseDTO> {
     return await this.post("/teacher/courses", data);
   }
 
-  async getCourse(courseId: number): Promise<CourseWithModulesResponseDTO> {
+  async getCourse(
+    courseId: number,
+    options?: {
+      accessToken?: string;
+    }
+  ): Promise<CourseWithModulesResponseDTO> {
     return await this.get<CourseWithModulesResponseDTO>(
-      `/teacher/courses/${courseId}`
+      `/teacher/courses/${courseId}`,
+      options
+        ? {
+            headers: {
+              Authorization: `Bearer ${options.accessToken}`,
+            },
+          }
+        : undefined
     );
   }
 
@@ -83,9 +106,21 @@ export class TeacherClient extends BaseClient {
 
   async getModule(
     courseId: number,
-    moduleId: number
+    moduleId: number,
+    options?: {
+      accessToken?: string;
+    }
   ): Promise<ModuleWithMaterialsResponseDTO> {
-    return await this.get(`/teacher/courses/${courseId}/modules/${moduleId}`);
+    return await this.get(
+      `/teacher/courses/${courseId}/modules/${moduleId}`,
+      options
+        ? {
+            headers: {
+              Authorization: `Bearer ${options.accessToken}`,
+            },
+          }
+        : undefined
+    );
   }
 
   async updateModule(

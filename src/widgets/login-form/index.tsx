@@ -1,5 +1,6 @@
 "use client";
 import { useAuth } from "@/src/shared/api/context/auth-context";
+import { RoleType } from "@/src/shared/api/enum/role-type.enum";
 import { createFieldProps } from "@/src/shared/libs/form-utils";
 import { Endpoint } from "@/src/shared/models/endpoint-enum";
 import { Button } from "@/src/shared/ui/button";
@@ -25,7 +26,7 @@ const { useAppForm } = createFormHook({
 
 export const LoginForm = () => {
   const router = useRouter();
-  const { login } = useAuth();
+  const { login, role } = useAuth();
 
   const form = useAppForm({
     defaultValues: {
@@ -43,7 +44,13 @@ export const LoginForm = () => {
     onSubmit: async ({ value }) => {
       try {
         await login(value);
-        router.push(Endpoint.MY_COURSES);
+        switch (role) {
+          case RoleType.STUDENT:
+            router.push(Endpoint.MY_COURSES);
+            return;
+          default:
+            router.push(Endpoint.ALL_COURSES);
+        }
       } catch {
         toast({
           title: "Некорректные данные",

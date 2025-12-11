@@ -15,6 +15,6 @@ export interface Material {
   has_tests?: boolean;
   is_locked?: boolean;
   tests?: Test[];
-  is_completed: boolean;
+  is_completed?: boolean;
   completed_at?: null | string;
 }

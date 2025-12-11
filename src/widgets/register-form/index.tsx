@@ -1,5 +1,6 @@
 "use client";
 import { useAuth } from "@/src/shared/api/context/auth-context";
+import { RoleType } from "@/src/shared/api/enum/role-type.enum";
 import { createFieldProps } from "@/src/shared/libs/form-utils";
 import { Endpoint } from "@/src/shared/models/endpoint-enum";
 import { Button } from "@/src/shared/ui/button";
@@ -26,7 +27,7 @@ const { useAppForm } = createFormHook({
 
 export const RegisterForm = () => {
   const router = useRouter();
-  const { register } = useAuth();
+  const { register, role } = useAuth();
   const form = useAppForm({
     defaultValues: {
       last_name: "",
@@ -53,7 +54,13 @@ export const RegisterForm = () => {
     onSubmit: async ({ value }) => {
       try {
         await register(value);
-        router.push(Endpoint.MY_COURSES);
+        switch (role) {
+          case RoleType.STUDENT:
+            router.push(Endpoint.MY_COURSES);
+            return;
+          default:
+            router.push(Endpoint.ALL_COURSES);
+        }
       } catch {
         toast({
           title: "Возникла ошибка",

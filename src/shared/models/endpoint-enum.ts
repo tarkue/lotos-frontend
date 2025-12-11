@@ -1,6 +1,7 @@
 export enum Endpoint {
   MY_COURSES = "/catalog/my",
   ALL_COURSES = "/catalog/all",
+  CREATED_COURSES = "/catalog/created",
   LOGIN = "/login",
   REGISTER = "/register",
   FORGET_PASSWORD = "forget-password",

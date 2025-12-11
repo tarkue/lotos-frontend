@@ -2,25 +2,39 @@ import { ModuleContent } from "@/src/entity/module";
 import { BackButton } from "@/src/features/back";
 import { api } from "@/src/shared/api";
 import { formatEndpoint } from "@/src/shared/libs/endpoint";
+import { roleSwitcher } from "@/src/shared/libs/role-switcher";
 import { sfwr } from "@/src/shared/libs/server-fetch-with-refresh";
 import { Endpoint } from "@/src/shared/models/endpoint-enum";
 import { Loader } from "@/src/shared/ui/loader";
 import { Typography } from "@/src/shared/ui/typography";
+import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
 import { MaterialPage } from "./material";
 import TestPage from "./test";
 
 export async function fetchModule(slug: [string, string]) {
+  const cookieStore = await cookies();
+
   if (!slug.every((e) => Number.isInteger(Number.parseInt(e)))) {
     notFound();
   }
 
   const courseId = Number.parseInt(slug[0]);
   const moduleId = Number.parseInt(slug[1]);
+  const role = cookieStore.get("role")?.value;
 
   try {
-    return await sfwr(api.student.getModule, courseId, moduleId);
+    return await roleSwitcher(role, {
+      student: async () =>
+        await sfwr(api.student.getModule, courseId, moduleId),
+      teacher: async () =>
+        await sfwr(api.teacher.getModule, courseId, moduleId),
+      admin: async () => await sfwr(api.teacher.getModule, courseId, moduleId),
+      unauthorized: async () => {
+        redirect(formatEndpoint(Endpoint.COURSE, [courseId]));
+      },
+    });
   } catch {
     notFound();
   }
@@ -54,7 +68,7 @@ export async function ModulePage({
   const currentMaterial =
     slug[2] !== undefined
       ? moduleFromCourse.materials?.find(
-          (el) => el.material_id === Number.parseInt(slug[2] as string)
+          (el) => el.id === Number.parseInt(slug[2] as string)
         )
       : moduleFromCourse.materials?.find(
           (el) => el.position === moduleFromCourse.position
@@ -63,13 +77,13 @@ export async function ModulePage({
   if (
     slug.length === 2 &&
     currentMaterial &&
-    currentMaterial.material_id !== undefined
+    currentMaterial.id !== undefined
   ) {
     redirect(
       formatEndpoint(Endpoint.MATERIAL, [
         moduleFromCourse.course_id,
         moduleFromCourse.id,
-        currentMaterial?.material_id,
+        currentMaterial?.id,
       ])
     );
   }

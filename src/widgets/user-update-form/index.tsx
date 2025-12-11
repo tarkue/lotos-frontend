@@ -24,11 +24,13 @@ const { useAppForm } = createFormHook({
 
 export const UserUpdateForm = ({
   defaultValues,
+  buttons,
 }: {
   defaultValues: Pick<
     UserResponseDTO,
     "email" | "last_name" | "first_name" | "patronymic"
   >;
+  buttons?: React.ReactNode;
 }) => {
   const form = useAppForm({
     defaultValues: defaultValues,
@@ -92,9 +94,12 @@ export const UserUpdateForm = ({
       </div>
 
       <form.AppForm>
-        <form.Button type="submit" size="large" className="w-min">
-          Изменить данные
-        </form.Button>
+        <div className="flex gap-4">
+          <form.Button type="submit" size="large" className="w-min">
+            Изменить данные
+          </form.Button>
+          {buttons}
+        </div>
       </form.AppForm>
     </form>
   );

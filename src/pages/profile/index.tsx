@@ -1,4 +1,5 @@
 import { BackButton } from "@/src/features/back";
+import { Logout } from "@/src/features/user-action/logout";
 import { api } from "@/src/shared/api";
 import { sfwr } from "@/src/shared/libs/server-fetch-with-refresh";
 import { Endpoint } from "@/src/shared/models/endpoint-enum";
@@ -19,7 +20,7 @@ export default async function ProfilePage() {
       </div>
       <div className="flex flex-col gap-3 w-full min-h-full">
         <Typography.H1>Ваш профиль</Typography.H1>
-        <UserUpdateForm defaultValues={user} />
+        <UserUpdateForm defaultValues={user} buttons={<Logout />} />
       </div>
     </Container>
   );

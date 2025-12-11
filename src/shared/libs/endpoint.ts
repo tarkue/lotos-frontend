@@ -4,7 +4,9 @@ export function formatEndpoint(
   endpoint: Endpoint,
   elements: unknown[]
 ): string {
-  const formatStrings = elements.map((el) => (el as object).toString());
+  const formatStrings = elements
+    .filter((el) => el !== undefined)
+    .map((el) => (el as object).toString());
   let formattedEndpoint = endpoint.toString();
   let index = 0;
 

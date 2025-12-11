@@ -7,3 +7,5 @@ export const Tab = {
   Element: TabElement,
   Map: TabMap,
 };
+
+export type { TabModel } from "./models/tab.model";
