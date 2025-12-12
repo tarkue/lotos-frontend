@@ -1,6 +1,7 @@
 import { ApplicationStatus } from "../enum/application-status.enum";
 import { MaterialType } from "../enum/material-type.enum";
 import { UserResponseDTO } from "./auth.dto";
+import { CourseProgressResponseDTO } from "./student.dto";
 
 export interface CourseCreateRequestDTO {
   title: string;
@@ -141,4 +142,15 @@ export interface CourseApplicationDetailResponseDTO {
   applied_at: string;
   reviewed_at?: string | null;
   reviewer?: UserResponseDTO | null;
+}
+
+export interface EnrolledStudentsListResponse {
+  total: number;
+  page: number;
+  page_size: number;
+  total_pages: number;
+  students: {
+    user: UserResponseDTO;
+    progress: CourseProgressResponseDTO | null;
+  }[];
 }

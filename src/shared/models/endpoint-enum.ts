@@ -11,4 +11,7 @@ export enum Endpoint {
   MODULE = `${Endpoint.COURSE}/{}`,
   MATERIAL = `${Endpoint.MODULE}/{}`,
   TEST = `${Endpoint.MATERIAL}/{}`,
+  COURSE_SETTINGS_STUDENTS = `${Endpoint.COURSES}/{}/settings/students`,
+  COURSE_SETTINGS_APPLICATIONS = `${Endpoint.COURSES}/{}/settings/applications`,
+  COURSE_SETTINGS_ABOUT = `${Endpoint.COURSES}/{}/settings/about`,
 }

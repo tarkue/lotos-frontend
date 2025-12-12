@@ -19,21 +19,19 @@ export const MaterialList = ({
   }
 
   const generateHref = (material: Material) =>
-    formatEndpoint(Endpoint.MATERIAL, [
-      courseId,
-      moduleId,
-      material.material_id,
-    ]);
+    formatEndpoint(Endpoint.MATERIAL, [courseId, moduleId, material.id]);
 
   return (
     <ScrollArea className="h-full overflow-y-hidden w-full pr-3">
-      {materials.map((material, index) => (
-        <MaterialCard
-          material={material}
-          key={index}
-          href={generateHref(material)}
-        />
-      ))}
+      {materials
+        .sort((a, b) => a.position - b.position)
+        .map((material, index) => (
+          <MaterialCard
+            material={material}
+            key={index}
+            href={generateHref(material)}
+          />
+        ))}
     </ScrollArea>
   );
 };

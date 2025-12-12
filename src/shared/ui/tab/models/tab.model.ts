@@ -1,4 +1,6 @@
+import { Endpoint } from "@/src/shared/models/endpoint-enum";
+
 export interface TabModel {
   title: string;
-  href: string;
+  href: `${Endpoint}`;
 }

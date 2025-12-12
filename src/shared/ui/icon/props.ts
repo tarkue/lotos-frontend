@@ -24,6 +24,7 @@ export type glyphs =
   | "log-out"
   | "return"
   | "send"
+  | "trash"
   | "user"
   | "download"
   | "plus"

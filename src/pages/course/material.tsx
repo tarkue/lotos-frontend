@@ -22,26 +22,17 @@ export async function fetchMaterial(slug: [string, string, string]) {
   const materialId = Number.parseInt(slug[2]);
   const role = cookieStore.get("role")?.value;
 
-  try {
-    return await roleSwitcher(role, {
-      student: async () =>
-        await sfwr(
-          api.student.getMaterialDetail,
-          courseId,
-          moduleId,
-          materialId
-        ),
-      teacher: async () =>
-        await sfwr(api.teacher.getMaterial, courseId, moduleId),
-      admin: async () =>
-        await sfwr(api.teacher.getMaterial, courseId, moduleId),
-      unauthorized: async () => {
-        redirect(formatEndpoint(Endpoint.COURSE, [courseId]));
-      },
-    });
-  } catch {
-    notFound();
-  }
+  return await roleSwitcher(role, {
+    student: async () =>
+      await sfwr(api.student.getMaterialDetail, courseId, moduleId, materialId),
+    teacher: async () =>
+      await sfwr(api.teacher.getMaterial, courseId, moduleId, materialId),
+    admin: async () =>
+      await sfwr(api.teacher.getMaterial, courseId, moduleId, materialId),
+    unauthorized: async () => {
+      redirect(formatEndpoint(Endpoint.COURSE, [courseId]));
+    },
+  });
 }
 
 export async function MaterialPage({

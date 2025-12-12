@@ -1,13 +1,12 @@
 "use client";
-import { useAuth } from "@/src/shared/api/context/auth-context";
+
+import { Course } from "@/src/entity/course";
+import { api } from "@/src/shared/api";
 import { createFieldProps } from "@/src/shared/libs/form-utils";
-import { Endpoint } from "@/src/shared/models/endpoint-enum";
 import { Button } from "@/src/shared/ui/button";
 import { Input } from "@/src/shared/ui/input";
 import { toast } from "@/src/shared/ui/toast";
 import { createFormHook, createFormHookContexts } from "@tanstack/react-form";
-import { useRouter } from "next/navigation";
-
 import z from "zod";
 
 const { fieldContext, formContext } = createFormHookContexts();
@@ -23,27 +22,21 @@ const { useAppForm } = createFormHook({
   formContext,
 });
 
-export const LoginForm = () => {
-  const router = useRouter();
-  const { login } = useAuth();
-
+export const CourseSettingsForm = ({ course }: { course: Course }) => {
   const form = useAppForm({
     defaultValues: {
-      email: "",
-      password: "",
+      title: course.title,
+      description: course.description,
     },
     validators: {
       onChange: z.object({
-        email: z.email({ error: "Неправильно написана электронная почта" }),
-        password: z
-          .string()
-          .min(8, { error: "Пароль должен быть больше 8-ми символов" }),
+        title: z.string({ error: "Курс не может быть без названия" }),
+        description: z.string().nullable().nonoptional(),
       }),
     },
     onSubmit: async ({ value }) => {
       try {
-        await login(value);
-        router.push(Endpoint.ALL_COURSES);
+        await api.teacher.updateCourse(course.id, value);
       } catch {
         toast({
           title: "Некорректные данные",
@@ -65,16 +58,26 @@ export const LoginForm = () => {
     >
       <div className="flex flex-col gap-3 w-full">
         <form.AppField
-          {...createFieldProps("email", "example@mail.ru", "email")}
+          {...createFieldProps(
+            "title",
+            "Название курса",
+            "text",
+            "Название курса"
+          )}
         />
         <form.AppField
-          {...createFieldProps("password", "Пароль", "password")}
+          {...createFieldProps(
+            "description",
+            "Описание курса...",
+            "text",
+            "Описание курса"
+          )}
         />
       </div>
 
       <form.AppForm>
         <form.Button type="submit" size="large" className="w-min">
-          Вход
+          Изменить
         </form.Button>
       </form.AppForm>
     </form>

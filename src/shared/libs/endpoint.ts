@@ -1,7 +1,7 @@
 import { Endpoint } from "../models/endpoint-enum";
 
 export function formatEndpoint(
-  endpoint: Endpoint,
+  endpoint: Endpoint | `${Endpoint}`,
   elements: unknown[]
 ): string {
   const formatStrings = elements

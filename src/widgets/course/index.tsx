@@ -3,6 +3,8 @@ import { ModuleList } from "@/src/entity/module";
 import { BackButton } from "@/src/features/back";
 import { CourseAction } from "@/src/features/course-action";
 import { Endpoint } from "@/src/shared/models/endpoint-enum";
+import { Suspense } from "react";
+import { TeacherActions } from "./teacher-actions";
 
 export const Course = ({ course }: CourseProps) => {
   return (
@@ -16,6 +18,9 @@ export const Course = ({ course }: CourseProps) => {
           course.is_enrolled ? CourseAction.ProgressBar : CourseAction.Enroll
         }
       />
+      <Suspense>
+        <TeacherActions course={course} />
+      </Suspense>
       {course.modules && <ModuleList modules={course.modules} />}
     </>
   );
