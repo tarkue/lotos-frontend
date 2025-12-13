@@ -208,6 +208,28 @@ export class StudentClient extends BaseClient {
     );
   }
 
+  async submitAnswerAll(
+    courseId: number,
+    moduleId: number,
+    materialId: number,
+    testId: number,
+    attemptId: number,
+    data: SubmitAnswerRequestDTO[],
+    access_token: string
+  ): Promise<TestAttemptWithBlockResponseDTO> {
+    return await this.post(
+      `/students/my-courses/${courseId}/modules/${moduleId}/materials/${materialId}/tests/${testId}/attempts/${attemptId}/submit-all`,
+      {
+        answers: data,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      }
+    );
+  }
+
   async finishTest(
     courseId: number,
     moduleId: number,
@@ -220,8 +242,15 @@ export class StudentClient extends BaseClient {
     );
   }
 
-  async getTestResult(attemptId: number): Promise<TestResultResponseDTO> {
-    return await this.get(`/students/test-attempts/${attemptId}/result`);
+  async getTestResult(
+    attemptId: number,
+    access_token: string
+  ): Promise<TestResultResponseDTO> {
+    return await this.get(`/students/test-attempts/${attemptId}/result`, {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    });
   }
 
   async getMyTestAttempts(
