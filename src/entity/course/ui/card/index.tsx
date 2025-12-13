@@ -2,7 +2,7 @@ import { cn } from "@/src/shared/libs/utils";
 import { Endpoint } from "@/src/shared/models/endpoint-enum";
 import { Typography } from "@/src/shared/ui/typography";
 import Link from "next/link";
-import { forwardRef } from "react";
+import { forwardRef, Suspense } from "react";
 import { CourseCardProps } from "./props";
 import { CourseCardVariant } from "./variant";
 
@@ -24,7 +24,9 @@ export const CourseCard = forwardRef<HTMLAnchorElement, CourseCardProps>(
         </Typography.Subtitle>
         {Act && (
           <div className={cn(!course.progress && "w-full md:w-auto")}>
-            <Act course={course} />
+            <Suspense>
+              <Act course={course} />
+            </Suspense>
           </div>
         )}
       </Link>

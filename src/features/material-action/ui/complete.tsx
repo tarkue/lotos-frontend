@@ -14,7 +14,7 @@ export const MaterialComplete = ({
   courseId,
 }: MaterialActionProps) => {
   const [isCompleted, setIsCompleted] = useState<boolean>(
-    material.is_completed
+    material.is_completed ? material.is_completed : false
   );
   const router = useRouter();
   const handle = async () => {
@@ -24,7 +24,7 @@ export const MaterialComplete = ({
       setIsCompleted(true);
       if (nextMaterial !== undefined) {
         router.push(
-          formatEndpoint(Endpoint.MATERIAL, [...ids, nextMaterial.material_id])
+          formatEndpoint(Endpoint.MATERIAL, [...ids, nextMaterial.id])
         );
       }
     }

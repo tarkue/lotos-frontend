@@ -11,3 +11,7 @@ export interface Module {
   total_materials?: number;
   materials?: Material[] | null | undefined;
 }
+
+export interface ModuleProps {
+  module: Module;
+}

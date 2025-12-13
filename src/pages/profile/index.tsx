@@ -6,9 +6,14 @@ import { Endpoint } from "@/src/shared/models/endpoint-enum";
 import { Container } from "@/src/shared/ui/container";
 import { Typography } from "@/src/shared/ui/typography";
 import { UserUpdateForm } from "@/src/widgets/user-update-form";
+import { redirect } from "next/navigation";
 
 export async function fetchProfile() {
-  return await sfwr(api.users.getMyProfile);
+  try {
+    return await sfwr(api.users.getMyProfile);
+  } catch {
+    redirect(Endpoint.LOGIN);
+  }
 }
 
 export default async function ProfilePage() {

@@ -19,9 +19,9 @@ export const generateDeleteFromCourse = (course: Course) => {
           <Button
             variant="primary"
             size="large"
-            onClick={async () =>
-              await api.teacher.deleteUserFromCourse(course.id, user.id)
-            }
+            onClick={async () => {
+              await api.teacher.deleteUserFromCourse(course.id, user.id);
+            }}
           >
             Отчислить
           </Button>
@@ -34,6 +34,5 @@ export const generateDeleteFromCourse = (course: Course) => {
       </Button>
     );
   };
-
   return UserAction;
 };

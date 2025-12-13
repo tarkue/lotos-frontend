@@ -18,10 +18,17 @@ export async function fetchCourse(slug: string) {
   try {
     return await roleSwitcher(role, {
       student: async () => {
-        const course = await sfwr(api.student.getEnrolledCourse, courseId);
-        course.is_enrolled = true;
+        try {
+          const course = await sfwr(api.student.getEnrolledCourse, courseId);
+          course.is_enrolled = true;
 
-        return course;
+          return course;
+        } catch {
+          const course = await api.course.getCoursePublicInfo(courseId);
+          course.is_enrolled = false;
+          course.modules = [];
+          return course;
+        }
       },
       teacher: async () => await sfwr(api.teacher.getCourse, courseId),
       admin: async () => await sfwr(api.teacher.getCourse, courseId),

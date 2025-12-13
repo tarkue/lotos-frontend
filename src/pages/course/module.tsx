@@ -1,5 +1,7 @@
 import { ModuleContent } from "@/src/entity/module";
 import { BackButton } from "@/src/features/back";
+import { TeacherAddLesson } from "@/src/features/create-lesson";
+import { DeleteModule } from "@/src/features/delete-module";
 import { api } from "@/src/shared/api";
 import { formatEndpoint } from "@/src/shared/libs/endpoint";
 import { roleSwitcher } from "@/src/shared/libs/role-switcher";
@@ -113,8 +115,10 @@ export async function ModulePage({
             <TestPage slug={slug} />
           </Suspense>
         )}
-        <div className="md:sticky md:top-6 h-min">
+        <div className="flex flex-col gap-4 md:sticky md:top-6 h-min">
           <ModuleContent module={moduleFromCourse} className="w-full md:w-75" />
+          <DeleteModule module={moduleFromCourse} />
+          <TeacherAddLesson module={moduleFromCourse} />
         </div>
       </div>
     </>

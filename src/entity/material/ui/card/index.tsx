@@ -28,7 +28,7 @@ export const MaterialCard = forwardRef<HTMLDivElement, MaterialCardProps>(
               material.is_locked ? "text-gray" : "text-black"
             )}
           >
-            {material.title + "  fsf df sff fsfsff s fffsffs sf df"}
+            {material.title}
           </Typography.Body>
         </div>
         {material.is_completed && <Icon glyph="done" className="bg-success" />}
