@@ -5,10 +5,15 @@ import { CourseCatalogTabBar } from "./tab-bar";
 export const CourseCatalogWrapper = ({
   children,
   tabBarWidth,
+  action,
 }: CourseCatalogWrapperProps) => {
+  const Act = action;
   return (
     <Container className="flex flex-col gap-5 pb-12">
-      <CourseCatalogTabBar width={tabBarWidth} />
+      <div className="flex w-full max-md:flex-col justify-between gap-2">
+        <CourseCatalogTabBar width={tabBarWidth} />
+        {Act && <Act />}
+      </div>
       {children}
     </Container>
   );

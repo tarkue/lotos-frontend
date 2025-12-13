@@ -1,4 +1,5 @@
 "use client";
+import { AddCourse } from "./ui/add";
 import { AddModule } from "./ui/add-module";
 import { Enroll } from "./ui/enroll";
 import { None } from "./ui/none";
@@ -13,6 +14,7 @@ export const CourseAction = Object.assign(
     Enroll,
     ProgressPercentage,
     AddModule,
+    Add: AddCourse,
     OpenSettings,
     ProgressBar: ProgressBarAction,
   }

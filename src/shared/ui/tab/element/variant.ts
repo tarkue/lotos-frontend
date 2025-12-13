@@ -1,7 +1,7 @@
 import { cva } from "class-variance-authority";
 
 export const TabElementVariant = cva(
-  "flex flex-col border-2 w-auto text-nowrap items-center justify-center font-semibold text-center cursor-pointer px-4 bg-base-100 first:rounded-l-[10px] last:rounded-r-[10px] safari-first-last-fix",
+  "flex flex-col border-2 w-full md:w-auto text-nowrap items-center justify-center font-semibold text-center cursor-pointer px-4 bg-base-100 first:rounded-l-[10px] last:rounded-r-[10px] safari-first-last-fix",
   {
     variants: {
       isActive: {

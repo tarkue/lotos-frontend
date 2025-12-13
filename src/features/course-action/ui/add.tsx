@@ -1,12 +1,13 @@
-"use client";
-
-import { Course } from "@/src/entity/course";
 import { api } from "@/src/shared/api";
+import { formatEndpoint } from "@/src/shared/libs/endpoint";
 import { createFieldProps } from "@/src/shared/libs/form-utils";
+import { Endpoint } from "@/src/shared/models/endpoint-enum";
 import { Button } from "@/src/shared/ui/button";
 import { Input } from "@/src/shared/ui/input";
+import { useModals } from "@/src/shared/ui/modal";
 import { toast } from "@/src/shared/ui/toast";
 import { createFormHook, createFormHookContexts } from "@tanstack/react-form";
+import { useRouter } from "next/router";
 import z from "zod";
 
 const { fieldContext, formContext } = createFormHookContexts();
@@ -22,25 +23,25 @@ const { useAppForm } = createFormHook({
   formContext,
 });
 
-export const CourseSettingsForm = ({ course }: { course: Course }) => {
+const CourseCreateForm = () => {
+  const router = useRouter();
+  const { clear } = useModals();
   const form = useAppForm({
     defaultValues: {
-      title: course.title,
-      description: course.description,
+      title: "",
+      description: "",
     },
     validators: {
       onChange: z.object({
         title: z.string({ error: "Курс не может быть без названия" }),
-        description: z.string().nullable().nonoptional(),
+        description: z.string(),
       }),
     },
     onSubmit: async ({ value }) => {
       try {
-        await api.teacher.updateCourse(course.id, value);
-        toast({
-          title: "Изменения применены",
-          variant: "success",
-        });
+        const course = await api.teacher.createCourse(value);
+        clear();
+        router.push(formatEndpoint(Endpoint.COURSE, [course.id]));
       } catch {
         toast({
           title: "Некорректные данные",
@@ -85,5 +86,22 @@ export const CourseSettingsForm = ({ course }: { course: Course }) => {
         </form.Button>
       </form.AppForm>
     </form>
+  );
+};
+
+export const AddCourse = () => {
+  const { addModal } = useModals();
+
+  const handle = () => {
+    addModal({
+      title: "Создать курс",
+      fields: <CourseCreateForm />,
+    });
+  };
+
+  return (
+    <Button variant="primary" size="large" onClick={handle}>
+      Создать курс
+    </Button>
   );
 };

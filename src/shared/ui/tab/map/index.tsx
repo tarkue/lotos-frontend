@@ -16,7 +16,7 @@ export const TabMap = <T extends readonly string[]>({
       defaultValue={defaultValue}
       onChange={onChange}
       style={{ "--tab-group-width": width } as CSSProperties}
-      className={cn("sm:w-(--tab-group-width) w-full", className)}
+      className={cn("md:w-(--tab-group-width) w-full", className)}
     >
       {elements.map((tab, index) => (
         <TabElement key={index}>{tab}</TabElement>
