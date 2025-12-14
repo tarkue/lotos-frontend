@@ -1,4 +1,6 @@
 import { api } from "@/src/shared/api";
+import { useAuth } from "@/src/shared/api/context/auth-context";
+import { RoleType } from "@/src/shared/api/enum/role-type.enum";
 import { formatEndpoint } from "@/src/shared/libs/endpoint";
 import { createFieldProps } from "@/src/shared/libs/form-utils";
 import { Endpoint } from "@/src/shared/models/endpoint-enum";
@@ -91,6 +93,7 @@ const CourseCreateForm = () => {
 
 export const AddCourse = () => {
   const { addModal } = useModals();
+  const { role } = useAuth();
 
   const handle = () => {
     addModal({
@@ -98,6 +101,10 @@ export const AddCourse = () => {
       fields: <CourseCreateForm />,
     });
   };
+
+  if (role === undefined || role === RoleType.STUDENT) {
+    return <></>;
+  }
 
   return (
     <Button variant="primary" size="large" onClick={handle}>
