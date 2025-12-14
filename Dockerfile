@@ -20,6 +20,7 @@ RUN npx browserslist@latest --update-db
 
 # need to install linux specific swc builds
 RUN npm install -D @swc/cli @swc/core
+RUN npm install --save-exact --save-dev typescript
 
 COPY . .
 
