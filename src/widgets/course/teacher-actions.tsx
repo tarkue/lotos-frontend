@@ -6,7 +6,7 @@ import { RoleType } from "@/src/shared/api/enum/role-type.enum";
 
 export const TeacherCourseActions: React.FC<CourseProps> = ({ course }) => {
   const { role } = useAuth();
-  if (role !== RoleType.TEACHER) {
+  if (role !== RoleType.TEACHER && role !== RoleType.ADMIN) {
     return <></>;
   }
   return (

@@ -20,7 +20,7 @@ export const CourseCard = forwardRef<HTMLAnchorElement, CourseCardProps>(
         {...props}
       >
         <Typography.Subtitle className="w-full">
-          {course.title + "fdf sfs f dfdsf df dsfsfsffsf df ds fd"}
+          {course.title}
         </Typography.Subtitle>
         {Act && (
           <div className={cn(!course.progress && "w-full md:w-auto")}>
