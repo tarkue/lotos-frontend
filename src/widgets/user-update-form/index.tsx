@@ -94,7 +94,7 @@ export const UserUpdateForm = ({
       </div>
 
       <form.AppForm>
-        <div className="flex gap-4">
+        <div className="flex gap-4 flex-col md:flex-row">
           <form.Button type="submit" size="large" className="w-min">
             Изменить данные
           </form.Button>

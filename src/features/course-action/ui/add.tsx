@@ -9,7 +9,7 @@ import { Input } from "@/src/shared/ui/input";
 import { useModals } from "@/src/shared/ui/modal";
 import { toast } from "@/src/shared/ui/toast";
 import { createFormHook, createFormHookContexts } from "@tanstack/react-form";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import z from "zod";
 
 const { fieldContext, formContext } = createFormHookContexts();
