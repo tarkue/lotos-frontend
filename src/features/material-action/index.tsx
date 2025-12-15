@@ -4,6 +4,7 @@ import { RoleType } from "@/src/shared/api/enum/role-type.enum";
 import { MaterialActionProps } from "./models/material-action";
 import { MaterialComplete } from "./ui/complete";
 import { DeleteMaterial } from "./ui/delete";
+import { DeleteTest } from "./ui/delete-test";
 import { StartTest } from "./ui/start-test";
 import { UpdateMaterial } from "./ui/update-material";
 
@@ -17,10 +18,11 @@ export const MaterialAction = (props: MaterialActionProps) => {
 
   if (role === RoleType.ADMIN || role === RoleType.TEACHER) {
     return (
-      <>
+      <div className="w-full flex justify-end gap-2 flex-col md:flex-row">
+        <DeleteTest material={props.material} />
         <UpdateMaterial {...props} />
         <DeleteMaterial {...props} />
-      </>
+      </div>
     );
   }
 

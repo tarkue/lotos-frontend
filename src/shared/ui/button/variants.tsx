@@ -21,7 +21,7 @@ export const buttonVariants = cva(
     },
     defaultVariants: {
       variant: "primary",
-      size: "small",
+      size: "large",
     },
   }
 );

@@ -1,23 +1,28 @@
 "use client";
 import { CourseProps } from "@/src/entity/course";
 import { api } from "@/src/shared/api";
+import { formatEndpoint } from "@/src/shared/libs/endpoint";
+import { Endpoint } from "@/src/shared/models/endpoint-enum";
 import { Button } from "@/src/shared/ui/button";
 import { Input } from "@/src/shared/ui/input";
 import { useModals } from "@/src/shared/ui/modal";
 import { toast } from "@/src/shared/ui/toast";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 const ModalContent: React.FC<CourseProps> = ({ course }) => {
+  const router = useRouter();
   const { clear } = useModals();
   const [title, setTitle] = useState<string>("");
 
   const handleModal = async () => {
     if (course.modules?.length !== undefined) {
       try {
-        await api.teacher.createModule(course.id, {
+        const m = await api.teacher.createModule(course.id, {
           title: title,
           position: course.modules?.length + 1,
         });
+        router.push(formatEndpoint(Endpoint.MODULE, [m.course_id, m.id]));
         clear();
       } catch {
         toast({

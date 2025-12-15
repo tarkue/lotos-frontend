@@ -8,7 +8,7 @@ import { roleSwitcher } from "@/src/shared/libs/role-switcher";
 import { sfwr } from "@/src/shared/libs/server-fetch-with-refresh";
 import { Endpoint } from "@/src/shared/models/endpoint-enum";
 import { Loader } from "@/src/shared/ui/loader";
-import { Typography } from "@/src/shared/ui/typography";
+import { ModuleNotFound } from "@/src/widgets/module-not-found";
 import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
@@ -91,11 +91,7 @@ export async function ModulePage({
   }
 
   if (!currentMaterial) {
-    return (
-      <Typography.Body className="text-base-300 text-center w-full">
-        <strong>Здесь пока ничего нет</strong>
-      </Typography.Body>
-    );
+    return <ModuleNotFound module={moduleFromCourse} />;
   }
 
   const nextMaterial = moduleFromCourse.materials?.find(

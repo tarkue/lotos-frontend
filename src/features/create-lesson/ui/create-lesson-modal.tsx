@@ -8,12 +8,14 @@ import { RadioField, RadioGroup } from "@/src/shared/ui/radio";
 import { useState } from "react";
 import { LectureForm } from "./lecture-form";
 import { PresentationForm } from "./presentation-form";
+import { AddTestForm } from "./test-form";
 import { VideoLessonForm } from "./video-lesson-form";
 
 type LessonType =
   | MaterialType.VIDEO
   | MaterialType.TEXT
   | MaterialType.PRESENTATION
+  | "test"
   | null;
 
 export const CreateLessonModal: React.FC<ModuleProps> = ({ module }) => {
@@ -22,7 +24,7 @@ export const CreateLessonModal: React.FC<ModuleProps> = ({ module }) => {
   const [lessonType, setLessonType] = useState<LessonType>(null);
 
   const handleNext = () => {
-    if (!title.trim()) {
+    if (!title.trim() && lessonType !== "test") {
       return;
     }
 
@@ -47,16 +49,23 @@ export const CreateLessonModal: React.FC<ModuleProps> = ({ module }) => {
         title: "Создать урок-презентацию",
         fields: <PresentationForm module={module} lessonTitle={title} />,
       });
+    } else if (lessonType === "test") {
+      addModal({
+        title: "Создать тест",
+        fields: <AddTestForm module={module} />,
+      });
     }
   };
 
   return (
     <div className="flex flex-col gap-4 w-full">
-      <Input
-        placeholder="Название урока"
-        value={title}
-        onChange={(e) => setTitle(e.currentTarget.value)}
-      />
+      {lessonType !== "test" && (
+        <Input
+          placeholder="Название урока"
+          value={title}
+          onChange={(e) => setTitle(e.currentTarget.value)}
+        />
+      )}
       <div className="flex flex-col gap-2">
         <span className="text-base font-medium">Выберите тип урока:</span>
         <RadioGroup>
@@ -78,6 +87,13 @@ export const CreateLessonModal: React.FC<ModuleProps> = ({ module }) => {
           />
           <RadioField
             name="lessonType"
+            value={"test"}
+            checked={lessonType === "test"}
+            onChange={(e) => setLessonType(e.target.value as MaterialType.TEXT)}
+            field="Тест"
+          />
+          <RadioField
+            name="lessonType"
             value={MaterialType.PRESENTATION}
             checked={lessonType === MaterialType.PRESENTATION}
             onChange={(e) =>
@@ -92,7 +108,7 @@ export const CreateLessonModal: React.FC<ModuleProps> = ({ module }) => {
           variant="primary"
           size="large"
           onClick={handleNext}
-          disabled={!title.trim() || !lessonType}
+          disabled={(!title.trim() && lessonType !== "test") || !lessonType}
           className="w-min"
         >
           Далее

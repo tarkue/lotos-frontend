@@ -22,7 +22,11 @@ export const FormField = ({
         id={field.name}
         placeholder={placeholder}
         type={type}
-        value={field.state.value}
+        value={
+          field.state.value !== null && field.state.value !== undefined
+            ? field.state.value
+            : ""
+        }
         onChange={(e) => field.handleChange(e.currentTarget.value)}
         onBlur={field.handleBlur}
         isValid={field.state.meta.isValid}

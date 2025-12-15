@@ -10,7 +10,9 @@ import { redirect } from "next/navigation";
 export async function startTest(slug: [number, number, number, number]) {
   try {
     return await sfwr(api.student.startTest, ...slug);
-  } catch {}
+  } catch (error) {
+    console.log(error);
+  }
 
   try {
     const attmpts = await sfwr(api.student.getMyTestAttempts, ...slug);
@@ -20,7 +22,9 @@ export async function startTest(slug: [number, number, number, number]) {
       redirect(formatEndpoint(Endpoint.MATERIAL, slug.slice(0, -1)));
     }
     return current;
-  } catch {}
+  } catch (error) {
+    console.log(error);
+  }
 
   redirect(formatEndpoint(Endpoint.MATERIAL, slug.slice(0, -1)));
 }

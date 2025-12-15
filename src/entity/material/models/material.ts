@@ -18,3 +18,7 @@ export interface Material {
   is_completed?: boolean;
   completed_at?: null | string;
 }
+
+export interface MaterialProps {
+  material: Material;
+}
