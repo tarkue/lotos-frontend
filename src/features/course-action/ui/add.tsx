@@ -84,7 +84,7 @@ const CourseCreateForm = () => {
 
       <form.AppForm>
         <form.Button type="submit" size="large" className="w-min">
-          Изменить
+          Создать
         </form.Button>
       </form.AppForm>
     </form>
