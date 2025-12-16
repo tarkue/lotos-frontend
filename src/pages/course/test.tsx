@@ -10,12 +10,11 @@ import { redirect } from "next/navigation";
 export async function startTest(slug: [number, number, number, number]) {
   try {
     return await sfwr(api.student.startTest, ...slug);
-  } catch (error) {
-    console.log(error);
-  }
+  } catch {}
 
   try {
     const attmpts = await sfwr(api.student.getMyTestAttempts, ...slug);
+    console.log(attmpts);
     const current = attmpts.sort((a) => a.attempt_number)[0];
 
     if (current.finished_at !== null) {
@@ -44,7 +43,7 @@ export default async function TestPage({
     number,
     number
   ];
-  const { started_at, attempt_number } = await startTest(ids);
+  const { started_at, id } = await startTest(ids);
   const test = await getTest(ids);
 
   return (
@@ -53,7 +52,7 @@ export default async function TestPage({
       courseId={ids[0]}
       moduleId={ids[1]}
       materialId={ids[2]}
-      attemptId={attempt_number}
+      attemptId={id}
     >
       <TestHeader test={test} startedAt={started_at + "+00:00"} />
       <TestContent test={test} />

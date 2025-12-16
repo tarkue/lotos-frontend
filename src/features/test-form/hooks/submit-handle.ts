@@ -84,24 +84,19 @@ export const useSubmitTestComplete = (
       const res = await api.student.getTestResult(attemptId, access_token);
 
       if (submit.blocked) {
-        router.push(
-          formatEndpoint(Endpoint.MATERIAL, [courseId, moduleId, materialId])
-        );
         toast({
           title: `Ваш результат ${res.score}/100`,
           description: `Попробуйте повторить урок. Тест разблокируется через ${
-            (new Date(submit.blocked_until as string).getUTCSeconds() -
-              new Date().getUTCSeconds()) /
-            60
+            ((Number(new Date()) - Number(new Date(submit.blocked_until as string))) / 1000 / 60 / 60).toFixed(0)
           } минут.`,
           variant: "warning",
         });
-      }
-
-      if (res.passed) {
         router.push(
           formatEndpoint(Endpoint.MATERIAL, [courseId, moduleId, materialId])
         );
+      }
+
+      if (res.passed) {
         if (submit.message) {
           toast({
             title: `Ваш результат ${res.score}/100`,
@@ -115,6 +110,10 @@ export const useSubmitTestComplete = (
             variant: "success",
           });
         }
+
+        router.push(
+          formatEndpoint(Endpoint.MATERIAL, [courseId, moduleId, materialId])
+        );
       }
     } catch {
       router.push(
