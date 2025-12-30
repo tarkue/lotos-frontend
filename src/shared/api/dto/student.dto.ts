@@ -195,6 +195,7 @@ export interface QuestionResultDTO {
   is_correct: boolean;
   hint_used: boolean;
   partial_score: number;
+  hint_text: string | null;
 }
 
 export interface MyTestAttemptSummaryDTO {

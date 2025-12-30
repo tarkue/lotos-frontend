@@ -86,9 +86,13 @@ export const useSubmitTestComplete = (
       if (submit.blocked) {
         toast({
           title: `Ваш результат ${res.score}/100`,
-          description: `Попробуйте повторить урок. Тест разблокируется через ${
-            ((Number(new Date()) - Number(new Date(submit.blocked_until as string))) / 1000 / 60 / 60).toFixed(0)
-          } минут.`,
+          description: `Попробуйте повторить урок. Тест разблокируется через ${(
+            (Number(new Date()) -
+              Number(new Date(submit.blocked_until as string))) /
+            1000 /
+            60 /
+            60
+          ).toFixed(0)} минут.`,
           variant: "warning",
         });
         router.push(
@@ -100,7 +104,13 @@ export const useSubmitTestComplete = (
         if (submit.message) {
           toast({
             title: `Ваш результат ${res.score}/100`,
-            description: submit.message,
+            description: res.questions_results
+              .filter((el) => !el.is_correct || el.hint_text === null)
+              .map(
+                (el) =>
+                  `К заданию '${el.question_text}' подсказка: ${el.hint_text}`
+              )
+              .join("\n"),
             variant: "neuro",
           });
         } else {
@@ -110,10 +120,12 @@ export const useSubmitTestComplete = (
             variant: "success",
           });
         }
-
-        router.push(
-          formatEndpoint(Endpoint.MATERIAL, [courseId, moduleId, materialId])
-        );
+      } else {
+        toast({
+          title: `Ваш результат ${res.score}/100`,
+          description: "Тест не пройден.",
+          variant: "warning",
+        });
       }
     } catch {
       router.push(
