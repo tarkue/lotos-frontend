@@ -29,13 +29,13 @@ export const ApplicationList = ({
 }: {
   applications: CourseApplicationResponseDTO[];
 }) => {
-  applications = applications.filter((a) => a.status === "pending");
-  const users = useMemo(() => applications.map((a) => a.user), [applications]);
+  applications = applications?.filter((a) => a.status === "pending");
+  const users = useMemo(() => applications?.map((a) => a.user), [applications]);
   const action = useMemo(
     () => generateApplicationActions(applications),
     [applications]
   );
-  if (applications.length === 0) {
+  if (!applications || applications?.length === 0) {
     return (
       <Typography.Subtitle className="text-gray w-full text-center">
         Тут пока ничего нет
