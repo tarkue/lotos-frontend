@@ -124,6 +124,15 @@ export interface EditorResponseDTO {
   granted_by?: number | null;
 }
 
+export interface EditorListResponse {
+  total: number;
+  page: number;
+  page_size: number;
+  total_pages: number;
+  editors: EditorResponseDTO[];
+}
+
+
 export interface CourseApplicationResponseDTO {
   id: number;
   course: CourseResponseDTO;

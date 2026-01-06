@@ -62,6 +62,9 @@ export default async function CourseSettingsPage({
         {Endpoint.COURSE_SETTINGS_APPLICATIONS.endsWith(route) && (
           <SettingsApplicationsPage course={course} />
         )}
+        {Endpoint.COURSE_SETTINGS_TEACHERS.endsWith(route) && (
+          <SettingsStudentsPage course={course} q={q} p={p} />
+        )}
       </CourseSettings.TabBarWrapper>
     </>
   );

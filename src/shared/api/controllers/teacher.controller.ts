@@ -10,6 +10,7 @@ import {
   CourseResponseDTO,
   CourseUpdateRequestDTO,
   CourseWithModulesResponseDTO,
+  EditorListResponse,
   EditorResponseDTO,
   EnrolledStudentsListResponse,
   FileResponseDTO,
@@ -277,7 +278,7 @@ export class TeacherClient extends BaseClient {
     return await this.post(`/teacher/courses/${courseId}/editors`, data);
   }
 
-  async getEditors(courseId: number): Promise<EditorResponseDTO[]> {
+  async getEditors(courseId: number): Promise<EditorListResponse> {
     return await this.get(`/teacher/courses/${courseId}/editors`);
   }
 
