@@ -15,10 +15,13 @@ export const useSettingsTabBar = (course: Course) => {
   const router = useRouter();
   const { role } = useAuth();
 
-  const tabBarElements =
-    role === RoleType.ADMIN
-      ? settingsAdminTabBarElements
-      : settingsTeacherTabBarElements;
+  const tabBarElements = useMemo(
+    () =>
+      role === RoleType.ADMIN
+        ? settingsAdminTabBarElements
+        : settingsTeacherTabBarElements,
+    [role]
+  );
 
   const elements = useMemo(
     () => tabBarElements.map((el) => el.title),

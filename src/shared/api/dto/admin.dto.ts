@@ -15,7 +15,7 @@ export interface UpdateUserRequestDTO {
   last_name?: string | null;
   patronymic?: string | null;
   group_name?: string | null;
-  role?: RoleType | null;
+  role?: string | null;
 }
 
 export interface ChangeUserRoleRequestDTO {

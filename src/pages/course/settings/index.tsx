@@ -11,6 +11,7 @@ import { notFound } from "next/navigation";
 import SettingsAboutPage from "./about";
 import SettingsApplicationsPage from "./applications";
 import SettingsStudentsPage from "./students";
+import SettingsTeachersPage from "./teachers";
 
 export async function fetchCourse(slug: string) {
   const cookieStore = await cookies();
@@ -63,7 +64,7 @@ export default async function CourseSettingsPage({
           <SettingsApplicationsPage course={course} />
         )}
         {Endpoint.COURSE_SETTINGS_TEACHERS.endsWith(route) && (
-          <SettingsStudentsPage course={course} q={q} p={p} />
+          <SettingsTeachersPage course={course} q={q} p={p} />
         )}
       </CourseSettings.TabBarWrapper>
     </>

@@ -45,7 +45,7 @@ export const DeleteTest: React.FC<MaterialProps> = ({ material }) => {
   const handle = () => {
     addModal({
       title: "Удаление теста",
-      description: `Вы действительно хотите удалить тест из урока ${material.title}`,
+      description: `Вы действительно хотите удалить тест из урока "${material.title}"`,
       buttons: <HandleDeleteButton material={material} />,
     });
   };

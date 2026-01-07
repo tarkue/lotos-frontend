@@ -28,4 +28,8 @@ export const ADMIN_COURSE_CATALOG_TABS: TabModel[] = [
     title: "Все курсы",
     href: Endpoint.ALL_COURSES,
   },
+  {
+    title: "Преподаватели",
+    href: Endpoint.TEACHERS,
+  },
 ] as const;

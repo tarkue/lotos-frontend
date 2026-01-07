@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { cn } from "@/src/shared/libs/utils";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { TabGroupProps } from "./props";
 import { validateChildrenOrThrow } from "./utils/validate-children";
 
@@ -15,6 +15,10 @@ export const TabGroup = ({
   useMemo(() => validateChildrenOrThrow(children), [children.length]);
 
   const [activeTab, setActiveTab] = useState<string | undefined>(defaultValue);
+
+  useEffect(() => {
+    setActiveTab(defaultValue);
+  }, [defaultValue]);
 
   const handleTabChange = (value: string) => {
     setActiveTab(value);

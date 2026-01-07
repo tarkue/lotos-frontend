@@ -278,8 +278,19 @@ export class TeacherClient extends BaseClient {
     return await this.post(`/teacher/courses/${courseId}/editors`, data);
   }
 
-  async getEditors(courseId: number): Promise<EditorListResponse> {
-    return await this.get(`/teacher/courses/${courseId}/editors`);
+  async getEditors(
+    courseId: number,
+    params: { search?: string; page?: number },
+    options?: {
+      accessToken?: string;
+    }
+  ): Promise<EditorListResponse> {
+    return await this.get(`/teacher/courses/${courseId}/editors`, {
+      params: params,
+      headers: {
+        Authorization: `Bearer ${options?.accessToken}`,
+      },
+    });
   }
 
   async removeEditor(

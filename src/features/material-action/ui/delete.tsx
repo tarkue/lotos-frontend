@@ -51,7 +51,7 @@ export const DeleteMaterial = ({ material }: MaterialActionProps) => {
   const handle = () => {
     addModal({
       title: "Удаление урока",
-      description: `Вы действительно хотите удалить урок ${material.title}`,
+      description: `Вы действительно хотите удалить урок "${material.title}"`,
       buttons: <ConfirmDelete material={material} />,
     });
   };

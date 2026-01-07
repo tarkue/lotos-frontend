@@ -29,7 +29,7 @@ export const ApplicationList = ({
 }: {
   applications: CourseApplicationResponseDTO[];
 }) => {
-  applications = applications?.filter((a) => a.status === "pending");
+  applications = applications?.filter?.((a) => a.status === "pending");
   const users = useMemo(() => applications?.map((a) => a.user), [applications]);
   const action = useMemo(
     () => generateApplicationActions(applications),

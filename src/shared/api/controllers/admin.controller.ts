@@ -9,10 +9,9 @@ import {
 } from "../dto/admin.dto";
 import { MessageResponseDTO } from "../dto/auth.dto";
 import { PaginationParams } from "../dto/common.dto";
-import { RoleType } from "../enum/role-type.enum";
 
 export interface AdminUsersParams extends PaginationParams {
-  role?: RoleType | null;
+  role?: string | null;
   search?: string | null;
 }
 
@@ -20,13 +19,13 @@ export class AdminClient extends BaseClient {
   constructor(baseURL?: string) {
     super(baseURL);
 
-    this.changeUserRole.bind(this);
-    this.deleteUser.bind(this);
-    this.getStatistics.bind(this);
-    this.updateUser.bind(this);
-    this.getUser.bind(this);
-    this.getUsers.bind(this);
-    this.createUser.bind(this);
+    this.changeUserRole = this.changeUserRole.bind(this);
+    this.deleteUser = this.deleteUser.bind(this);
+    this.getStatistics = this.getStatistics.bind(this);
+    this.updateUser = this.updateUser.bind(this);
+    this.getUser = this.getUser.bind(this);
+    this.getUsers = this.getUsers.bind(this);
+    this.createUser = this.createUser.bind(this);
   }
 
   async createUser(data: CreateUserRequestDTO): Promise<UserListResponseDTO> {
@@ -34,10 +33,16 @@ export class AdminClient extends BaseClient {
   }
 
   async getUsers(
-    params?: AdminUsersParams
+    params?: AdminUsersParams,
+    options?: {
+      accessToken?: string;
+    }
   ): Promise<PaginatedUsersResponseDTO> {
     return await this.get<PaginatedUsersResponseDTO>("/admin/users", {
       params,
+      headers: {
+        Authorization: `Bearer ${options?.accessToken}`,
+      },
     });
   }
 

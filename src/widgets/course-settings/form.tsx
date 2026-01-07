@@ -1,6 +1,6 @@
 "use client";
 
-import { Course } from "@/src/entity/course";
+import { CourseProps } from "@/src/entity/course";
 import { api } from "@/src/shared/api";
 import { createFieldProps } from "@/src/shared/libs/form-utils";
 import { Button } from "@/src/shared/ui/button";
@@ -22,7 +22,11 @@ const { useAppForm } = createFormHook({
   formContext,
 });
 
-export const CourseSettingsForm = ({ course }: { course: Course }) => {
+export const CourseSettingsForm = ({
+  course,
+  action,
+}: CourseProps & { action?: React.FC<CourseProps> }) => {
+  const Act = action;
   const form = useAppForm({
     defaultValues: {
       title: course.title,
@@ -78,12 +82,14 @@ export const CourseSettingsForm = ({ course }: { course: Course }) => {
           )}
         />
       </div>
-
-      <form.AppForm>
-        <form.Button type="submit" size="large" className="w-min">
-          Изменить
-        </form.Button>
-      </form.AppForm>
+      <div className="flex gap-1">
+        <form.AppForm>
+          <form.Button type="submit" size="large" className="w-min">
+            Изменить
+          </form.Button>
+        </form.AppForm>
+        {Act && <Act course={course} />}
+      </div>
     </form>
   );
 };

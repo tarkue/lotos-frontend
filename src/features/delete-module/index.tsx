@@ -41,7 +41,7 @@ export const DeleteModule: React.FC<ModuleProps> = ({ module }) => {
   const handle = () => {
     addModal({
       title: "Удаление модуля",
-      description: `Вы действительно хотите удалить модуль ${module.title}?`,
+      description: `Вы действительно хотите удалить модуль "${module.title}"?`,
       buttons: <DeleteModuleConfirm module={module} />,
     });
   };

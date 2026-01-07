@@ -2,13 +2,19 @@
 import { Course } from "@/src/entity/course";
 import { getFullName, UserProps } from "@/src/entity/user";
 import { api } from "@/src/shared/api";
+import { EditorResponseDTO } from "@/src/shared/api/dto/teacher.dto";
 import { Button } from "@/src/shared/ui/button";
 import { Icon } from "@/src/shared/ui/icon";
 import { useModals } from "@/src/shared/ui/modal";
+import { useRouter } from "next/navigation";
 
-export const generateDeleteFromCourse = (course: Course) => {
+export const generateDeleteFromCourse = (
+  course: Course,
+  editors: EditorResponseDTO[]
+) => {
   const TeacherAction: React.FC<UserProps> = ({ user }) => {
-    const { addModal } = useModals();
+    const { addModal, clear } = useModals();
+    const router = useRouter();
     const deleteFromCourse = async () => {
       addModal({
         title: "Разжалование редактора",
@@ -20,10 +26,17 @@ export const generateDeleteFromCourse = (course: Course) => {
             variant="primary"
             size="large"
             onClick={async () => {
-              await api.teacher.removeEditor(course.id, user.id);
+              const editor = editors.find((el) => el.user.id === user.id)?.id;
+
+              if (editor === undefined) {
+                return;
+              }
+              await api.teacher.removeEditor(course.id, editor);
+              router.refresh();
+              clear();
             }}
           >
-            Отчислить
+            Разжаловать
           </Button>
         ),
       });
