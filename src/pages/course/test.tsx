@@ -1,4 +1,5 @@
 import { TestContent } from "@/src/entity/test";
+import { TestFinished } from "@/src/features/test-finished";
 import { TestFormWrapper } from "@/src/features/test-form/ui/test-form-wrapper";
 import { api } from "@/src/shared/api";
 import { formatEndpoint } from "@/src/shared/libs/endpoint";
@@ -16,10 +17,7 @@ export async function startTest(slug: [number, number, number, number]) {
     const attmpts = await sfwr(api.student.getMyTestAttempts, ...slug);
 
     const current = attmpts.sort((a) => a.attempt_number)[0];
-
-    if (current.finished_at !== null) {
-      redirect(formatEndpoint(Endpoint.MATERIAL, slug.slice(0, -1)));
-    }
+    console.log(current);
     return current;
   } catch (error) {
     console.log(error);
@@ -43,8 +41,14 @@ export default async function TestPage({
     number,
     number
   ];
-  const { started_at, id } = await startTest(ids);
+  const { started_at, id, finished_at, score } = await startTest(ids);
   const test = await getTest(ids);
+
+  if (finished_at !== null && finished_at !== undefined) {
+    return (
+      <TestFinished score={score ? score : null} finished_at={finished_at} />
+    );
+  }
 
   return (
     <TestFormWrapper

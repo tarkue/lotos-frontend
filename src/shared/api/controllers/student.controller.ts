@@ -244,13 +244,18 @@ export class StudentClient extends BaseClient {
 
   async getTestResult(
     attemptId: number,
-    access_token: string
+    access_token?: string
   ): Promise<TestResultResponseDTO> {
-    return await this.get(`/students/test-attempts/${attemptId}/result`, {
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-      },
-    });
+    return await this.get(
+      `/students/test-attempts/${attemptId}/result`,
+      access_token
+        ? {
+            headers: {
+              Authorization: `Bearer ${access_token}`,
+            },
+          }
+        : undefined
+    );
   }
 
   async getMyTestAttempts(

@@ -1,3 +1,4 @@
+"use client";
 import { TestProps } from "@/src/entity/test";
 import { CountDownTimer } from "@/src/features/countdown-timer";
 import { secondsToTime } from "@/src/shared/libs/time";
