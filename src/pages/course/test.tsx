@@ -17,7 +17,6 @@ export async function startTest(slug: [number, number, number, number]) {
     const attmpts = await sfwr(api.student.getMyTestAttempts, ...slug);
 
     const current = attmpts.sort((a) => a.attempt_number)[0];
-    console.log(current);
     return current;
   } catch (error) {
     console.log(error);

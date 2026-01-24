@@ -43,7 +43,7 @@ export class StudentClient extends BaseClient {
 
   // Courses Catalog
   async getCoursesCatalog(
-    params?: CoursesCatalogParams
+    params?: CoursesCatalogParams,
   ): Promise<PaginatedCoursesResponseDTO> {
     return await this.get("/students/courses", { params });
   }
@@ -53,7 +53,7 @@ export class StudentClient extends BaseClient {
   }
 
   async applyForCourse(
-    courseId: number
+    courseId: number,
   ): Promise<CourseApplicationResponseDTO> {
     return await this.post(`/students/courses/${courseId}/apply`);
   }
@@ -79,7 +79,7 @@ export class StudentClient extends BaseClient {
               Authorization: `Bearer ${options.accessToken}`,
             },
           }
-        : undefined
+        : undefined,
     );
   }
 
@@ -87,7 +87,7 @@ export class StudentClient extends BaseClient {
     courseId: number,
     options?: {
       accessToken?: string;
-    }
+    },
   ): Promise<EnrolledCourseDetailResponseDTO> {
     return await this.get(
       `/students/my-courses/${courseId}`,
@@ -97,7 +97,7 @@ export class StudentClient extends BaseClient {
               Authorization: `Bearer ${options.accessToken}`,
             },
           }
-        : undefined
+        : undefined,
     );
   }
 
@@ -106,7 +106,7 @@ export class StudentClient extends BaseClient {
     moduleId: number,
     options?: {
       accessToken?: string;
-    }
+    },
   ): Promise<ModuleWithMaterialsResponse> {
     return await this.get(
       `/students/my-courses/${courseId}/modules/${moduleId}`,
@@ -116,7 +116,7 @@ export class StudentClient extends BaseClient {
               Authorization: `Bearer ${options.accessToken}`,
             },
           }
-        : undefined
+        : undefined,
     );
   }
 
@@ -126,7 +126,7 @@ export class StudentClient extends BaseClient {
     materialId: number,
     options?: {
       accessToken?: string;
-    }
+    },
   ): Promise<MaterialDetailForStudentDTO> {
     return await this.get(
       `/students/my-courses/${courseId}/modules/${moduleId}/materials/${materialId}`,
@@ -136,17 +136,17 @@ export class StudentClient extends BaseClient {
               Authorization: `Bearer ${options.accessToken}`,
             },
           }
-        : undefined
+        : undefined,
     );
   }
 
   async completeMaterial(
     courseId: number,
     moduleId: number,
-    materialId: number
+    materialId: number,
   ): Promise<LessonProgressResponseDTO> {
     return await this.post(
-      `/students/my-courses/${courseId}/modules/${moduleId}/materials/${materialId}/complete`
+      `/students/my-courses/${courseId}/modules/${moduleId}/materials/${materialId}/complete`,
     );
   }
 
@@ -158,7 +158,7 @@ export class StudentClient extends BaseClient {
     testId: number,
     options?: {
       accessToken?: string;
-    }
+    },
   ): Promise<TestForStudentDTO> {
     return await this.get(
       `/students/my-courses/${courseId}/modules/${moduleId}/materials/${materialId}/tests/${testId}`,
@@ -168,7 +168,7 @@ export class StudentClient extends BaseClient {
               Authorization: `Bearer ${options?.accessToken}`,
             },
           }
-        : undefined
+        : undefined,
     );
   }
 
@@ -179,7 +179,7 @@ export class StudentClient extends BaseClient {
     testId: number,
     options?: {
       accessToken?: string;
-    }
+    },
   ): Promise<TestAttemptResponseDTO> {
     return await this.post(
       `/students/my-courses/${courseId}/modules/${moduleId}/materials/${materialId}/tests/${testId}/start`,
@@ -190,7 +190,7 @@ export class StudentClient extends BaseClient {
               Authorization: `Bearer ${options?.accessToken}`,
             },
           }
-        : undefined
+        : undefined,
     );
   }
 
@@ -200,11 +200,11 @@ export class StudentClient extends BaseClient {
     materialId: number,
     testId: number,
     attemptId: number,
-    data: SubmitAnswerRequestDTO
+    data: SubmitAnswerRequestDTO,
   ): Promise<QuestionAttemptResponseDTO> {
     return await this.post(
       `/students/my-courses/${courseId}/modules/${moduleId}/materials/${materialId}/tests/${testId}/attempts/${attemptId}/answer`,
-      data
+      data,
     );
   }
 
@@ -215,10 +215,10 @@ export class StudentClient extends BaseClient {
     testId: number,
     attemptId: number,
     data: SubmitAnswerRequestDTO[],
-    access_token: string
+    access_token: string,
   ): Promise<TestAttemptWithBlockResponseDTO> {
     return await this.post(
-      `/students/my-courses/${courseId}/modules/${moduleId}/materials/${materialId}/tests/${testId}/attempts/${attemptId}/submit-all`,
+      `/students/my-courses/${courseId}/modules/${moduleId}/materials/${materialId}/tests/${testId}/attempts/${attemptId}/submit-with-feedback`,
       {
         answers: data,
       },
@@ -226,7 +226,7 @@ export class StudentClient extends BaseClient {
         headers: {
           Authorization: `Bearer ${access_token}`,
         },
-      }
+      },
     );
   }
 
@@ -235,16 +235,16 @@ export class StudentClient extends BaseClient {
     moduleId: number,
     materialId: number,
     testId: number,
-    attemptId: number
+    attemptId: number,
   ): Promise<TestAttemptWithBlockResponseDTO> {
     return await this.post(
-      `/students/my-courses/${courseId}/modules/${moduleId}/materials/${materialId}/tests/${testId}/attempts/${attemptId}/finish`
+      `/students/my-courses/${courseId}/modules/${moduleId}/materials/${materialId}/tests/${testId}/attempts/${attemptId}/finish`,
     );
   }
 
   async getTestResult(
     attemptId: number,
-    access_token?: string
+    access_token?: string,
   ): Promise<TestResultResponseDTO> {
     return await this.get(
       `/students/test-attempts/${attemptId}/result`,
@@ -254,7 +254,7 @@ export class StudentClient extends BaseClient {
               Authorization: `Bearer ${access_token}`,
             },
           }
-        : undefined
+        : undefined,
     );
   }
 
@@ -265,7 +265,7 @@ export class StudentClient extends BaseClient {
     testId: number,
     options?: {
       accessToken?: string;
-    }
+    },
   ): Promise<MyTestAttemptSummaryDTO[]> {
     return await this.get(
       `/students/my-courses/${courseId}/modules/${moduleId}/materials/${materialId}/tests/${testId}/attempts`,
@@ -275,7 +275,7 @@ export class StudentClient extends BaseClient {
               Authorization: `Bearer ${options?.accessToken}`,
             },
           }
-        : undefined
+        : undefined,
     );
   }
 }

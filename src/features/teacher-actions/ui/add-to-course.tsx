@@ -76,7 +76,6 @@ const AdditionalList = ({
         <ScrollArea className="w-full overflow-y-hidden">
           <div className="flex flex-col gap-2 w-full">
             {data?.users.map((el, i) => {
-              console.log(el.id);
               return (
                 <div key={i} className="flex w-full items-center gap-1">
                   <CheckboxField

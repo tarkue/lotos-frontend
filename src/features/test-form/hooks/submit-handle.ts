@@ -13,7 +13,7 @@ export const useSubmitTestComplete = (
   courseId: number,
   moduleId: number,
   materialId: number,
-  attemptId: number
+  attemptId: number,
 ) => {
   const router = useRouter();
   return async (formData: FormData) => {
@@ -78,58 +78,52 @@ export const useSubmitTestComplete = (
         test.id,
         attemptId,
         data,
-        access_token
+        access_token,
       );
-
-      const res = await api.student.getTestResult(attemptId, access_token);
-
       if (submit.blocked) {
         toast({
-          title: `Ваш результат ${res.score}/100`,
-          description: `Попробуйте повторить урок. Тест разблокируется через ${(
+          title: `Ваш результат ${submit.score}/100`,
+          description: `Тест разблокируется через ${(
             (Number(new Date()) -
               Number(new Date(submit.blocked_until as string))) /
             1000 /
             60 /
             60
-          ).toFixed(0)} минут.`,
-          variant: "warning",
+          ).toFixed(0)} минут. ${submit.feedback_text}`,
+          variant: "neuro",
+          duration: 1000000,
         });
         router.push(
-          formatEndpoint(Endpoint.MATERIAL, [courseId, moduleId, materialId])
+          formatEndpoint(Endpoint.MATERIAL, [courseId, moduleId, materialId]),
         );
       }
 
-      if (res.passed) {
-        if (submit.message) {
+      if (submit.passed) {
+        if (submit.feedback_text) {
           toast({
-            title: `Ваш результат ${res.score}/100`,
-            description: res.questions_results
-              .filter((el) => !el.is_correct || el.hint_text === null)
-              .map(
-                (el) =>
-                  `К заданию '${el.question_text}' подсказка: ${el.hint_text}`
-              )
-              .join("\n"),
+            title: `Ваш результат ${submit.score}/100`,
+            description: submit.feedback_text,
             variant: "neuro",
+            duration: 1000000,
           });
         } else {
           toast({
-            title: `Ваш результат ${res.score}/100`,
+            title: `Ваш результат ${submit.score}/100`,
             description: "Доступ к следущему урок открыт.",
             variant: "success",
           });
         }
       } else {
         toast({
-          title: `Ваш результат ${res.score}/100`,
-          description: "Тест не пройден.",
+          title: `Ваш результат ${submit.score}/100`,
+          description: `Тест не пройден. ${submit.feedback_text ? submit.feedback_text : ""}`,
           variant: "warning",
         });
       }
-    } catch {
+    } catch (error) {
+      console.log(error);
       router.push(
-        formatEndpoint(Endpoint.MATERIAL, [courseId, moduleId, materialId])
+        formatEndpoint(Endpoint.MATERIAL, [courseId, moduleId, materialId]),
       );
     }
   };

@@ -38,7 +38,6 @@ export const TestFinished = ({
         }.`,
         variant: "neuro",
       });
-      console.log(pathname?.slice(0, pathname.length - 2));
       router.push(pathname?.slice(0, pathname.length - 2));
     }
   }, [pathname, router, score, blockedUntilTime]);

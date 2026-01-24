@@ -169,6 +169,7 @@ export interface TestAttemptWithBlockResponseDTO {
   blocked_until?: string | null;
   current_question_id?: number | null;
   blocked: boolean;
+  feedback_text?: string;
   consecutive_fails: number;
   message?: string | null;
 }
