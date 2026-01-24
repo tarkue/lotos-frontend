@@ -1,5 +1,6 @@
 "use client";
 import { TestProps } from "@/src/entity/test";
+import { useState } from "react";
 import { useSubmitTestComplete } from "../hooks/submit-handle";
 import { CompleteTestButton } from "./complete";
 
@@ -22,8 +23,9 @@ export const TestFormWrapper = ({
     courseId,
     moduleId,
     materialId,
-    attemptId
+    attemptId,
   );
+  const [loading, setLoading] = useState(false);
 
   return (
     <form
@@ -31,11 +33,14 @@ export const TestFormWrapper = ({
       onSubmit={async (e) => {
         e.preventDefault();
         e.stopPropagation();
+        setLoading(true);
         await submit(new FormData(e.currentTarget));
+        setLoading(false);
       }}
     >
       {children}
-      <CompleteTestButton />
+
+      <CompleteTestButton disable={loading} />
     </form>
   );
 };

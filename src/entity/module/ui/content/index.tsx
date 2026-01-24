@@ -12,7 +12,7 @@ export const ModuleContent = forwardRef<HTMLDivElement, ModuleContentProps>(
         ref={ref}
         className={cn(
           "bg-base-100 border border-base-200 p-5 flex flex-col items-center gap-3 rounded-[14px] group md:h-min",
-          className
+          className,
         )}
         {...props}
       >
@@ -50,6 +50,6 @@ export const ModuleContent = forwardRef<HTMLDivElement, ModuleContentProps>(
         )}
       </div>
     );
-  }
+  },
 );
 ModuleContent.displayName = "ModuleContent";

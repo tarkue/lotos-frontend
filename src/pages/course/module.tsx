@@ -70,10 +70,10 @@ export async function ModulePage({
   const currentMaterial =
     slug[2] !== undefined
       ? moduleFromCourse.materials?.find(
-          (el) => el.id === Number.parseInt(slug[2] as string)
+          (el) => el.id === Number.parseInt(slug[2] as string),
         )
       : moduleFromCourse.materials?.find(
-          (el) => el.position === moduleFromCourse.position
+          (el) => el.position === moduleFromCourse.position,
         );
 
   if (
@@ -86,7 +86,7 @@ export async function ModulePage({
         moduleFromCourse.course_id,
         moduleFromCourse.id,
         currentMaterial?.id,
-      ])
+      ]),
     );
   }
 
@@ -95,7 +95,7 @@ export async function ModulePage({
   }
 
   const nextMaterial = moduleFromCourse.materials?.find(
-    (el) => el.position === currentMaterial.position + 1
+    (el) => el.position === currentMaterial.position + 1,
   );
 
   return (

@@ -5,8 +5,11 @@ import { SubmitAnswerRequestDTO } from "@/src/shared/api/dto/student.dto";
 import { getClientSideCookie } from "@/src/shared/libs/cookie";
 import { formatEndpoint } from "@/src/shared/libs/endpoint";
 import { Endpoint } from "@/src/shared/models/endpoint-enum";
+import { useModals } from "@/src/shared/ui/modal";
 import { toast } from "@/src/shared/ui/toast";
+import { ToastAction } from "@/src/shared/ui/toast/toast";
 import { useRouter } from "next/navigation";
+import { WrapperText } from "./wrapper-text";
 
 export const useSubmitTestComplete = (
   test: Test,
@@ -16,6 +19,7 @@ export const useSubmitTestComplete = (
   attemptId: number,
 ) => {
   const router = useRouter();
+  const { addModal } = useModals();
   return async (formData: FormData) => {
     const data: SubmitAnswerRequestDTO[] = [];
 
@@ -80,6 +84,26 @@ export const useSubmitTestComplete = (
         data,
         access_token,
       );
+
+      const action =
+        submit.feedback_text && submit.feedback_text.length > 250
+          ? {
+              action: (
+                <ToastAction
+                  altText="Посмотреть весь ответ нейросети"
+                  onClick={() => {
+                    addModal({
+                      title: "Полный ответ",
+                      fields: <WrapperText content={submit.feedback_text!} />,
+                    });
+                  }}
+                >
+                  Посмотреть весь ответ нейросети
+                </ToastAction>
+              ),
+            }
+          : {};
+
       if (submit.blocked) {
         toast({
           title: `Ваш результат ${submit.score}/100`,
@@ -92,6 +116,7 @@ export const useSubmitTestComplete = (
           ).toFixed(0)} минут. ${submit.feedback_text}`,
           variant: "neuro",
           duration: 1000000,
+          ...action,
         });
         router.push(
           formatEndpoint(Endpoint.MATERIAL, [courseId, moduleId, materialId]),
@@ -102,9 +127,12 @@ export const useSubmitTestComplete = (
         if (submit.feedback_text) {
           toast({
             title: `Ваш результат ${submit.score}/100`,
-            description: submit.feedback_text,
+            description: submit.feedback_text
+              ? submit.feedback_text.slice(0, 250) + "..."
+              : undefined,
             variant: "neuro",
             duration: 1000000,
+            ...action,
           });
         } else {
           toast({
@@ -116,8 +144,10 @@ export const useSubmitTestComplete = (
       } else {
         toast({
           title: `Ваш результат ${submit.score}/100`,
-          description: `Тест не пройден. ${submit.feedback_text ? submit.feedback_text : ""}`,
-          variant: "warning",
+          description: `Тест не пройден. ${submit.feedback_text ? submit.feedback_text.slice(0, 250) + "..." : ""}`,
+          variant: "neuro",
+          duration: 1000000,
+          ...action,
         });
       }
     } catch (error) {
