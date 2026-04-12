@@ -39,7 +39,11 @@ export class ApiClient {
   public ai: AIClient;
   public course: CourseClient;
 
+<<<<<<< HEAD
   constructor(baseURL: string = DEFAULT_API_BASE_URL) {
+=======
+  constructor(baseURL: string = process.env.NEXT_PUBLIC_API!) {
+>>>>>>> a5304cfe6f94fe8689819d657e06c60b48ee0791
     this.baseURL = baseURL;
     this.auth = new AuthClient(baseURL);
     this.users = new UsersClient(baseURL);
