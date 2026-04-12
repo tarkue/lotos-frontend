@@ -19,7 +19,7 @@ export class ApiClient {
   public ai: AIClient;
   public course: CourseClient;
 
-  constructor(baseURL: string = process.env.NEXT_PUBLIC_API + "/api") {
+  constructor(baseURL: string = process.env.NEXT_PUBLIC_API!) {
     this.baseURL = baseURL;
     this.auth = new AuthClient(baseURL);
     this.users = new UsersClient(baseURL);
