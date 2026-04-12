@@ -8,6 +8,26 @@ import { TestClient } from "./controllers/test.controller";
 import { UsersClient } from "./controllers/user.controller";
 import { TokenPair } from "./models/token.model";
 
+const DEFAULT_API_BASE_URL = "/api";
+
+declare const process: {
+  env: {
+    NEXT_PUBLIC_API?: string;
+    SERVER_API_URL?: string;
+  };
+};
+
+const resolveApiBaseUrl = (): string => {
+  const publicApiUrl = process.env.NEXT_PUBLIC_API;
+  const serverApiUrl = process.env.SERVER_API_URL ?? publicApiUrl;
+
+  if (typeof window === "undefined") {
+    return serverApiUrl ?? DEFAULT_API_BASE_URL;
+  }
+
+  return publicApiUrl ?? serverApiUrl ?? DEFAULT_API_BASE_URL;
+};
+
 export class ApiClient {
   private baseURL: string;
   public auth: AuthClient;
@@ -19,7 +39,7 @@ export class ApiClient {
   public ai: AIClient;
   public course: CourseClient;
 
-  constructor(baseURL: string = process.env.NEXT_PUBLIC_API + "/api") {
+  constructor(baseURL: string = DEFAULT_API_BASE_URL) {
     this.baseURL = baseURL;
     this.auth = new AuthClient(baseURL);
     this.users = new UsersClient(baseURL);
@@ -76,5 +96,4 @@ export class ApiClient {
   }
 }
 
-console.log(process.env.NEXT_PUBLIC_API);
-export const api = new ApiClient(process.env.NEXT_PUBLIC_API);
+export const api = new ApiClient(resolveApiBaseUrl());
