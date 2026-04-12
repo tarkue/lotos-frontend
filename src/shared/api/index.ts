@@ -76,4 +76,5 @@ export class ApiClient {
   }
 }
 
-export const api = new ApiClient(process.env.NEXT_PUBLIC_API_URL);
+console.log(process.env.NEXT_PUBLIC_API);
+export const api = new ApiClient(process.env.NEXT_PUBLIC_API);
