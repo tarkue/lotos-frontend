@@ -19,7 +19,7 @@ export const UserList = () => {
     queryKey: ["allUsers", search],
     queryFn: () =>
       api.admin.getUsers({
-        role: "students",
+        role: "student",
         search: search !== "" ? search : undefined,
       }),
   });

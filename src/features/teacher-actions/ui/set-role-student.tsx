@@ -21,7 +21,7 @@ export const SetRoleStudent: React.FC<UserProps> = ({ user }) => {
           size="large"
           onClick={async () => {
             await api.admin.updateUser(user.id, {
-              role: "students",
+              role: "student",
             });
             clear();
             router.refresh();
