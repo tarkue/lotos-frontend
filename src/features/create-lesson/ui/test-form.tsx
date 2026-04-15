@@ -4,6 +4,7 @@ import { ModuleProps } from "@/src/entity/module";
 import { QuestionField } from "@/src/entity/question";
 import { api } from "@/src/shared/api";
 import { QuestionType } from "@/src/shared/api/enum/question-type.enum";
+import { TestResponseDTO } from "@/src/shared/api/dto/test.dto";
 import { formatEndpoint } from "@/src/shared/libs/endpoint";
 import { Endpoint } from "@/src/shared/models/endpoint-enum";
 import { Button } from "@/src/shared/ui/button";
@@ -14,7 +15,7 @@ import { AsyncSelect } from "@/src/shared/ui/select";
 import { Pair } from "@/src/shared/ui/select/pair";
 import { toast } from "@/src/shared/ui/toast";
 import { useRouter } from "next/navigation";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState, useEffect } from "react";
 import { loadMaterials } from "../api/load-material";
 
 export interface Question {
@@ -27,9 +28,20 @@ export interface Question {
 
 type Mode = "init" | "ai" | "hand";
 
-export const AddTestForm = ({ module }: ModuleProps) => {
+interface AddTestFormProps extends ModuleProps {
+  editMode?: boolean;
+  existingTest?: {
+    id: number;
+    num_questions: number;
+    time_limit_seconds?: number | null;
+    material_id?: number | null;
+  };
+  onSuccess?: () => void;
+}
+
+export const AddTestForm = ({ module, editMode = false, existingTest, onSuccess }: AddTestFormProps) => {
   const loadMaterialForModule = loadMaterials(module.course_id, module.id);
-  const [mode, setMode] = useState<Mode>("init");
+  const [mode, setMode] = useState<Mode>(editMode ? "hand" : "init");
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const { clear } = useModals();
@@ -39,7 +51,49 @@ export const AddTestForm = ({ module }: ModuleProps) => {
   const [testId, setTestId] = useState<number>();
   const [answersCount, setAnswersCount] = useState<number>();
   const [time, setTime] = useState<number>();
+  useEffect(() => {
+    if (editMode && existingTest && existingTest.material_id) {
+      // Загружаем данные существующего теста
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setTestId(existingTest.id);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setAnswersCount(existingTest.num_questions);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setTime(Math.ceil((existingTest.time_limit_seconds || 0) / 60));
 
+      // Находим материал
+      const material = module.materials?.find(m => m.id === existingTest.material_id);
+      if (material && material.title) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setMaterialIdPair({ label: material.title, value: material.id.toString() });
+      }
+
+      // Загружаем вопросы теста
+      api.test.getTest(module.course_id, module.id, existingTest.material_id, existingTest.id)
+        .then(testData => {
+          if (testData.questions) {
+            const loadedQuestions: Question[] = testData.questions.map(q => ({
+              title: q.text,
+              fields: q.options.map(o => ({
+                title: o.content,
+                isTrue: o.is_correct,
+              })),
+            }));
+            setQuestions(loadedQuestions);
+            // eslint-disable-next-line react-hooks/set-state-in-effect
+            setCurrentQuestionIndex(0); // Устанавливаем индекс на первый вопрос
+          }
+        })
+        .catch(error => {
+          console.error("Ошибка загрузки теста:", error);
+          toast({
+            title: "Ошибка загрузки",
+            description: "Не удалось загрузить данные теста",
+            variant: "warning",
+          });
+        });
+    }
+  }, [editMode, existingTest, module]);
   const createEmptyQuestion = useCallback((): Question => ({
     title: "",
     fields: Array(4)
@@ -206,7 +260,7 @@ export const AddTestForm = ({ module }: ModuleProps) => {
   );
 
   const handleNext = () => {
-    if (currentQuestionIndex + 1 >= answersCount!) return;
+    if (!answersCount || currentQuestionIndex + 1 >= answersCount) return;
 
     const nextIndex = currentQuestionIndex + 1;
     if (!questions[nextIndex]) {
@@ -217,6 +271,11 @@ export const AddTestForm = ({ module }: ModuleProps) => {
 
   const handleBack = () => {
     if (currentQuestionIndex === 0) {
+      if (editMode) {
+        // В режиме редактирования возвращаемся к списку действий
+        clear();
+        return;
+      }
       setMode("init");
       return;
     }
@@ -225,7 +284,7 @@ export const AddTestForm = ({ module }: ModuleProps) => {
 
   const handleSave = async () => {
     try {
-      toast({ title: "Сохранение теста..." });
+      toast({ title: editMode ? "Обновление теста..." : "Сохранение теста..." });
 
       const materialId = parseInt(materialIdPair!.value);
 
@@ -258,47 +317,158 @@ export const AddTestForm = ({ module }: ModuleProps) => {
         }
       }
 
-      for (const [index, question] of questions.entries()) {
-        const validAnswers = question.fields.filter((f) => f.title.trim());
-        const type =
-          validAnswers.filter((f) => f.isTrue).length > 1
-            ? QuestionType.MULTIPLE
-            : QuestionType.SINGLE;
+      if (editMode && existingTest) {
+        // Режим редактирования - обновляем существующие вопросы
+        const currentTestData = await api.test.getTest(module.course_id, module.id, materialId, testId!);
 
-        await api.test.createQuestion(
+        // Удаляем вопросы, которые больше не существуют
+        if (currentTestData.questions) {
+          for (const existingQuestion of currentTestData.questions) {
+            const questionStillExists = questions.some(q => q.title === existingQuestion.text);
+            if (!questionStillExists) {
+              await api.test.deleteQuestion(
+                module.course_id,
+                module.id,
+                materialId,
+                testId!,
+                existingQuestion.id
+              );
+            }
+          }
+        }
+
+        // Обновляем или создаем вопросы
+        for (const [index, question] of questions.entries()) {
+          const validAnswers = question.fields.filter((f) => f.title.trim());
+          const type =
+            validAnswers.filter((f) => f.isTrue).length > 1
+              ? QuestionType.MULTIPLE
+              : QuestionType.SINGLE;
+
+          const existingQuestion = currentTestData.questions?.find(q => q.text === question.title);
+
+          if (existingQuestion) {
+            // Обновляем существующий вопрос
+            await api.test.updateQuestion(
+              module.course_id,
+              module.id,
+              materialId,
+              testId!,
+              existingQuestion.id,
+              {
+                text: question.title,
+                type,
+                position: index + 1,
+              }
+            );
+
+            // Удаляем старые опции и добавляем новые
+            for (const existingOption of existingQuestion.options) {
+              await api.test.deleteAnswerOption(
+                module.course_id,
+                module.id,
+                materialId,
+                testId!,
+                existingQuestion.id,
+                existingOption.id
+              );
+            }
+
+            // Добавляем новые опции
+            for (const answer of validAnswers) {
+              await api.test.addAnswerOption(
+                module.course_id,
+                module.id,
+                materialId,
+                testId!,
+                existingQuestion.id,
+                {
+                  content: answer.title,
+                  is_correct: answer.isTrue,
+                }
+              );
+            }
+          } else {
+            // Создаем новый вопрос
+            await api.test.createQuestion(
+              module.course_id,
+              module.id,
+              materialId,
+              testId!,
+              {
+                text: question.title,
+                type,
+                position: index + 1,
+                options: validAnswers.map((q) => ({
+                  content: q.title,
+                  is_correct: q.isTrue,
+                })),
+              }
+            );
+          }
+        }
+
+        // Обновляем настройки теста
+        await api.test.updateTest(
           module.course_id,
           module.id,
           materialId,
           testId!,
           {
-            text: question.title,
-            type,
-            position: index + 1,
-            options: validAnswers.map((q) => ({
-              content: q.title,
-              is_correct: q.isTrue,
-            })),
+            num_questions: answersCount!,
+            time_limit_seconds: time! * 60,
+            status: "published"
           }
         );
-      }
+      } else {
+        // Режим создания - создаем новые вопросы
+        for (const [index, question] of questions.entries()) {
+          const validAnswers = question.fields.filter((f) => f.title.trim());
+          const type =
+            validAnswers.filter((f) => f.isTrue).length > 1
+              ? QuestionType.MULTIPLE
+              : QuestionType.SINGLE;
 
-      await api.test.updateTest(
-        module.course_id,
-        module.id,
-        materialId,
-        testId!,
-        { status: "published" }
-      );
+          await api.test.createQuestion(
+            module.course_id,
+            module.id,
+            materialId,
+            testId!,
+            {
+              text: question.title,
+              type,
+              position: index + 1,
+              options: validAnswers.map((q) => ({
+                content: q.title,
+                is_correct: q.isTrue,
+              })),
+            }
+          );
+        }
 
-      toast({ title: "Тест сохранён ✅" });
-      clear();
-      router.push(
-        formatEndpoint(Endpoint.MATERIAL, [
+        await api.test.updateTest(
           module.course_id,
           module.id,
           materialId,
-        ])
-      );
+          testId!,
+          { status: "published" }
+        );
+      }
+
+      toast({ title: editMode ? "Тест обновлен ✅" : "Тест сохранён ✅" });
+
+      if (onSuccess) {
+        onSuccess();
+      } else {
+        clear();
+        router.push(
+          formatEndpoint(Endpoint.MATERIAL, [
+            module.course_id,
+            module.id,
+            materialId,
+          ])
+        );
+      }
     } catch (error) {
       console.error("Ошибка при сохранении теста:", error);
       toast({
@@ -309,7 +479,7 @@ export const AddTestForm = ({ module }: ModuleProps) => {
     }
   };
 
-  if (mode === "init") {
+  if (mode === "init" && !editMode) {
     return (
       <div className="flex flex-col gap-4 max-w-xl">
         <div className="flex flex-col gap-1">
@@ -388,8 +558,10 @@ export const AddTestForm = ({ module }: ModuleProps) => {
           Назад
         </Button>
 
-        {currentQuestionIndex + 1 === answersCount ? (
-          <Button onClick={handleSave}>Сохранить</Button>
+        {answersCount && currentQuestionIndex + 1 === answersCount ? (
+          <Button onClick={handleSave}>
+            {editMode ? "Обновить тест" : "Сохранить"}
+          </Button>
         ) : (
           <Button onClick={handleNext}>Далее</Button>
         )}

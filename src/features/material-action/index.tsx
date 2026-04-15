@@ -5,6 +5,7 @@ import { MaterialActionProps } from "./models/material-action";
 import { MaterialComplete } from "./ui/complete";
 import { DeleteMaterial } from "./ui/delete";
 import { DeleteTest } from "./ui/delete-test";
+import { EditTest } from "./ui/edit-test";
 import { StartTest } from "./ui/start-test";
 import { UpdateMaterial } from "./ui/update-material";
 
@@ -20,6 +21,7 @@ export const MaterialAction = (props: MaterialActionProps) => {
     return (
       <div className="w-full flex justify-end gap-2 flex-col md:flex-row">
         <DeleteTest material={props.material} />
+        <EditTest material={props.material} />
         <UpdateMaterial {...props} />
         <DeleteMaterial {...props} />
       </div>
