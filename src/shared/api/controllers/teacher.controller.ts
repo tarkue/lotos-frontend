@@ -309,7 +309,8 @@ export class TeacherClient extends BaseClient {
       accessToken?: string;
     }
   ): Promise<CourseApplicationResponseDTO[]> {
-    return await this.get(
+    // 1. Делаем запрос. Типизируем результат как 'any' или создаем интерфейс пагинации
+    const response = await this.get<{ applications: CourseApplicationResponseDTO[] }>(
       `/teacher/courses/${courseId}/applications`,
       options
         ? {
@@ -319,6 +320,10 @@ export class TeacherClient extends BaseClient {
           }
         : undefined
     );
+
+    // 2. Возвращаем только массив заявок, чтобы соответствовать Promise<CourseApplicationResponseDTO[]>
+    // Добавляем проверку на случай, если response или applications не придут
+    return response?.applications || [];
   }
 
   async approveApplication(

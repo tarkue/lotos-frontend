@@ -60,63 +60,64 @@ export default async function SuspensedModulePage({
 export async function ModulePage({
   slug,
 }: {
-  slug:
-    | [string, string]
-    | [string, string, string]
-    | [string, string, string, string];
+  slug: string[];
 }) {
   const moduleFromCourse = await fetchModule([slug[0], slug[1]]);
 
-  const currentMaterial =
-    slug[2] !== undefined
-      ? moduleFromCourse.materials?.find(
-          (el) => el.id === Number.parseInt(slug[2] as string),
-        )
-      : moduleFromCourse.materials?.find(
-          (el) => el.position === moduleFromCourse.position,
-        );
+  // 1. Находим текущий материал (из URL или первый в списке)
+  const currentMaterialId = slug[2] ? Number.parseInt(slug[2]) : null;
+  
+  const sortedMaterials = [...(moduleFromCourse.materials || [])].sort(
+    (a, b) => a.position - b.position
+  );
 
-  if (
-    slug.length === 2 &&
-    currentMaterial &&
-    currentMaterial.id !== undefined
-  ) {
-    redirect(
-      formatEndpoint(Endpoint.MATERIAL, [
-        moduleFromCourse.course_id,
-        moduleFromCourse.id,
-        currentMaterial?.id,
-      ]),
-    );
-  }
+  const currentMaterial = currentMaterialId 
+    ? sortedMaterials.find(m => m.id === currentMaterialId)
+    : sortedMaterials[0]; // По умолчанию первый
 
-  if (!currentMaterial) {
+  if (!currentMaterial && !moduleFromCourse.materials?.length) {
     return <ModuleNotFound module={moduleFromCourse} />;
   }
 
-  const nextMaterial = moduleFromCourse.materials?.find(
-    (el) => el.position === currentMaterial.position + 1,
+  // Определяем следующий материал для кнопки "Вперед"
+  const nextMaterial = sortedMaterials.find(
+    (el) => el.position === (currentMaterial?.position || 0) + 1,
   );
 
   return (
-    <>
-      <div className="flex w-full min-h-full h-full gap-6 flex-col-reverse md:flex-row">
-        {slug.length === 3 && (
+    <div className="flex w-full min-h-full h-full gap-6 flex-col-reverse md:flex-row">
+      {/* ЛЕВАЯ ЧАСТЬ: Контент только ОДНОГО активного материала */}
+      <div className="flex flex-col gap-8 flex-1">
+        {slug.length >= 2 && currentMaterial && (
           <Suspense fallback={<Loader />}>
-            <MaterialPage slug={slug} nextMaterial={nextMaterial} />
+            {/* Рендерим только ОДИН активный урок */}
+            <MaterialPage 
+              slug={[slug[0], slug[1], currentMaterial.id.toString()]} 
+              nextMaterial={nextMaterial}
+            />
           </Suspense>
         )}
+        
+        {/* Если это тест (длина slug 4) */}
         {slug.length === 4 && (
           <Suspense fallback={<Loader />}>
-            <TestPage slug={slug} />
+            <TestPage slug={slug as [string, string, string, string]} />
           </Suspense>
         )}
-        <div className="flex flex-col gap-4 md:sticky md:top-6 h-min">
-          <ModuleContent module={moduleFromCourse} className="w-full md:w-75" />
-          <DeleteModule module={moduleFromCourse} />
-          <TeacherAddLesson module={moduleFromCourse} />
-        </div>
       </div>
-    </>
+
+      {/* ПРАВАЯ ЧАСТЬ: Панель навигации (Сайдбар) */}
+      <div className="flex flex-col gap-4 md:sticky md:top-6 h-min">
+        {/* ModuleContent внутри себя должен содержать список ссылок на материалы */}
+        <ModuleContent 
+          module={moduleFromCourse} 
+          className="w-full md:w-75" 
+        />
+        
+        {/* Кнопки управления для учителя */}
+        <DeleteModule module={moduleFromCourse} />
+        <TeacherAddLesson module={moduleFromCourse} />
+      </div>
+    </div>
   );
 }
