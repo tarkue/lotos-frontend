@@ -24,6 +24,7 @@ export const VideoLessonForm: React.FC<VideoLessonFormProps> = ({
     Array<{ id: number; name: string; file: File }>
   >([]);
   const [isUploading, setIsUploading] = useState(false);
+  const [isDragOver, setIsDragOver] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileSelect = async (files: FileList | null) => {
@@ -74,11 +75,27 @@ export const VideoLessonForm: React.FC<VideoLessonFormProps> = ({
 
   const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
+    e.stopPropagation();
+    if (!isDragOver) {
+      setIsDragOver(true);
+    }
+  };
+
+  const handleDragLeave = (e: DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragOver(false);
   };
 
   const handleDrop = (e: DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    handleFileSelect(e.dataTransfer.files);
+    e.stopPropagation();
+    setIsDragOver(false);
+
+    const files = e.dataTransfer.files;
+    if (files && files.length > 0) {
+      handleFileSelect(files);
+    }
   };
 
   const removeFile = (id: number) => {
@@ -168,14 +185,16 @@ export const VideoLessonForm: React.FC<VideoLessonFormProps> = ({
       {uploadedFiles.length === 0 && (
         <div
           onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
           onDrop={handleDrop}
           style={{
             borderRadius: "24px",
-            border: "2px dashed var(--color-base-200)",
+            border: `2px dashed ${isDragOver ? "var(--color-primary-300)" : "var(--color-base-200)"}`,
+            backgroundColor: isDragOver ? "var(--color-primary-50)" : "transparent",
           }}
           onClick={() => !isUploading && fileInputRef.current?.click()}
           className={cn(
-            "flex flex-col items-center justify-center gap-2 p-8 transition-colors",
+            "flex flex-col items-center justify-center gap-2 p-8 transition-all duration-200",
             isUploading ? "cursor-not-allowed opacity-50" : "cursor-pointer"
           )}
         >
@@ -192,8 +211,10 @@ export const VideoLessonForm: React.FC<VideoLessonFormProps> = ({
             <ClipLoader size={20} color="#6366f1" />
           ) : (
             <span className="text-center text-gray p-4">
-              Нажмите сюда, чтобы загрузить видео, или просто перетащите его
-              сюда
+              {isDragOver
+                ? "Отпустите файлы здесь"
+                : "Нажмите сюда, чтобы загрузить видео, или просто перетащите его сюда"
+              }
             </span>
           )}
         </div>
