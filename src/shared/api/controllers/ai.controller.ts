@@ -17,7 +17,10 @@ export class AIClient extends BaseClient {
   ): Promise<TestWithQuestionsResponseDTO> {
     return await this.post(
       `/ai/courses/${courseId}/modules/${moduleId}/materials/${materialId}/generate-test`,
-      data
+      data,
+      {
+        timeout: 360000, // Увеличиваем таймаут до 120 секунд
+      }
     );
   }
 }

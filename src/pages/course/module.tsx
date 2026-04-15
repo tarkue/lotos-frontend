@@ -85,24 +85,24 @@ export async function ModulePage({
   );
 
   return (
-    <div className="flex w-full min-h-full h-full gap-6 flex-col-reverse md:flex-row">
+    <div className="flex w-full min-h-full h-max gap-6 flex-col-reverse md:flex-row">
       {/* ЛЕВАЯ ЧАСТЬ: Контент только ОДНОГО активного материала */}
       <div className="flex flex-col gap-8 flex-1">
-        {slug.length >= 2 && currentMaterial && (
-          <Suspense fallback={<Loader />}>
-            {/* Рендерим только ОДИН активный урок */}
-            <MaterialPage 
-              slug={[slug[0], slug[1], currentMaterial.id.toString()]} 
-              nextMaterial={nextMaterial}
-            />
-          </Suspense>
-        )}
-        
-        {/* Если это тест (длина slug 4) */}
-        {slug.length === 4 && (
+        {/* Если это тест (длина slug 4) - показываем только тест */}
+        {slug.length === 4 ? (
           <Suspense fallback={<Loader />}>
             <TestPage slug={slug as [string, string, string, string]} />
           </Suspense>
+        ) : (
+          /* Иначе показываем материал */
+          slug.length >= 2 && currentMaterial && (
+            <Suspense fallback={<Loader />}>
+              <MaterialPage 
+                slug={[slug[0], slug[1], currentMaterial.id.toString()]} 
+                nextMaterial={nextMaterial}
+              />
+            </Suspense>
+          )
         )}
       </div>
 

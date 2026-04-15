@@ -5,8 +5,6 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: always
-    environment:
-      SERVER_API_URL: ${SERVER_API_URL:-http://ai_classes_app:8000/api}
     ports:
       - "5000:3000"
     networks:

@@ -2,17 +2,13 @@
 import { cn } from "@/src/shared/libs/utils";
 import { Checkbox } from "@/src/shared/ui/checkbox";
 import { Input } from "@/src/shared/ui/input";
-import { forwardRef, useId, useState } from "react";
+import { forwardRef, useId } from "react";
 
 export const QuestionField = forwardRef<
   HTMLInputElement,
   Omit<React.InputHTMLAttributes<HTMLInputElement>, "size"> & { name?: string }
 >(({ className, checked, name, onChange, ...props }, ref) => {
-  const [check, setCheck] = useState<boolean>(
-    checked === undefined ? false : checked
-  );
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    event.currentTarget.checked = check;
     if (onChange) onChange(event);
   };
   const id = useId();
@@ -30,8 +26,24 @@ export const QuestionField = forwardRef<
         <Checkbox
           id={id + "-checkbox"}
           name={name}
-          checked={check}
-          onChange={(e) => setCheck(e.currentTarget.checked)}
+          checked={checked}
+          onChange={(e) => {
+            // Создаем синтетическое событие для input
+            const syntheticEvent = {
+              ...e,
+              currentTarget: {
+                ...e.currentTarget,
+                value: props.value || "",
+                checked: e.currentTarget.checked,
+              },
+              target: {
+                ...e.currentTarget,
+                value: props.value || "",
+                checked: e.currentTarget.checked,
+              },
+            } as React.ChangeEvent<HTMLInputElement>;
+            if (onChange) onChange(syntheticEvent);
+          }}
         />
       </div>
     </fieldset>

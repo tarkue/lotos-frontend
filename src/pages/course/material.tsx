@@ -45,17 +45,17 @@ export async function MaterialPage({
   const material = await fetchMaterial(slug);
 
   return (
-    <div className="w-full min-h-full h-full flex flex-col">
+    <div className="w-full min-h-full flex flex-col">
       <MaterialContent material={material} />
-      <div className="flex justify-end">
-        <Suspense>
-          <MaterialAction
-            nextMaterial={nextMaterial}
-            material={material}
-            courseId={slug[0]}
-          />
-        </Suspense>
-      </div>
+      <Suspense>
+        <div className="flex justify-end h-auto">
+            <MaterialAction
+              nextMaterial={nextMaterial}
+              material={material}
+              courseId={slug[0]}
+            />
+        </div>
+      </Suspense>
     </div>
   );
 }

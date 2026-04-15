@@ -118,6 +118,7 @@ export const useSubmitTestComplete = (
           duration: 1000000,
           ...action,
         });
+        router.refresh();
         router.push(
           formatEndpoint(Endpoint.MATERIAL, [courseId, moduleId, materialId]),
         );
@@ -141,6 +142,8 @@ export const useSubmitTestComplete = (
             variant: "success",
           });
         }
+        // Обновляем данные страницы после успешного прохождения теста
+        router.refresh();
       } else {
         toast({
           title: `Ваш результат ${submit.score}/100`,
@@ -152,6 +155,7 @@ export const useSubmitTestComplete = (
       }
     } catch (error) {
       console.log(error);
+      router.refresh();
       router.push(
         formatEndpoint(Endpoint.MATERIAL, [courseId, moduleId, materialId]),
       );

@@ -11,7 +11,7 @@ export const MaterialContent = ({ material }: { material: Material }) => {
     return <></>;
   }
   return (
-    <section className="w-full min-h-full h-max flex flex-col gap-6 pb-4">
+    <section className="w-full block flex flex-col gap-6 pb-4">
       {material.title && <Typography.H1>{material.title}</Typography.H1>}
       {material.type === MaterialType.VIDEO &&
         material.files &&

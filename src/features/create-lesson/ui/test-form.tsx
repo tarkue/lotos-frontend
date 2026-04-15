@@ -40,22 +40,19 @@ export const AddTestForm = ({ module }: ModuleProps) => {
   const [answersCount, setAnswersCount] = useState<number>();
   const [time, setTime] = useState<number>();
 
-  const emptyQuestion = useMemo(
-    (): Question => ({
-      title: "",
-      fields: Array(4)
-        .fill(null)
-        .map(() => ({
-          title: "",
-          isTrue: false,
-        })),
-    }),
-    []
-  );
+  const createEmptyQuestion = useCallback((): Question => ({
+    title: "",
+    fields: Array(4)
+      .fill(null)
+      .map(() => ({
+        title: "",
+        isTrue: false,
+      })),
+  }), []);
 
   const currentQuestion = useMemo(
-    () => questions[currentQuestionIndex] || emptyQuestion,
-    [questions, currentQuestionIndex, emptyQuestion]
+    () => questions[currentQuestionIndex] || createEmptyQuestion(),
+    [questions, currentQuestionIndex, createEmptyQuestion]
   );
 
   const handleNumeric = (value: string) => {
@@ -130,23 +127,32 @@ export const AddTestForm = ({ module }: ModuleProps) => {
         })),
       }));
 
-      res.questions.forEach(async (q) => {
-        await api.test.deleteQuestion(
-          module.course_id,
-          module.id,
-          Number.parseInt(materialIdPair!.value),
-          q.test_id,
-          q.id
-        );
-      });
+      // Удаляем автоматически сгенерированные вопросы если нужно редактировать
+      if (res.questions && res.questions.length > 0) {
+        for (const q of res.questions) {
+          try {
+            await api.test.deleteQuestion(
+              module.course_id,
+              module.id,
+              Number.parseInt(materialIdPair!.value),
+              q.test_id,
+              q.id
+            );
+          } catch (deleteError) {
+            console.warn("Не удалось удалить вопрос:", deleteError);
+          }
+        }
+      }
 
       setQuestions(data);
       setMode("ai");
       setCurrentQuestionIndex(0);
       toast({ title: "Тест сгенерирован 🎉" });
-    } catch {
+    } catch (error) {
+      console.error("Ошибка генерации теста:", error);
       toast({
         title: "Ошибка генерации теста",
+        description: error instanceof Error ? error.message : "Неизвестная ошибка",
         variant: "warning",
       });
     }
@@ -155,24 +161,34 @@ export const AddTestForm = ({ module }: ModuleProps) => {
   const handleHand = async () => {
     if (!validate()) return;
 
-    const materialId = parseInt(materialIdPair!.value);
-    const res = await api.test.createTest(
-      module.course_id,
-      module.id,
-      materialId,
-      {
-        num_questions: answersCount!,
-        time_limit_seconds: time! * 60,
-        status: "published",
-        title: module.title,
-        pass_threshold: 100,
-      }
-    );
+    try {
+      const materialId = parseInt(materialIdPair!.value);
+      const res = await api.test.createTest(
+        module.course_id,
+        module.id,
+        materialId,
+        {
+          num_questions: answersCount!,
+          time_limit_seconds: time! * 60,
+          status: "draft",
+          title: module.title,
+          pass_threshold: 100,
+        }
+      );
 
-    setTestId(res.id);
-    setQuestions([]);
-    setMode("hand");
-    setCurrentQuestionIndex(0);
+      setTestId(res.id);
+      setQuestions([]);
+      setMode("hand");
+      setCurrentQuestionIndex(0);
+      toast({ title: "Тест создан, начните добавлять вопросы" });
+    } catch (error) {
+      console.error("Ошибка при создании теста:", error);
+      toast({
+        title: "Ошибка создания теста",
+        description: error instanceof Error ? error.message : "Неизвестная ошибка",
+        variant: "warning",
+      });
+    }
   };
 
   const updateCurrentQuestion = useCallback(
@@ -180,25 +196,23 @@ export const AddTestForm = ({ module }: ModuleProps) => {
       setQuestions((prev) => {
         const newQuestions = [...prev];
         newQuestions[currentQuestionIndex] = {
-          ...(newQuestions[currentQuestionIndex] || emptyQuestion),
+          ...(newQuestions[currentQuestionIndex] || createEmptyQuestion()),
           ...updates,
         };
         return newQuestions;
       });
     },
-    [currentQuestionIndex, emptyQuestion]
+    [currentQuestionIndex, createEmptyQuestion]
   );
 
   const handleNext = () => {
     if (currentQuestionIndex + 1 >= answersCount!) return;
 
-    setCurrentQuestionIndex((prev) => {
-      const nextIndex = prev + 1;
-      if (!questions[nextIndex]) {
-        setQuestions((prevQuestions) => [...prevQuestions, emptyQuestion]);
-      }
-      return nextIndex;
-    });
+    const nextIndex = currentQuestionIndex + 1;
+    if (!questions[nextIndex]) {
+      setQuestions((prevQuestions) => [...prevQuestions, createEmptyQuestion()]);
+    }
+    setCurrentQuestionIndex(nextIndex);
   };
 
   const handleBack = () => {
@@ -215,9 +229,39 @@ export const AddTestForm = ({ module }: ModuleProps) => {
 
       const materialId = parseInt(materialIdPair!.value);
 
+      // Валидация вопросов
       for (const [index, question] of questions.entries()) {
+        if (!question.title.trim()) {
+          toast({
+            title: `Вопрос ${index + 1}: текст не заполнен`,
+            variant: "warning",
+          });
+          return;
+        }
+
+        const validAnswers = question.fields.filter((f) => f.title.trim());
+        if (validAnswers.length === 0) {
+          toast({
+            title: `Вопрос ${index + 1}: нет заполненных ответов`,
+            variant: "warning",
+          });
+          return;
+        }
+
+        const correctAnswers = validAnswers.filter((f) => f.isTrue);
+        if (correctAnswers.length === 0) {
+          toast({
+            title: `Вопрос ${index + 1}: нет отмеченного правильного ответа`,
+            variant: "warning",
+          });
+          return;
+        }
+      }
+
+      for (const [index, question] of questions.entries()) {
+        const validAnswers = question.fields.filter((f) => f.title.trim());
         const type =
-          question.fields.filter((f) => f.isTrue).length > 1
+          validAnswers.filter((f) => f.isTrue).length > 1
             ? QuestionType.MULTIPLE
             : QuestionType.SINGLE;
 
@@ -230,7 +274,7 @@ export const AddTestForm = ({ module }: ModuleProps) => {
             text: question.title,
             type,
             position: index + 1,
-            options: question.fields.map((q) => ({
+            options: validAnswers.map((q) => ({
               content: q.title,
               is_correct: q.isTrue,
             })),
@@ -255,9 +299,11 @@ export const AddTestForm = ({ module }: ModuleProps) => {
           materialId,
         ])
       );
-    } catch {
+    } catch (error) {
+      console.error("Ошибка при сохранении теста:", error);
       toast({
         title: "Ошибка сохранения теста",
+        description: error instanceof Error ? error.message : "Неизвестная ошибка",
         variant: "warning",
       });
     }
