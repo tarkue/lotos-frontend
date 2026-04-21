@@ -1,5 +1,7 @@
 import { Button } from "@/src/shared/ui/button";
 
+import { ClipLoader } from "react-spinners";
+
 export const CompleteTestButton = ({ disable }: { disable?: boolean }) => {
   return (
     <Button
@@ -9,7 +11,7 @@ export const CompleteTestButton = ({ disable }: { disable?: boolean }) => {
       type="submit"
       disabled={disable}
     >
-      Завершить тест
+      {!disable ? "Завершить тест" : <ClipLoader color="#FFFFFF" size={27} />}
     </Button>
   );
 };
