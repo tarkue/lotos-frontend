@@ -44,8 +44,16 @@ export class StudentClient extends BaseClient {
   // Courses Catalog
   async getCoursesCatalog(
     params?: CoursesCatalogParams,
+    options?: {
+    accessToken?: string;
+  }
   ): Promise<PaginatedCoursesResponseDTO> {
-    return await this.get("/students/courses", { params });
+    return await this.get("/students/courses", { 
+      params, 
+      headers: options?.accessToken 
+        ? { Authorization: `Bearer ${options.accessToken}` } 
+        : undefined 
+    });
   }
 
   async getCoursePublicInfo(courseId: number): Promise<CourseCardResponseDTO> {

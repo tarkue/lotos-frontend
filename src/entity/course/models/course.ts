@@ -1,3 +1,4 @@
+import { ApplicationStatus } from "@/src/shared/api/enum/application-status.enum";
 import { Module } from "../../module";
 
 export interface Course {
@@ -7,6 +8,7 @@ export interface Course {
   img_url?: string | null;
   overall_progress?: number;
   completed_materials?: number;
+  application_status?: ApplicationStatus | null;
   total_materials?: number;
   is_enrolled?: boolean;
   progress?: {
