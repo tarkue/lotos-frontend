@@ -1,15 +1,20 @@
 import { api } from "@/src/shared/api";
+import { RoleType } from "@/src/shared/api/enum/role-type.enum";
 import { roleSwitcher } from "@/src/shared/libs/role-switcher";
 import { sfwr } from "@/src/shared/libs/server-fetch-with-refresh";
 import { Course } from "@/src/widgets/course";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
-const defaultFunc = async <T,>(courseId: number, func: () => T) => {
+const defaultFunc = async <T,>(role: string | undefined, courseId: number, func: () => T) => {
   try {
     return await func();
   } catch {
-    const course = await api.course.getCoursePublicInfo(courseId);
+
+    const course = role == RoleType.STUDENT.toString() 
+      ? await sfwr(api.student.getCoursePublicInfo, courseId)
+      : await api.course.getCoursePublicInfo(courseId);
+
     course.is_enrolled = false;
     course.modules = [];
     return course;
@@ -29,7 +34,7 @@ export async function fetchCourse(slug: string) {
   try {
     return await roleSwitcher(role, {
       student: async () =>
-        await defaultFunc(courseId, async () => {
+        await defaultFunc(role, courseId, async () => {
           const course = await sfwr(api.student.getEnrolledCourse, courseId);
           course.is_enrolled = true;
 
@@ -37,11 +42,13 @@ export async function fetchCourse(slug: string) {
         }),
       teacher: async () =>
         await defaultFunc(
+          role,
           courseId,
           async () => await sfwr(api.teacher.getCourse, courseId)
         ),
       admin: async () =>
         defaultFunc(
+          role,
           courseId,
           async () => await sfwr(api.teacher.getCourse, courseId)
         ),

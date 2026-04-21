@@ -45,7 +45,7 @@ export const Enroll: React.FC<CourseProps> = ({ course }) => {
       className="md:w-min w-full"
     >
       Записаться
-      <Icon glyph="plus" size="20" color={isAuthenticated ? "white" : "gray"} />
+      <Icon glyph="plus" size="20" color={!isAuthenticated || isRequested ? "gray" : "white"} />
     </Button>
   );
 };

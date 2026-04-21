@@ -7,9 +7,7 @@ import { AllCourseList } from "@/src/widgets/all-course-list";
 import { cookies } from "next/headers";
 
 export async function FetchAllCourses(search?: string, page?: string) {
-    const cookieStore = await cookies();
-
-  
+  const cookieStore = await cookies();
   const role = cookieStore.get("role")?.value;
 
   const defaultRequest = async () => await api.course.getCoursesCatalog({
