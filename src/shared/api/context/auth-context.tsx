@@ -7,7 +7,7 @@ import React, {
   useReducer,
 } from "react";
 import { api } from "..";
-import { setCookie } from "../../libs/cookie";
+import { deleteClientSideCookie, setCookie } from "../../libs/cookie";
 import { AuthClient } from "../controllers/auth.controller";
 import {
   LoginRequestDTO,
@@ -135,6 +135,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (refreshToken) {
         await api.auth.logout({ refresh_token: refreshToken });
       }
+      deleteClientSideCookie("access_token");
+      deleteClientSideCookie("role");
     } catch (error) {
       console.error("Logout error:", error);
     } finally {
