@@ -20,7 +20,7 @@ export const MaterialVideoViewer = ({
         
       </div>
       {transcript && (
-        <div className="flex flex-col w-full gap-1">
+        <div className="flex flex-col w-full gap-1 p-5 rounded-[14px] bg-base-100 border border-base-200">
           <Typography.Caption className="text-black opacity-20 font-black! w-full">
             КУРС
           </Typography.Caption>
