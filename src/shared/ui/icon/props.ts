@@ -2,7 +2,8 @@ import { VariantProps } from "class-variance-authority";
 import { IconVariants } from "./variants";
 
 export interface IconProps
-  extends VariantProps<typeof IconVariants>,
+  extends
+    VariantProps<typeof IconVariants>,
     Omit<React.HTMLAttributes<HTMLElement>, "color"> {
   className?: string;
   glyph: glyphs;
@@ -11,22 +12,35 @@ export interface IconProps
 export type glyphs =
   | "add-user"
   | "add"
+  | "ai"
   | "arrow-down"
   | "arrow-left"
   | "arrow-right"
-  | "attachment"
-  | "book"
+  | "arrow-up"
   | "change"
   | "close"
+  | "comment"
+  | "dislike-filled"
+  | "dislike-outline"
   | "done"
+  | "download"
+  | "file"
+  | "filter"
+  | "homework"
   | "list"
   | "lock"
-  | "log-out"
+  | "like-filled"
+  | "like-outline"
+  | "minus"
+  | "password"
+  | "presentation"
   | "return"
-  | "send"
+  | "search"
+  | "sort"
+  | "test"
+  | "text"
+  | "time"
   | "trash"
   | "user"
-  | "download"
-  | "plus"
-  | "presentation"
-  | "search";
+  | "users"
+  | "video";
