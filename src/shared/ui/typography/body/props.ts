@@ -4,4 +4,6 @@ import { BodyVariant } from "./variant";
 
 export interface BodyProps
   extends TypographyProps<HTMLParagraphElement>,
-    VariantProps<typeof BodyVariant> {}
+    VariantProps<typeof BodyVariant> {
+      bold?: boolean;
+    }

@@ -24,7 +24,7 @@ export default async function ProfilePage() {
         <BackButton endpoint={Endpoint.ALL_COURSES} />
       </div>
       <div className="flex flex-col gap-3 w-full min-h-full">
-        <Typography.H1>Ваш профиль</Typography.H1>
+        <Typography.Title>Ваш профиль</Typography.Title>
         <UserUpdateForm defaultValues={user} buttons={<UserAction.Logout />} />
       </div>
     </Container>

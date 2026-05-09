@@ -3,11 +3,11 @@ import { BodyProps } from "./props";
 import { BodyVariant } from "./variant";
 
 export const Body = forwardRef<HTMLParagraphElement, BodyProps>(
-  ({ className, component = "p", variant, ...props }, ref) => {
+  ({ className, component = "p", bold, ...props }, ref) => {
     const Comp = component;
     return (
       <Comp
-        className={BodyVariant({ variant, className })}
+        className={BodyVariant({ bold, className })}
         ref={ref}
         {...props}
       />

@@ -52,7 +52,7 @@ export default async function CourseSettingsPage({
       <div className="w-full">
         <BackButton endpoint={formatEndpoint(Endpoint.COURSE, [slug])} />
       </div>
-      <Typography.H1 className="w-full">Настройки курса</Typography.H1>
+      <Typography.Title className="w-full">Настройки курса</Typography.Title>
       <CourseSettings.TabBarWrapper course={course}>
         {Endpoint.COURSE_SETTINGS_ABOUT.endsWith(route) && (
           <SettingsAboutPage course={course} />

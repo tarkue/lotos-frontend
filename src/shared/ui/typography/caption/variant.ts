@@ -1,13 +1,13 @@
 import { cva } from "class-variance-authority";
 
-export const CaptionVariant = cva("font-nunito text-[14px] leading-[100%]", {
+export const CaptionVariant = cva("font-roboto text-[14px] leading-[120%]", {
   variants: {
-    variant: {
-      secondary: "font-semibold",
-      primary: "font-medium",
+    bold: {
+      true: "text-medium",
+      false: "text-normal",
     },
   },
   defaultVariants: {
-    variant: "primary",
+    bold: false,
   },
 });

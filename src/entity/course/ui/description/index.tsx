@@ -13,9 +13,9 @@ export const CourseDescription = ({
           КУРС
         </Typography.Caption>
         <div className="flex flex-col w-full gap-2">
-          <Typography.H1 className="w-full text-wrap">
+          <Typography.Title className="w-full text-wrap">
             {course.title}
-          </Typography.H1>
+          </Typography.Title>
           <Typography.Body className="w-full text-wrap">
             {course.description}
           </Typography.Body>

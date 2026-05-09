@@ -4,13 +4,13 @@ import { Toaster } from "@/src/shared/ui/toast";
 import { Footer } from "@/src/widgets/footer";
 import { Header } from "@/src/widgets/header";
 import { Metadata } from "next";
-import { Nunito } from "next/font/google";
+import { Roboto } from "next/font/google";
 import Head from "next/head";
 import { ModalProvider } from "../shared/ui/modal";
 import "./globals.css";
 
-const nunito = Nunito({
-  variable: "--nunito-font",
+const roboto = Roboto({
+  variable: "--roboto-font",
   subsets: ["latin", "cyrillic"],
 });
 
@@ -31,7 +31,7 @@ export default function RootLayout({
             <Head>
               <title>Лотос</title>
             </Head>
-            <body className={`${nunito.variable} ${nunito.variable}`}>
+            <body className={roboto.variable}>
               <ModalProvider>
                 <Header />
                 {children}

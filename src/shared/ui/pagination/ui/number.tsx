@@ -9,7 +9,7 @@ const Number = ({ value, active, className, ...props }: NumberProps) => {
   return (
     <div
       className={cn(
-        "font-nunito flex items-center justify-center h-[32px] w-[32px] text-body rounded-[32px] cursor-pointer select-none",
+        "font-roboto flex items-center justify-center h-[32px] w-[32px] text-body rounded-[32px] cursor-pointer select-none",
         active ? "bg-primary-200 text-white" : "text-contrast",
         className
       )}

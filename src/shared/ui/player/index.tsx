@@ -52,7 +52,7 @@ export default function Player({ url }: { url: string }) {
           <div className="flex gap-2 p-1 rounded-4xl bg-[rgba(0,0,0,0.3)] backdrop-blur-xs">
             <MediaTimeDisplay
               showDuration
-              className="h-10 px-2.5 rounded-4xl hover:none bg-none hover:bg-none font-nunito select-none"
+              className="h-10 px-2.5 rounded-4xl hover:none bg-none hover:bg-none font-roboto select-none"
             />
           </div>
 

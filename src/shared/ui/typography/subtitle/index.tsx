@@ -3,15 +3,11 @@ import { SubtitleProps } from "./props";
 import { SubtitleVariant } from "./variant";
 
 export const Subtitle = forwardRef<HTMLParagraphElement, SubtitleProps>(
-  ({ className, component = "p", variant, ...props }, ref) => {
+  ({ className, component = "h3", ...props }, ref) => {
     const Comp = component;
     return (
-      <Comp
-        className={SubtitleVariant({ variant, className })}
-        ref={ref}
-        {...props}
-      />
+      <Comp className={SubtitleVariant({ className })} ref={ref} {...props} />
     );
-  }
+  },
 );
 Subtitle.displayName = "Typography.Subtitle";

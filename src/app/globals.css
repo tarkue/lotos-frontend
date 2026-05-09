@@ -28,7 +28,7 @@
 
 :root {
   --media-box-border-radius: 16px;
-  --media-font-family: var(--font-nunito);
+  --media-font-family: var(--roboto-font);
   --media-control-background: rgba(0, 0, 0, 0);
   --media-text-color: #FFFFFF;
   --media-primary-color: #FFFFFF;
@@ -49,8 +49,8 @@
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 4px 8px 3px rgba(0, 0, 0, 0.1);
 }
 
-.font-nunito {
-  font-family: var(--nunito-font);
+.font-roboto {
+  font-family: var(--roboto-font);
 }
 
 
@@ -106,7 +106,7 @@ a {
 }
 
 .markdown-content {
-  font-family: var(--nunito-font);
+  font-family: var(--roboto-font);
   font-size: 18px;
   line-height: 140%;
 }

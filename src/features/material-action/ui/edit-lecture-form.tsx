@@ -96,7 +96,7 @@ export const EditLectureForm: React.FC<EditLectureFormProps> = ({
           value={textContent}
           onChange={(e) => setTextContent(e.target.value)}
           placeholder="Введите содержимое лекции..."
-          className="font-nunito text-black placeholder-base-300 font-medium w-full outline-0 resize-none min-h-[180px] max-h-[500px]"
+          className="font-roboto text-black placeholder-base-300 font-medium w-full outline-0 resize-none min-h-[180px] max-h-[500px]"
           rows={10}
         />
       </div>

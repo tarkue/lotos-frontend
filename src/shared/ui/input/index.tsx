@@ -24,7 +24,7 @@ export const Input = forwardRef<HTMLDivElement, InputProps>(
         <input
           type={type}
           ref={ref}
-          className="font-nunito text-black placeholder-base-300 font-medium w-full outline-0"
+          className="font-roboto text-black placeholder-base-300 font-medium w-full outline-0"
           {...props}
         />
         {rightIcon}

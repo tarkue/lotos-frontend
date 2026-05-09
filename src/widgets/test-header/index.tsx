@@ -10,7 +10,7 @@ export const TestHeader = ({
 }: TestProps & { startedAt: string }) => {
   return (
     <div className="flex w-full justify-between items-center">
-      <Typography.H1 className="w-full">{test.title}</Typography.H1>
+      <Typography.Title className="w-full">{test.title}</Typography.Title>
       {test.time_limit_seconds && (
         <CountDownTimer
           startedAt={startedAt}

@@ -124,7 +124,7 @@ export const AddImageModal: React.FC = () => {
             <textarea
               value={markdownCode}
               readOnly
-              className="font-nunito text-black font-medium w-full outline-0 resize-none min-h-[60px]"
+              className="font-roboto text-black font-medium w-full outline-0 resize-none min-h-[60px]"
               rows={3}
             />
           </div>
