@@ -7,9 +7,7 @@ export const buttonVariants = cva(
       variant: {
         primary:
           "bg-primary-200 text-base-100 hover:bg-primary-300 disabled:bg-base-200",
-        outline:
-          "bg-none text-base-300 border border-base-300 hover:text-black hover:border-black",
-        secondary:
+        danger:
           "bg-primary-200 text-base-100 hover:bg-base-300 disabled:bg-base-200",
         ghost: "bg-none disabled:bg-none disabled:opacity-20",
       },
@@ -24,5 +22,5 @@ export const buttonVariants = cva(
       variant: "primary",
       size: "large",
     },
-  }
+  },
 );
