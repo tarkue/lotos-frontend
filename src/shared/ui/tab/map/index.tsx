@@ -6,18 +6,11 @@ import { TabListProps } from "./props";
 
 export const TabMap = <T extends readonly string[]>({
   elements,
-  defaultValue,
-  onChange,
-  width,
   className,
+  onChange,
 }: TabListProps<T>) => {
   return (
-    <TabGroup
-      defaultValue={defaultValue}
-      onChange={onChange}
-      style={{ "--tab-group-width": width } as CSSProperties}
-      className={cn("md:w-(--tab-group-width) w-full", className)}
-    >
+    <TabGroup onChange={onChange} className={cn("w-full", className)}>
       {elements.map((tab, index) => (
         <TabElement key={index}>{tab}</TabElement>
       ))}

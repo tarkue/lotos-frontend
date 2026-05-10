@@ -24,13 +24,13 @@
   --color-base-gray: #f5f7fa;
   --color-base-dark-gray: #5c6374;
 
-  --color-text-black: #222222;
-  --color-text-white: #ffffff;
-  --color-text-dark-gray: #354d6f;
-  --color-text-light-gray: #7b8ea8;
-  --color-text-green: #0e5f2c;
-  --color-text-yellow: #8c6704;
-  --color-text-red: #731111;
+  --color-black: #222222;
+  --color-white: #ffffff;
+  --color-dark-gray: #354d6f;
+  --color-light-gray: #7b8ea8;
+  --color-green: #0e5f2c;
+  --color-yellow: #8c6704;
+  --color-red: #731111;
 
   --color-base-100: #ffffff;
   --color-base-200: #e8e8e8;

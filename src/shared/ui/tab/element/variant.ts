@@ -1,16 +1,20 @@
 import { cva } from "class-variance-authority";
 
 export const TabElementVariant = cva(
-  "flex flex-col border-2 w-full md:w-auto text-nowrap items-center justify-center font-semibold text-center cursor-pointer px-4 bg-base-100 first:rounded-l-[10px] last:rounded-r-[10px] safari-first-last-fix",
+  "flex flex-col border-0 w-full md:w-auto text-nowrap text-[16px] items-center justify-center font-medium font-roboto text-center cursor-pointer",
   {
     variants: {
-      isActive: {
-        false: "border-base-200 text-base-300",
-        true: "border-primary-300 text-primary-300",
+      variant: {
+        default:
+          "bg-transparent text-light-gray hover:bg-base-raised hover:text-dark-gray active:bg-base-sunken active:text-black",
+      },
+      size: {
+        default: "h-[43px] px-3 py-3 rounded-[8px]",
       },
     },
     defaultVariants: {
-      isActive: false,
+      variant: "default",
+      size: "default",
     },
-  }
+  },
 );

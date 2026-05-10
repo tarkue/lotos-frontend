@@ -1,16 +1,15 @@
 import { cva } from "class-variance-authority";
 
 export const InputVariant = cva(
-  "flex items-center transition-colors duration-300 flex w-full rounded-[8px] border border-base-200 bg-base-100 font-semibold font-roboto focus:border-primary-200 focus:border-[2px] file:border-0 file:bg-transparent file:font-caption focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-base-200",
+  "flex items-center gap-2 transition-colors duration-300 flex w-full border-0 bg-base-raised font-normal font-roboto file:border-0 file:bg-transparent file:font-caption focus-visible:outline-none disabled:cursor-not-allowed disabled:bg-base-sunken",
   {
     variants: {
       size: {
-        small: "px-[12px] py-[4px] text-[16px] focus:px-[11px] focus:py-[3px]",
-        large: "px-[16px] py-[8px] text-[18px] focus:px-[15px] focus:py-[7px]",
+        default: "px-4 py-3 rounded-[8px]",
       },
     },
     defaultVariants: {
-      size: "large",
+      size: "default",
     },
-  }
+  },
 );
