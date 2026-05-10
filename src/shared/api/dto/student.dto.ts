@@ -56,6 +56,20 @@ export interface CourseProgressResponseDTO {
   last_accessed_at: string;
 }
 
+export interface StudentProgressRowDTO {
+  user_id: number;
+  full_name: string;
+  group_name?: string | null;
+  completed_lessons: number;
+  completed_tests: number;
+  completed_homework: number;
+  total_tests: number;
+  remaining_tests: number;
+  total_homework: number;
+  remaining_homework: number;
+  progress_percentage: number;
+}
+
 export interface ModuleWithMaterialsResponse {
   id: number;
   title: string;
@@ -147,6 +161,16 @@ export interface SubmitAnswerRequestDTO {
   hint_used?: boolean;
 }
 
+export interface QuestionAnswerBatchDTO {
+  question_id: number;
+  answer: Record<string, string | number[]>;
+  hint_used?: boolean;
+}
+
+export interface SubmitTestRequestDTO {
+  answers: QuestionAnswerBatchDTO[];
+}
+
 export interface QuestionAttemptResponseDTO {
   id: number;
   test_attempt_id: number;
@@ -171,6 +195,23 @@ export interface TestAttemptWithBlockResponseDTO {
   blocked: boolean;
   feedback_text?: string;
   consecutive_fails: number;
+  message?: string | null;
+}
+
+export interface TestAttemptWithFeedbackResponseDTO {
+  id: number;
+  test_id: number;
+  user_id: number;
+  score?: number | null;
+  passed?: boolean | null;
+  attempt_number: number;
+  started_at: string;
+  finished_at?: string | null;
+  blocked_until?: string | null;
+  current_question_id?: number | null;
+  blocked: boolean;
+  consecutive_fails: number;
+  feedback_text?: string | null;
   message?: string | null;
 }
 

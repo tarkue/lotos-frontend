@@ -2,6 +2,13 @@ import { BaseClient } from "../base/base.client";
 import { MessageResponseDTO } from "../dto/auth.dto";
 import { CoursesCatalogParams } from "../dto/course.dto";
 import {
+  CommentReactionRequestDTO,
+  CommentReactionSummaryResponseDTO,
+  CommentResponseDTO,
+  CreateCommentRequestDTO,
+  PaginatedCommentsResponseDTO,
+} from "../dto/common.dto";
+import {
   CourseCardResponseDTO,
   EnrolledCourseDetailResponseDTO,
   LessonProgressResponseDTO,
@@ -12,12 +19,18 @@ import {
   PaginatedCoursesResponseDTO,
   QuestionAttemptResponseDTO,
   SubmitAnswerRequestDTO,
+  SubmitTestRequestDTO,
   TestAttemptResponseDTO,
   TestAttemptWithBlockResponseDTO,
+  TestAttemptWithFeedbackResponseDTO,
   TestForStudentDTO,
   TestResultResponseDTO,
 } from "../dto/student.dto";
-import { CourseApplicationResponseDTO } from "../dto/teacher.dto";
+import {
+  CourseApplicationResponseDTO,
+  HomeworkStudentItemResponseDTO,
+  HomeworkSubmissionResponseDTO,
+} from "../dto/teacher.dto";
 
 export class StudentClient extends BaseClient {
   constructor(baseURL?: string) {
@@ -39,6 +52,16 @@ export class StudentClient extends BaseClient {
     this.finishTest = this.finishTest.bind(this);
     this.getTestResult = this.getTestResult.bind(this);
     this.getMyTestAttempts = this.getMyTestAttempts.bind(this);
+    this.submitAnswerAll = this.submitAnswerAll.bind(this);
+    this.getQuestionHint = this.getQuestionHint.bind(this);
+    this.getCommentsForMaterial = this.getCommentsForMaterial.bind(this);
+    this.createCommentForMaterial = this.createCommentForMaterial.bind(this);
+    this.getCommentsForTest = this.getCommentsForTest.bind(this);
+    this.createCommentForTest = this.createCommentForTest.bind(this);
+    this.reactToComment = this.reactToComment.bind(this);
+    this.getHomeworkForMaterial = this.getHomeworkForMaterial.bind(this);
+    this.submitHomework = this.submitHomework.bind(this);
+    this.getMySubmission = this.getMySubmission.bind(this);
   }
 
   // Courses Catalog
@@ -46,13 +69,13 @@ export class StudentClient extends BaseClient {
     params?: CoursesCatalogParams,
     options?: {
       accessToken?: string;
-    }
+    },
   ): Promise<PaginatedCoursesResponseDTO> {
-    return await this.get("/students/courses", { 
-      params, 
-      headers: options?.accessToken 
-        ? { Authorization: `Bearer ${options.accessToken}` } 
-        : undefined 
+    return await this.get("/students/courses", {
+      params,
+      headers: options?.accessToken
+        ? { Authorization: `Bearer ${options.accessToken}` }
+        : undefined,
     });
   }
 
@@ -60,12 +83,12 @@ export class StudentClient extends BaseClient {
     courseId: number,
     options?: {
       accessToken?: string;
-    }
+    },
   ): Promise<CourseCardResponseDTO> {
     return await this.get(`/students/courses/${courseId}`, {
       headers: options?.accessToken
         ? { Authorization: `Bearer ${options.accessToken}` }
-        : undefined
+        : undefined,
     });
   }
 
@@ -225,28 +248,6 @@ export class StudentClient extends BaseClient {
     );
   }
 
-  async submitAnswerAll(
-    courseId: number,
-    moduleId: number,
-    materialId: number,
-    testId: number,
-    attemptId: number,
-    data: SubmitAnswerRequestDTO[],
-    access_token: string,
-  ): Promise<TestAttemptWithBlockResponseDTO> {
-    return await this.post(
-      `/students/my-courses/${courseId}/modules/${moduleId}/materials/${materialId}/tests/${testId}/attempts/${attemptId}/submit-with-feedback`,
-      {
-        answers: data,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${access_token}`,
-        },
-      },
-    );
-  }
-
   async finishTest(
     courseId: number,
     moduleId: number,
@@ -286,6 +287,232 @@ export class StudentClient extends BaseClient {
   ): Promise<MyTestAttemptSummaryDTO[]> {
     return await this.get(
       `/students/my-courses/${courseId}/modules/${moduleId}/materials/${materialId}/tests/${testId}/attempts`,
+      options
+        ? {
+            headers: {
+              Authorization: `Bearer ${options?.accessToken}`,
+            },
+          }
+        : undefined,
+    );
+  }
+
+  // Test with bulk submit
+  async submitAnswerAll(
+    courseId: number,
+    moduleId: number,
+    materialId: number,
+    testId: number,
+    attemptId: number,
+    data: SubmitTestRequestDTO,
+    with_feedback?: boolean,
+    options?: {
+      accessToken?: string;
+    },
+  ): Promise<TestAttemptWithFeedbackResponseDTO> {
+    return await this.post(
+      `/students/my-courses/${courseId}/modules/${moduleId}/materials/${materialId}/tests/${testId}/attempts/${attemptId}/submit${with_feedback ? "-with-feedback" : ""}`,
+      data,
+      options
+        ? {
+            headers: {
+              Authorization: `Bearer ${options?.accessToken}`,
+            },
+          }
+        : undefined,
+    );
+  }
+
+  // Question hint
+  async getQuestionHint(
+    courseId: number,
+    moduleId: number,
+    materialId: number,
+    testId: number,
+    attemptId: number,
+    questionId: number,
+    options?: {
+      accessToken?: string;
+    },
+  ): Promise<{ question_id: number; hint_text: string }> {
+    return await this.get(
+      `/students/my-courses/${courseId}/modules/${moduleId}/materials/${materialId}/tests/${testId}/attempts/${attemptId}/questions/${questionId}/hint`,
+      options
+        ? {
+            headers: {
+              Authorization: `Bearer ${options?.accessToken}`,
+            },
+          }
+        : undefined,
+    );
+  }
+
+  // Comments
+  async getCommentsForMaterial(
+    courseId: number,
+    moduleId: number,
+    materialId: number,
+    params?: { page?: number; page_size?: number },
+    options?: {
+      accessToken?: string;
+    },
+  ): Promise<PaginatedCommentsResponseDTO> {
+    return await this.get(
+      `/students/my-courses/${courseId}/modules/${moduleId}/materials/${materialId}/comments`,
+      options
+        ? {
+            params,
+            headers: {
+              Authorization: `Bearer ${options?.accessToken}`,
+            },
+          }
+        : { params },
+    );
+  }
+
+  async createCommentForMaterial(
+    courseId: number,
+    moduleId: number,
+    materialId: number,
+    data: CreateCommentRequestDTO,
+    options?: {
+      accessToken?: string;
+    },
+  ): Promise<CommentResponseDTO> {
+    return await this.post(
+      `/students/my-courses/${courseId}/modules/${moduleId}/materials/${materialId}/comments`,
+      data,
+      options
+        ? {
+            headers: {
+              Authorization: `Bearer ${options?.accessToken}`,
+            },
+          }
+        : undefined,
+    );
+  }
+
+  async getCommentsForTest(
+    courseId: number,
+    moduleId: number,
+    materialId: number,
+    testId: number,
+    params?: { page?: number; page_size?: number },
+    options?: {
+      accessToken?: string;
+    },
+  ): Promise<PaginatedCommentsResponseDTO> {
+    return await this.get(
+      `/students/my-courses/${courseId}/modules/${moduleId}/materials/${materialId}/tests/${testId}/comments`,
+      options
+        ? {
+            params,
+            headers: {
+              Authorization: `Bearer ${options?.accessToken}`,
+            },
+          }
+        : { params },
+    );
+  }
+
+  async createCommentForTest(
+    courseId: number,
+    moduleId: number,
+    materialId: number,
+    testId: number,
+    data: CreateCommentRequestDTO,
+    options?: {
+      accessToken?: string;
+    },
+  ): Promise<CommentResponseDTO> {
+    return await this.post(
+      `/students/my-courses/${courseId}/modules/${moduleId}/materials/${materialId}/tests/${testId}/comments`,
+      data,
+      options
+        ? {
+            headers: {
+              Authorization: `Bearer ${options?.accessToken}`,
+            },
+          }
+        : undefined,
+    );
+  }
+
+  async reactToComment(
+    commentId: number,
+    data: CommentReactionRequestDTO,
+    options?: {
+      accessToken?: string;
+    },
+  ): Promise<CommentReactionSummaryResponseDTO> {
+    return await this.post(
+      `/students/comments/${commentId}/reaction`,
+      data,
+      options
+        ? {
+            headers: {
+              Authorization: `Bearer ${options?.accessToken}`,
+            },
+          }
+        : undefined,
+    );
+  }
+
+  // Homework
+  async getHomeworkForMaterial(
+    courseId: number,
+    moduleId: number,
+    materialId: number,
+    options?: {
+      accessToken?: string;
+    },
+  ): Promise<HomeworkStudentItemResponseDTO[]> {
+    return await this.get(
+      `/students/my-courses/${courseId}/modules/${moduleId}/materials/${materialId}/homework`,
+      options
+        ? {
+            headers: {
+              Authorization: `Bearer ${options?.accessToken}`,
+            },
+          }
+        : undefined,
+    );
+  }
+
+  async submitHomework(
+    courseId: number,
+    moduleId: number,
+    materialId: number,
+    assignmentId: number,
+    data: FormData,
+    options?: {
+      accessToken?: string;
+    },
+  ): Promise<HomeworkSubmissionResponseDTO> {
+    return await this.post(
+      `/students/my-courses/${courseId}/modules/${moduleId}/materials/${materialId}/homework/${assignmentId}/submit`,
+      data,
+      options
+        ? {
+            headers: {
+              Authorization: `Bearer ${options?.accessToken}`,
+            },
+          }
+        : undefined,
+    );
+  }
+
+  async getMySubmission(
+    courseId: number,
+    moduleId: number,
+    materialId: number,
+    assignmentId: number,
+    options?: {
+      accessToken?: string;
+    },
+  ): Promise<HomeworkSubmissionResponseDTO> {
+    return await this.get(
+      `/students/my-courses/${courseId}/modules/${moduleId}/materials/${materialId}/homework/${assignmentId}/submission`,
       options
         ? {
             headers: {

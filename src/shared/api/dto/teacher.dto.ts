@@ -1,7 +1,12 @@
 import { ApplicationStatus } from "../enum/application-status.enum";
 import { MaterialType } from "../enum/material-type.enum";
 import { UserResponseDTO } from "./auth.dto";
-import { CourseProgressResponseDTO } from "./student.dto";
+import {
+  CourseProgressResponseDTO,
+  StudentProgressRowDTO,
+} from "./student.dto";
+import { HomeworkSubmissionFormat } from "../enum/homework-submission-format.enum";
+import { HomeworkReviewResult } from "../enum/homework-review-result.enum";
 
 export interface CourseCreateRequestDTO {
   title: string;
@@ -132,7 +137,6 @@ export interface EditorListResponse {
   editors: EditorResponseDTO[];
 }
 
-
 export interface CourseApplicationResponseDTO {
   id: number;
   course: CourseResponseDTO;
@@ -162,4 +166,95 @@ export interface EnrolledStudentsListResponse {
     user: UserResponseDTO;
     progress: CourseProgressResponseDTO | null;
   }[];
+}
+
+export interface CourseProgressOverviewResponseDTO {
+  total: number;
+  page: number;
+  page_size: number;
+  total_pages: number;
+  course_id: number;
+  total_materials: number;
+  total_tests: number;
+  total_homework: number;
+  students: StudentProgressRowDTO[];
+  least_active: StudentProgressRowDTO[];
+}
+
+export interface TestSummaryResponseDTO {
+  id: number;
+  title: string;
+  material_id: number;
+  module_id: number;
+  num_questions: number;
+  time_limit_seconds?: number | null;
+  pass_threshold: number;
+  status: string;
+  generated_by_nn: boolean;
+}
+
+export interface TestsListResponseDTO {
+  total: number;
+  page: number;
+  page_size: number;
+  total_pages: number;
+  tests: TestSummaryResponseDTO[];
+}
+
+export interface HomeworkCreateRequestDTO {
+  description: string;
+  allowed_formats: HomeworkSubmissionFormat[];
+  deadline: string;
+}
+
+export interface HomeworkResponseDTO {
+  id: number;
+  course_id: number;
+  module_id: number;
+  material_id: number;
+  created_by?: number | null;
+  description: string;
+  allowed_formats: HomeworkSubmissionFormat[];
+  deadline: string;
+  created_at: string;
+}
+
+export type HomeworkSubmissionStatus =
+  | "pending_review"
+  | "reviewed"
+  | "overdue";
+
+export interface HomeworkReviewRequestDTO {
+  review_result: HomeworkReviewResult;
+  review_comment?: string | null;
+}
+
+export interface HomeworkSubmissionResponseDTO {
+  id: number;
+  assignment_id: number;
+  student_id: number;
+  text_answer?: string | null;
+  status: HomeworkSubmissionStatus;
+  review_result?: HomeworkReviewResult | null;
+  review_comment?: string | null;
+  reviewed_by?: number | null;
+  reviewed_at?: string | null;
+  submitted_at: string;
+  updated_at: string;
+  files: FileResponseDTO[];
+}
+
+export interface HomeworkStudentItemResponseDTO {
+  id: number;
+  course_id: number;
+  module_id: number;
+  material_id: number;
+  created_by?: number | null;
+  description: string;
+  allowed_formats: HomeworkSubmissionFormat[];
+  deadline: string;
+  created_at: string;
+  status?: HomeworkSubmissionStatus | null;
+  can_resubmit: boolean;
+  submission?: HomeworkSubmissionResponseDTO | null;
 }

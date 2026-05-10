@@ -7,6 +7,7 @@ import {
   CourseApplicationDetailResponseDTO,
   CourseApplicationResponseDTO,
   CourseCreateRequestDTO,
+  CourseProgressOverviewResponseDTO,
   CourseResponseDTO,
   CourseUpdateRequestDTO,
   CourseWithModulesResponseDTO,
@@ -14,6 +15,10 @@ import {
   EditorResponseDTO,
   EnrolledStudentsListResponse,
   FileResponseDTO,
+  HomeworkCreateRequestDTO,
+  HomeworkResponseDTO,
+  HomeworkReviewRequestDTO,
+  HomeworkSubmissionResponseDTO,
   MaterialCreateRequestDTO,
   MaterialFileResponseDTO,
   MaterialResponseDTO,
@@ -22,7 +27,9 @@ import {
   ModuleResponseDTO,
   ModuleUpdateRequestDTO,
   ModuleWithMaterialsResponseDTO,
+  TestsListResponseDTO,
 } from "../dto/teacher.dto";
+import { PaginatedCommentsResponseDTO } from "../dto/common.dto";
 
 export class TeacherClient extends BaseClient {
   constructor(baseURL?: string) {
@@ -52,6 +59,14 @@ export class TeacherClient extends BaseClient {
     this.getMaterial = this.getMaterial.bind(this);
     this.getStudentsFromCourse = this.getStudentsFromCourse.bind(this);
     this.deleteUserFromCourse = this.deleteUserFromCourse.bind(this);
+    this.getCourseProgressOverview = this.getCourseProgressOverview.bind(this);
+    this.getModuleTests = this.getModuleTests.bind(this);
+    this.createHomework = this.createHomework.bind(this);
+    this.getHomeworkForMaterial = this.getHomeworkForMaterial.bind(this);
+    this.getHomeworkSubmissions = this.getHomeworkSubmissions.bind(this);
+    this.reviewHomework = this.reviewHomework.bind(this);
+    this.getCommentsForMaterial = this.getCommentsForMaterial.bind(this);
+    this.getCommentsForTest = this.getCommentsForTest.bind(this);
   }
 
   async deleteUserFromCourse(courseId: number, userId: number) {
@@ -63,7 +78,7 @@ export class TeacherClient extends BaseClient {
     params?: CoursesCatalogParams,
     options?: {
       accessToken?: string;
-    }
+    },
   ): Promise<EnrolledStudentsListResponse> {
     return await this.get(
       `/teacher/courses/${courseId}/students`,
@@ -74,7 +89,7 @@ export class TeacherClient extends BaseClient {
               Authorization: `Bearer ${options.accessToken}`,
             },
           }
-        : { params }
+        : { params },
     );
   }
 
@@ -84,7 +99,7 @@ export class TeacherClient extends BaseClient {
     materialId: number,
     options?: {
       accessToken?: string;
-    }
+    },
   ): Promise<MaterialResponseDTO> {
     return await this.get(
       `/teacher/courses/${courseId}/modules/${moduleId}/materials/${materialId}`,
@@ -94,7 +109,7 @@ export class TeacherClient extends BaseClient {
               Authorization: `Bearer ${options.accessToken}`,
             },
           }
-        : undefined
+        : undefined,
     );
   }
 
@@ -103,7 +118,7 @@ export class TeacherClient extends BaseClient {
     params?: CoursesCatalogParams,
     options?: {
       accessToken?: string;
-    }
+    },
   ): Promise<PaginatedCoursesResponseDTO> {
     return await this.get<PaginatedCoursesResponseDTO>(
       "/teacher/courses",
@@ -113,7 +128,7 @@ export class TeacherClient extends BaseClient {
               Authorization: `Bearer ${options.accessToken}`,
             },
           }
-        : undefined
+        : undefined,
     );
   }
 
@@ -125,7 +140,7 @@ export class TeacherClient extends BaseClient {
     courseId: number,
     options?: {
       accessToken?: string;
-    }
+    },
   ): Promise<CourseWithModulesResponseDTO> {
     return await this.get<CourseWithModulesResponseDTO>(
       `/teacher/courses/${courseId}`,
@@ -135,13 +150,13 @@ export class TeacherClient extends BaseClient {
               Authorization: `Bearer ${options.accessToken}`,
             },
           }
-        : undefined
+        : undefined,
     );
   }
 
   async updateCourse(
     courseId: number,
-    data: CourseUpdateRequestDTO
+    data: CourseUpdateRequestDTO,
   ): Promise<CourseResponseDTO> {
     return await this.put(`/teacher/courses/${courseId}`, data, {
       headers: {
@@ -157,7 +172,7 @@ export class TeacherClient extends BaseClient {
   // Modules
   async createModule(
     courseId: number,
-    data: ModuleCreateRequestDTO
+    data: ModuleCreateRequestDTO,
   ): Promise<ModuleResponseDTO> {
     return await this.post(`/teacher/courses/${courseId}/modules`, data);
   }
@@ -167,7 +182,7 @@ export class TeacherClient extends BaseClient {
     moduleId: number,
     options?: {
       accessToken?: string;
-    }
+    },
   ): Promise<ModuleWithMaterialsResponseDTO> {
     return await this.get(
       `/teacher/courses/${courseId}/modules/${moduleId}`,
@@ -177,27 +192,27 @@ export class TeacherClient extends BaseClient {
               Authorization: `Bearer ${options.accessToken}`,
             },
           }
-        : undefined
+        : undefined,
     );
   }
 
   async updateModule(
     courseId: number,
     moduleId: number,
-    data: ModuleUpdateRequestDTO
+    data: ModuleUpdateRequestDTO,
   ): Promise<ModuleResponseDTO> {
     return await this.put(
       `/teacher/courses/${courseId}/modules/${moduleId}`,
-      data
+      data,
     );
   }
 
   async deleteModule(
     courseId: number,
-    moduleId: number
+    moduleId: number,
   ): Promise<MessageResponseDTO> {
     return await this.delete(
-      `/teacher/courses/${courseId}/modules/${moduleId}`
+      `/teacher/courses/${courseId}/modules/${moduleId}`,
     );
   }
 
@@ -205,11 +220,11 @@ export class TeacherClient extends BaseClient {
   async createMaterial(
     courseId: number,
     moduleId: number,
-    data: MaterialCreateRequestDTO
+    data: MaterialCreateRequestDTO,
   ): Promise<MaterialResponseDTO> {
     return await this.post(
       `/teacher/courses/${courseId}/modules/${moduleId}/materials`,
-      data
+      data,
     );
   }
 
@@ -217,21 +232,21 @@ export class TeacherClient extends BaseClient {
     courseId: number,
     moduleId: number,
     materialId: number,
-    data: MaterialUpdateRequestDTO
+    data: MaterialUpdateRequestDTO,
   ): Promise<MaterialResponseDTO> {
     return await this.put(
       `/teacher/courses/${courseId}/modules/${moduleId}/materials/${materialId}`,
-      data
+      data,
     );
   }
 
   async deleteMaterial(
     courseId: number,
     moduleId: number,
-    materialId: number
+    materialId: number,
   ): Promise<MessageResponseDTO> {
     return await this.delete(
-      `/teacher/courses/${courseId}/modules/${moduleId}/materials/${materialId}`
+      `/teacher/courses/${courseId}/modules/${moduleId}/materials/${materialId}`,
     );
   }
 
@@ -251,11 +266,11 @@ export class TeacherClient extends BaseClient {
     courseId: number,
     moduleId: number,
     materialId: number,
-    fileIds: number[]
+    fileIds: number[],
   ): Promise<MaterialFileResponseDTO[]> {
     return await this.post(
       `/teacher/courses/${courseId}/modules/${moduleId}/materials/${materialId}/files`,
-      fileIds
+      fileIds,
     );
   }
 
@@ -263,17 +278,17 @@ export class TeacherClient extends BaseClient {
     courseId: number,
     moduleId: number,
     materialId: number,
-    fileId: number
+    fileId: number,
   ): Promise<MessageResponseDTO> {
     return await this.delete(
-      `/teacher/courses/${courseId}/modules/${moduleId}/materials/${materialId}/files/${fileId}`
+      `/teacher/courses/${courseId}/modules/${moduleId}/materials/${materialId}/files/${fileId}`,
     );
   }
 
   // Editors
   async addEditor(
     courseId: number,
-    data: AddEditorRequestDTO
+    data: AddEditorRequestDTO,
   ): Promise<EditorResponseDTO> {
     return await this.post(`/teacher/courses/${courseId}/editors`, data);
   }
@@ -283,7 +298,7 @@ export class TeacherClient extends BaseClient {
     params: { search?: string; page?: number },
     options?: {
       accessToken?: string;
-    }
+    },
   ): Promise<EditorListResponse> {
     return await this.get(`/teacher/courses/${courseId}/editors`, {
       params: params,
@@ -295,10 +310,10 @@ export class TeacherClient extends BaseClient {
 
   async removeEditor(
     courseId: number,
-    editorId: number
+    editorId: number,
   ): Promise<MessageResponseDTO> {
     return await this.delete(
-      `/teacher/courses/${courseId}/editors/${editorId}`
+      `/teacher/courses/${courseId}/editors/${editorId}`,
     );
   }
 
@@ -307,10 +322,12 @@ export class TeacherClient extends BaseClient {
     courseId: number,
     options?: {
       accessToken?: string;
-    }
+    },
   ): Promise<CourseApplicationResponseDTO[]> {
     // 1. Делаем запрос. Типизируем результат как 'any' или создаем интерфейс пагинации
-    const response = await this.get<{ applications: CourseApplicationResponseDTO[] }>(
+    const response = await this.get<{
+      applications: CourseApplicationResponseDTO[];
+    }>(
       `/teacher/courses/${courseId}/applications`,
       options
         ? {
@@ -318,7 +335,7 @@ export class TeacherClient extends BaseClient {
               Authorization: `Bearer ${options.accessToken}`,
             },
           }
-        : undefined
+        : undefined,
     );
 
     // 2. Возвращаем только массив заявок, чтобы соответствовать Promise<CourseApplicationResponseDTO[]>
@@ -327,14 +344,169 @@ export class TeacherClient extends BaseClient {
   }
 
   async approveApplication(
-    applicationId: number
+    applicationId: number,
   ): Promise<CourseApplicationDetailResponseDTO> {
     return await this.post(`/teacher/applications/${applicationId}/approve`);
   }
 
   async rejectApplication(
-    applicationId: number
+    applicationId: number,
   ): Promise<CourseApplicationDetailResponseDTO> {
     return await this.post(`/teacher/applications/${applicationId}/reject`);
+  }
+
+  // Course Progress
+  async getCourseProgressOverview(
+    courseId: number,
+    params?: { page?: number; page_size?: number },
+    options?: {
+      accessToken?: string;
+    },
+  ): Promise<CourseProgressOverviewResponseDTO> {
+    return await this.get(
+      `/teacher/courses/${courseId}/progress`,
+      options
+        ? {
+            params,
+            headers: {
+              Authorization: `Bearer ${options.accessToken}`,
+            },
+          }
+        : { params },
+    );
+  }
+
+  // Tests in Module
+  async getModuleTests(
+    courseId: number,
+    moduleId: number,
+    options?: {
+      accessToken?: string;
+    },
+  ): Promise<TestsListResponseDTO> {
+    return await this.get(
+      `/teacher/courses/${courseId}/modules/${moduleId}/tests`,
+      options
+        ? {
+            headers: {
+              Authorization: `Bearer ${options.accessToken}`,
+            },
+          }
+        : undefined,
+    );
+  }
+
+  // Homework
+  async createHomework(
+    courseId: number,
+    moduleId: number,
+    materialId: number,
+    data: HomeworkCreateRequestDTO,
+  ): Promise<HomeworkResponseDTO> {
+    return await this.post(
+      `/teacher/courses/${courseId}/modules/${moduleId}/materials/${materialId}/homework`,
+      data,
+    );
+  }
+
+  async getHomeworkForMaterial(
+    courseId: number,
+    moduleId: number,
+    materialId: number,
+    options?: {
+      accessToken?: string;
+    },
+  ): Promise<HomeworkResponseDTO[]> {
+    return await this.get(
+      `/teacher/courses/${courseId}/modules/${moduleId}/materials/${materialId}/homework`,
+      options
+        ? {
+            headers: {
+              Authorization: `Bearer ${options.accessToken}`,
+            },
+          }
+        : undefined,
+    );
+  }
+
+  async getHomeworkSubmissions(
+    courseId: number,
+    moduleId: number,
+    materialId: number,
+    assignmentId: number,
+    options?: {
+      accessToken?: string;
+    },
+  ): Promise<HomeworkSubmissionResponseDTO[]> {
+    return await this.get(
+      `/teacher/courses/${courseId}/modules/${moduleId}/materials/${materialId}/homework/${assignmentId}/submissions`,
+      options
+        ? {
+            headers: {
+              Authorization: `Bearer ${options.accessToken}`,
+            },
+          }
+        : undefined,
+    );
+  }
+
+  async reviewHomework(
+    courseId: number,
+    moduleId: number,
+    materialId: number,
+    assignmentId: number,
+    submissionId: number,
+    data: HomeworkReviewRequestDTO,
+  ): Promise<HomeworkSubmissionResponseDTO> {
+    return await this.post(
+      `/teacher/courses/${courseId}/modules/${moduleId}/materials/${materialId}/homework/${assignmentId}/submissions/${submissionId}/review`,
+      data,
+    );
+  }
+
+  // Comments
+  async getCommentsForMaterial(
+    courseId: number,
+    moduleId: number,
+    materialId: number,
+    params?: { page?: number; page_size?: number },
+    options?: {
+      accessToken?: string;
+    },
+  ): Promise<PaginatedCommentsResponseDTO> {
+    return await this.get(
+      `/students/my-courses/${courseId}/modules/${moduleId}/materials/${materialId}/comments`,
+      options
+        ? {
+            params,
+            headers: {
+              Authorization: `Bearer ${options.accessToken}`,
+            },
+          }
+        : { params },
+    );
+  }
+
+  async getCommentsForTest(
+    courseId: number,
+    moduleId: number,
+    materialId: number,
+    testId: number,
+    params?: { page?: number; page_size?: number },
+    options?: {
+      accessToken?: string;
+    },
+  ): Promise<PaginatedCommentsResponseDTO> {
+    return await this.get(
+      `/students/my-courses/${courseId}/modules/${moduleId}/materials/${materialId}/tests/${testId}/comments`,
+      options
+        ? {
+            params,
+            headers: {
+              Authorization: `Bearer ${options.accessToken}`,
+            },
+          }
+        : { params },
+    );
   }
 }
