@@ -28,11 +28,7 @@ export const MaterialPresentationViewer = ({
             <Typography.Body className="w-full text-balance">
               {el.file.original_filename}
             </Typography.Body>
-            <Button
-              variant="ghost"
-              size="icon-large"
-              onClick={() => handleDownload(el)}
-            >
+            <Button variant="ghost" onClick={() => handleDownload(el)}>
               <Icon glyph="download" color="black" size="20" />
             </Button>
           </div>

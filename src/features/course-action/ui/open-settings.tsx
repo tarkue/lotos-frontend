@@ -10,12 +10,7 @@ export const OpenSettings: React.FC<CourseProps> = ({ course }) => {
     router.push(formatEndpoint(Endpoint.COURSE_SETTINGS_ABOUT, [course.id]));
   };
   return (
-    <Button
-      size="large"
-      variant="primary"
-      onClick={handle}
-      className="md:w-min w-full"
-    >
+    <Button variant="primary" onClick={handle} className="md:w-min w-full">
       Перейти к настройкам
     </Button>
   );

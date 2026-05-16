@@ -1,25 +1,42 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { cn } from "@/src/shared/libs/utils";
+import { useEffect, useMemo, useState } from "react";
 import { TabGroupProps } from "./props";
+import { validateChildrenOrThrow } from "./validate-children";
 
 export const TabGroup = ({
   className,
+  defaultValue,
   children,
   onChange,
   ...props
 }: TabGroupProps) => {
+  useMemo(() => validateChildrenOrThrow(children), [children.length]);
+
+  const [activeTab, setActiveTab] = useState<string | undefined>(defaultValue);
+
+  useEffect(() => {
+    setActiveTab(defaultValue);
+  }, [defaultValue]);
+
   const handleTabChange = (value: string) => {
+    setActiveTab(value);
     onChange?.(value);
   };
 
   return (
     <ul
-      className={cn("flex w-auto gap-0 first:rounded-l-2xl", className)}
+      className={cn(
+        "flex flex-col w-auto gap-3 first:rounded-l-2xl",
+        className,
+      )}
       {...props}
     >
       {children.map((child, index) => (
         <child.type
           {...child.props}
+          isActive={child.props.children === activeTab}
           key={index}
           onClick={() => handleTabChange(child.props.children)}
         />

@@ -13,7 +13,7 @@ export const QuerySearch = () => {
   const setSearchParam = useSearchParamSetter();
   const defaultValue = searchParams?.get(QUERY_SEARCH_PARAM);
   const [searchValue, setSearchValue] = useState<string>(
-    defaultValue ? defaultValue : ""
+    defaultValue ? defaultValue : "",
   );
 
   const handle = (value: string) => {
@@ -25,14 +25,14 @@ export const QuerySearch = () => {
     <div className="flex w-full">
       <Input
         placeholder="Поиск"
-        className="rounded-l-[16px] rounded-r-none border-r-0"
+        className="rounded-l-2xl rounded-r-none border-r-0 bg-white"
         value={searchValue}
         onChange={(e) => handle(e.currentTarget.value)}
       />
       <Button
         variant="primary"
-        size="icon-small"
-        className="rounded-none rounded-l-none rounded-r-[16px] w-11"
+        size="small"
+        className="rounded-none rounded-l-none rounded-r-2xl w-11"
       >
         <Icon glyph="search" color="white" />
       </Button>

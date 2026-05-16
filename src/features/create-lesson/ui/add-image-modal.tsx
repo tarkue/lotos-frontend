@@ -115,12 +115,7 @@ export const AddImageModal: React.FC = () => {
           <Typography.Body>
             Вставьте эту строку туда, где вы хотите разместить изображение:
           </Typography.Body>
-          <div
-            className={cn(
-              InputVariant({ size: "large" }),
-              "items-start min-h-[80px]"
-            )}
-          >
+          <div className={cn(InputVariant(), "items-start min-h-20")}>
             <textarea
               value={markdownCode}
               readOnly
@@ -131,12 +126,7 @@ export const AddImageModal: React.FC = () => {
         </div>
 
         <div className="flex gap-2 w-full">
-          <Button
-            variant="primary"
-            size="large"
-            onClick={handleCopy}
-            className="flex-1"
-          >
+          <Button variant="primary" onClick={handleCopy} className="flex-1">
             Копировать
           </Button>
         </div>
@@ -161,7 +151,7 @@ export const AddImageModal: React.FC = () => {
           isDragging
             ? "border-primary bg-primary/10"
             : "border-base-300 hover:border-base-400",
-          isUploading && "opacity-50 cursor-not-allowed"
+          isUploading && "opacity-50 cursor-not-allowed",
         )}
       >
         <input

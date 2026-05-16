@@ -9,8 +9,8 @@ export const BackButton = ({ endpoint }: { endpoint: Endpoint | string }) => {
   const router = useRouter();
   const handle = () => router.push(endpoint);
   return (
-    <Button variant="ghost" size="icon-large" className="pb-3" onClick={handle}>
-      <Icon glyph="arrow-left" size="20" color="default" />
+    <Button variant="ghost" className="pb-3" onClick={handle}>
+      <Icon glyph="arrow-left" size="20" />
       <Typography.Body className="text-base-500">
         Вернуться назад
       </Typography.Body>

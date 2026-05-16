@@ -29,7 +29,7 @@ export const EditVideoLessonForm: React.FC<EditVideoLessonFormProps> = ({
       id: f.file_id,
       name: f.file.original_filename,
       isExisting: true,
-    })) || []
+    })) || [],
   );
   const [newFile, setNewFile] = useState<{
     id: number;
@@ -77,7 +77,7 @@ export const EditVideoLessonForm: React.FC<EditVideoLessonFormProps> = ({
             courseId,
             moduleId,
             material.id,
-            existingFileId
+            existingFileId,
           );
           setExistingFiles([]);
         } catch {
@@ -176,8 +176,8 @@ export const EditVideoLessonForm: React.FC<EditVideoLessonFormProps> = ({
   const currentFile = newFile
     ? { ...newFile, isExisting: false }
     : existingFiles.length > 0
-    ? { ...existingFiles[0], isExisting: true }
-    : null;
+      ? { ...existingFiles[0], isExisting: true }
+      : null;
 
   return (
     <div className="flex flex-col gap-4 w-full">
@@ -196,7 +196,6 @@ export const EditVideoLessonForm: React.FC<EditVideoLessonFormProps> = ({
             </Typography.Caption>
             <Button
               variant="ghost"
-              size="icon-large"
               onClick={() =>
                 currentFile.isExisting
                   ? removeExistingFile(currentFile.id)
@@ -220,7 +219,7 @@ export const EditVideoLessonForm: React.FC<EditVideoLessonFormProps> = ({
           onClick={() => !isUploading && fileInputRef.current?.click()}
           className={cn(
             "flex flex-col items-center justify-center gap-2 p-8 transition-colors",
-            isUploading ? "cursor-not-allowed opacity-50" : "cursor-pointer"
+            isUploading ? "cursor-not-allowed opacity-50" : "cursor-pointer",
           )}
         >
           <input
@@ -254,7 +253,7 @@ export const EditVideoLessonForm: React.FC<EditVideoLessonFormProps> = ({
           onClick={() => !isUploading && fileInputRef.current?.click()}
           className={cn(
             "flex flex-col items-center justify-center gap-2 transition-colors",
-            isUploading ? "cursor-not-allowed opacity-50" : "cursor-pointer"
+            isUploading ? "cursor-not-allowed opacity-50" : "cursor-pointer",
           )}
         >
           <input
@@ -280,7 +279,6 @@ export const EditVideoLessonForm: React.FC<EditVideoLessonFormProps> = ({
       <div className="flex justify-end w-full">
         <Button
           variant="primary"
-          size="large"
           onClick={handleSave}
           disabled={!currentFile}
           className="w-min"

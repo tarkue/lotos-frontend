@@ -15,7 +15,7 @@ export const AddLesson: React.FC<ModuleProps> = ({ module }) => {
   };
 
   return (
-    <Button size="large" variant="primary" onClick={handle} className="w-full">
+    <Button variant="primary" onClick={handle} className="w-full">
       Создать урок
     </Button>
   );

@@ -1,14 +1,14 @@
 import { cva } from "class-variance-authority";
 
-const labelVariants = cva("text-[14px] text-base-300 text-wrap", {
+const labelVariants = cva("text-[16px] font-medium text-wrap", {
   variants: {
-    padding: {
-      none: "p-0",
-      small: "px-3",
+    required: {
+      true: "",
+      false: "",
     },
   },
   defaultVariants: {
-    padding: "small",
+    required: false,
   },
 });
 

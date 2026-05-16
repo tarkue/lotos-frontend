@@ -29,7 +29,7 @@ export const EditPresentationForm: React.FC<EditPresentationFormProps> = ({
       id: f.file_id,
       name: f.file.original_filename,
       isExisting: true,
-    })) || []
+    })) || [],
   );
   const [newFiles, setNewFiles] = useState<
     Array<{ id: number; name: string; file: File }>
@@ -186,7 +186,6 @@ export const EditPresentationForm: React.FC<EditPresentationFormProps> = ({
                 </Typography.Caption>
                 <Button
                   variant="ghost"
-                  size="icon-large"
                   onClick={() =>
                     file.isExisting
                       ? removeExistingFile(file.id)
@@ -212,7 +211,7 @@ export const EditPresentationForm: React.FC<EditPresentationFormProps> = ({
           onClick={() => !isUploading && fileInputRef.current?.click()}
           className={cn(
             "flex flex-col items-center justify-center gap-2 p-8 transition-colors",
-            isUploading ? "cursor-not-allowed opacity-50" : "cursor-pointer"
+            isUploading ? "cursor-not-allowed opacity-50" : "cursor-pointer",
           )}
         >
           <input
@@ -247,7 +246,7 @@ export const EditPresentationForm: React.FC<EditPresentationFormProps> = ({
           onClick={() => !isUploading && fileInputRef.current?.click()}
           className={cn(
             "flex flex-col items-center justify-center gap-2 transition-colors",
-            isUploading ? "cursor-not-allowed opacity-50" : "cursor-pointer"
+            isUploading ? "cursor-not-allowed opacity-50" : "cursor-pointer",
           )}
         >
           <input
@@ -276,7 +275,6 @@ export const EditPresentationForm: React.FC<EditPresentationFormProps> = ({
       <div className="flex justify-end w-full">
         <Button
           variant="primary"
-          size="large"
           onClick={handleSave}
           disabled={allFiles.length === 0}
           className="w-min"

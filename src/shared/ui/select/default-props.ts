@@ -13,8 +13,8 @@ const selectStyles = {
 const selectClassNames = {
   control: ({ isFocused }: any) =>
     cn(
-      "transition-colors duration-300 flex w-full rounded-[8px] border placeholder-gray border-base-200 bg-base-100 px-4 py-2",
-      isFocused ? "outline-none" : ""
+      "transition-colors duration-300 flex w-full rounded-[12px] border placeholder-gray border-base-border bg-base px-4 py-2",
+      isFocused ? "outline-none" : "",
     ),
   option: () =>
     "flex px-[16px] py-1 text-[16px] rounded-[8px] hover:bg-base-200",

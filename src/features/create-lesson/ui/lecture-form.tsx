@@ -70,12 +70,7 @@ export const LectureForm: React.FC<LectureFormProps> = ({
 
   return (
     <div className="flex flex-col gap-4 w-full">
-      <div
-        className={cn(
-          InputVariant({ size: "large" }),
-          "items-start min-h-[200px]"
-        )}
-      >
+      <div className={cn(InputVariant(), "items-start min-h-[200px]")}>
         <textarea
           ref={textareaRef}
           value={textContent}
@@ -87,17 +82,11 @@ export const LectureForm: React.FC<LectureFormProps> = ({
       </div>
 
       <div className="flex justify-end w-full gap-2">
-        <Button
-          variant="ghost"
-          size="large"
-          onClick={handleAddImage}
-          className="w-min"
-        >
+        <Button variant="ghost" onClick={handleAddImage} className="w-min">
           Добавить изображение
         </Button>
         <Button
           variant="primary"
-          size="large"
           onClick={handleSave}
           disabled={!textContent.trim()}
           className="w-min"

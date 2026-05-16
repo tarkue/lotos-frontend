@@ -25,7 +25,7 @@ const DeleteModuleConfirm: React.FC<CourseProps> = ({ course }) => {
   };
 
   return (
-    <Button onClick={handle} variant="primary" size="large">
+    <Button onClick={handle} variant="primary">
       Удалить курс
     </Button>
   );
@@ -42,13 +42,7 @@ export const Delete: React.FC<CourseProps> = ({ course }) => {
   };
 
   return (
-    <Button
-      variant="ghost"
-      size="large"
-      onClick={handle}
-      className="w-fit"
-      type="button"
-    >
+    <Button variant="ghost" onClick={handle} className="w-fit" type="button">
       Удалить этот курс
     </Button>
   );

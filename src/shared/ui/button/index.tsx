@@ -4,7 +4,21 @@ import { ButtonProps } from "./props";
 import { buttonVariants } from "./variants";
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, ...props }, ref) => {
+  ({ className, variant, size, loading, ...props }, ref) => {
+    if (loading) {
+      props.children = (
+        <PulseLoader
+          color="#FFFFFF"
+          size={7}
+          margin={3}
+          cssOverride={{
+            height: "27px",
+            display: "flex",
+            alignItems: "center",
+          }}
+        />
+      );
+    }
     return (
       <button
         role="button"
@@ -13,22 +27,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       />
     );
-  }
+  },
 );
 
 Button.displayName = "Button";
-
-export const SpinnerButton = ({
-  variant = "primary",
-  size = "large",
-  ...props
-}: ButtonProps) => (
-  <Button variant={variant} size={size} {...props}>
-    <PulseLoader
-      color="#FFFFFF"
-      size={7}
-      margin={3}
-      cssOverride={{ height: "27px", display: "flex", alignItems: "center" }}
-    />
-  </Button>
-);

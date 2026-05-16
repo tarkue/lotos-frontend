@@ -23,7 +23,7 @@ const AdditionalList = ({
   const [search, setSearch] = useState<string>("");
   const selectedUsers = useMemo(
     () => editors.map((el) => el.user.id),
-    [editors]
+    [editors],
   );
   const { data } = useQuery({
     queryKey: ["allUsers", search],
@@ -41,25 +41,25 @@ const AdditionalList = ({
     const editorsForDelete = editors.filter(
       (ed) =>
         !newEditorsList.some(
-          (newEditor) => Number.parseInt(newEditor.toString()) === ed.user.id
-        )
+          (newEditor) => Number.parseInt(newEditor.toString()) === ed.user.id,
+        ),
     );
     const editorsIdsForAdd = newEditorsList.filter(
       (newEditor) =>
         !editors.some(
-          (editor) => Number.parseInt(newEditor.toString()) === editor.user.id
-        )
+          (editor) => Number.parseInt(newEditor.toString()) === editor.user.id,
+        ),
     );
 
     editorsForDelete.forEach(
-      async (editor) => await api.teacher.removeEditor(courseId, editor.id)
+      async (editor) => await api.teacher.removeEditor(courseId, editor.id),
     );
 
     editorsIdsForAdd.forEach(
       async (editor) =>
         await api.teacher.addEditor(courseId, {
           user_id: Number.parseInt(editor.toString()),
-        })
+        }),
     );
 
     clear();
@@ -80,7 +80,7 @@ const AdditionalList = ({
                 <div key={i} className="flex w-full items-center gap-1">
                   <CheckboxField
                     defaultChecked={selectedUsers.some(
-                      (user) => user === el.id
+                      (user) => user === el.id,
                     )}
                     name="editors"
                     value={el.id}
@@ -117,7 +117,7 @@ export const AddToCourse = ({
     });
   };
   return (
-    <Button variant="primary" size="large" onClick={handle}>
+    <Button variant="primary" onClick={handle}>
       Изменить состав
     </Button>
   );

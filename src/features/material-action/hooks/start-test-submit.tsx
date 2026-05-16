@@ -26,7 +26,7 @@ const StartTestButton = ({ material }: { material: Material }) => {
 
   return (
     <>
-      <Button variant="primary" size="large" onClick={handle}>
+      <Button variant="primary" onClick={handle}>
         Начать тест
       </Button>
     </>

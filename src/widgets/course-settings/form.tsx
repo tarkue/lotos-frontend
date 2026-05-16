@@ -70,7 +70,7 @@ export const CourseSettingsForm = ({
             "title",
             "Название курса",
             "text",
-            "Название курса"
+            "Название курса",
           )}
         />
         <form.AppField
@@ -78,13 +78,13 @@ export const CourseSettingsForm = ({
             "description",
             "Описание курса...",
             "text",
-            "Описание курса"
+            "Описание курса",
           )}
         />
       </div>
       <div className="flex gap-1">
         <form.AppForm>
-          <form.Button type="submit" size="large" className="w-min">
+          <form.Button type="submit" className="w-min">
             Изменить
           </form.Button>
         </form.AppForm>

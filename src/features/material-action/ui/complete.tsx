@@ -14,7 +14,7 @@ export const MaterialComplete = ({
   courseId,
 }: MaterialActionProps) => {
   const [isCompleted, setIsCompleted] = useState<boolean>(
-    material.is_completed ? material.is_completed : false
+    material.is_completed ? material.is_completed : false,
   );
   const router = useRouter();
   const handle = async () => {
@@ -24,7 +24,7 @@ export const MaterialComplete = ({
       setIsCompleted(true);
       if (nextMaterial !== undefined) {
         router.push(
-          formatEndpoint(Endpoint.MATERIAL, [...ids, nextMaterial.id])
+          formatEndpoint(Endpoint.MATERIAL, [...ids, nextMaterial.id]),
         );
       }
     }
@@ -33,8 +33,7 @@ export const MaterialComplete = ({
   return (
     <Button
       onClick={handle}
-      variant={isCompleted ? "primary" : "outline"}
-      size="large"
+      variant={isCompleted ? "primary" : "secondary"}
       className="h-max group font-semibold lower"
       disabled={isCompleted}
     >
@@ -42,7 +41,7 @@ export const MaterialComplete = ({
       <Icon
         size="20"
         glyph="done"
-        color="gray"
+        color="white"
         className="duration-300 transition group-hover:bg-black group-disabled:group-hover:bg-gray"
       />
     </Button>

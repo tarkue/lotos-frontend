@@ -30,7 +30,7 @@ export const Approve = ({
   };
 
   return (
-    <Button variant="ghost" size="icon-small" onClick={approveApplication}>
+    <Button variant="ghost" onClick={approveApplication}>
       <Icon glyph="add-user" color="black" />
     </Button>
   );

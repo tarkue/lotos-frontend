@@ -40,19 +40,22 @@ export const AddTestForm = ({ module }: ModuleProps) => {
   const [answersCount, setAnswersCount] = useState<number>();
   const [time, setTime] = useState<number>();
 
-  const createEmptyQuestion = useCallback((): Question => ({
-    title: "",
-    fields: Array(4)
-      .fill(null)
-      .map(() => ({
-        title: "",
-        isTrue: false,
-      })),
-  }), []);
+  const createEmptyQuestion = useCallback(
+    (): Question => ({
+      title: "",
+      fields: Array(4)
+        .fill(null)
+        .map(() => ({
+          title: "",
+          isTrue: false,
+        })),
+    }),
+    [],
+  );
 
   const currentQuestion = useMemo(
     () => questions[currentQuestionIndex] || createEmptyQuestion(),
-    [questions, currentQuestionIndex, createEmptyQuestion]
+    [questions, currentQuestionIndex, createEmptyQuestion],
   );
 
   const handleNumeric = (value: string) => {
@@ -114,7 +117,7 @@ export const AddTestForm = ({ module }: ModuleProps) => {
         {
           num_questions: answersCount!,
           time_limit_minutes: time!,
-        }
+        },
       );
 
       setTestId(res.id);
@@ -136,7 +139,7 @@ export const AddTestForm = ({ module }: ModuleProps) => {
               module.id,
               Number.parseInt(materialIdPair!.value),
               q.test_id,
-              q.id
+              q.id,
             );
           } catch (deleteError) {
             console.warn("Не удалось удалить вопрос:", deleteError);
@@ -152,7 +155,8 @@ export const AddTestForm = ({ module }: ModuleProps) => {
       console.error("Ошибка генерации теста:", error);
       toast({
         title: "Ошибка генерации теста",
-        description: error instanceof Error ? error.message : "Неизвестная ошибка",
+        description:
+          error instanceof Error ? error.message : "Неизвестная ошибка",
         variant: "warning",
       });
     }
@@ -173,7 +177,7 @@ export const AddTestForm = ({ module }: ModuleProps) => {
           status: "draft",
           title: module.title,
           pass_threshold: 100,
-        }
+        },
       );
 
       setTestId(res.id);
@@ -185,7 +189,8 @@ export const AddTestForm = ({ module }: ModuleProps) => {
       console.error("Ошибка при создании теста:", error);
       toast({
         title: "Ошибка создания теста",
-        description: error instanceof Error ? error.message : "Неизвестная ошибка",
+        description:
+          error instanceof Error ? error.message : "Неизвестная ошибка",
         variant: "warning",
       });
     }
@@ -202,7 +207,7 @@ export const AddTestForm = ({ module }: ModuleProps) => {
         return newQuestions;
       });
     },
-    [currentQuestionIndex, createEmptyQuestion]
+    [currentQuestionIndex, createEmptyQuestion],
   );
 
   const handleNext = () => {
@@ -210,7 +215,10 @@ export const AddTestForm = ({ module }: ModuleProps) => {
 
     const nextIndex = currentQuestionIndex + 1;
     if (!questions[nextIndex]) {
-      setQuestions((prevQuestions) => [...prevQuestions, createEmptyQuestion()]);
+      setQuestions((prevQuestions) => [
+        ...prevQuestions,
+        createEmptyQuestion(),
+      ]);
     }
     setCurrentQuestionIndex(nextIndex);
   };
@@ -278,7 +286,7 @@ export const AddTestForm = ({ module }: ModuleProps) => {
               content: q.title,
               is_correct: q.isTrue,
             })),
-          }
+          },
         );
       }
 
@@ -287,7 +295,7 @@ export const AddTestForm = ({ module }: ModuleProps) => {
         module.id,
         materialId,
         testId!,
-        { status: "published" }
+        { status: "published" },
       );
 
       toast({ title: "Тест сохранён ✅" });
@@ -297,13 +305,14 @@ export const AddTestForm = ({ module }: ModuleProps) => {
           module.course_id,
           module.id,
           materialId,
-        ])
+        ]),
       );
     } catch (error) {
       console.error("Ошибка при сохранении теста:", error);
       toast({
         title: "Ошибка сохранения теста",
-        description: error instanceof Error ? error.message : "Неизвестная ошибка",
+        description:
+          error instanceof Error ? error.message : "Неизвестная ошибка",
         variant: "warning",
       });
     }
@@ -313,9 +322,7 @@ export const AddTestForm = ({ module }: ModuleProps) => {
     return (
       <div className="flex flex-col gap-4 max-w-xl">
         <div className="flex flex-col gap-1">
-          <Label isValid={true}>
-            Выберите урок, к которому нужно привязать тест:
-          </Label>
+          <Label>Выберите урок, к которому нужно привязать тест:</Label>
           <AsyncSelect
             cacheOptions
             defaultOptions
@@ -325,7 +332,7 @@ export const AddTestForm = ({ module }: ModuleProps) => {
             value={materialIdPair}
             onChange={(e) =>
               setMaterialIdPair(
-                e ? { label: e.label, value: e.value } : undefined
+                e ? { label: e.label, value: e.value } : undefined,
               )
             }
           />
@@ -337,9 +344,7 @@ export const AddTestForm = ({ module }: ModuleProps) => {
         />
 
         <div className="flex flex-col gap-1">
-          <Label isValid={true}>
-            Установите время для прохождения теста в минутах:
-          </Label>
+          <Label>Установите время для прохождения теста в минутах:</Label>
           <Input
             placeholder="Время прохождения теста"
             value={time ?? ""}
@@ -347,11 +352,9 @@ export const AddTestForm = ({ module }: ModuleProps) => {
           />
         </div>
 
-        <Button size="large" onClick={handleAi}>
-          Сгенерировать тест
-        </Button>
+        <Button onClick={handleAi}>Сгенерировать тест</Button>
 
-        <Button variant="ghost" size="large" onClick={handleHand}>
+        <Button variant="ghost" onClick={handleHand}>
           Создать тест вручную
         </Button>
       </div>

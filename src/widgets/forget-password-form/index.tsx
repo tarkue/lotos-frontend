@@ -47,9 +47,7 @@ export const ForgetPasswordForm = () => {
       </div>
 
       <form.AppForm>
-        <form.Button size="large" className="w-min">
-          Восстановить доступ
-        </form.Button>
+        <form.Button className="w-min">Восстановить доступ</form.Button>
       </form.AppForm>
     </form>
   );

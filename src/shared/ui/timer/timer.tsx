@@ -6,13 +6,20 @@ import { TimeSlot } from "./time-slot";
 export const Timer = forwardRef<HTMLDivElement, TimerProps>(
   ({ className, time, ...props }, ref) => {
     return (
-      <div className={cn("flex", className)} ref={ref} {...props}>
+      <div
+        className={cn(
+          "flex px-4 py-2 rounded-2xl bg-white border border-base-border",
+          className,
+        )}
+        ref={ref}
+        {...props}
+      >
         {time.hours !== undefined && (
           <>
             <div
               className={cn(
                 "flex transition-all duration-200 ease-out",
-                time.hours === 0 && "origin-right scale-0 width-0"
+                time.hours === 0 && "origin-right scale-0 width-0",
               )}
             >
               <TimeSlot value={time.hours ? time.hours : 0} />
@@ -26,6 +33,6 @@ export const Timer = forwardRef<HTMLDivElement, TimerProps>(
         <TimeSlot value={time.seconds} withColon={true} />
       </div>
     );
-  }
+  },
 );
 Timer.displayName = "Timer";

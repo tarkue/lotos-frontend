@@ -9,17 +9,20 @@ import { labelVariants } from "./variants";
 const Label = forwardRef<
   React.ComponentRef<typeof LabelPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> &
-    VariantProps<typeof labelVariants> & { isValid?: boolean }
->(({ padding, className, isValid, ...props }, ref) => (
-  <div
-    className={cn(
-      labelVariants({ padding, className }),
-      !isValid && "text-error"
-    )}
-  >
-    <LabelPrimitive.Root ref={ref} {...props} />
-  </div>
-));
+    VariantProps<typeof labelVariants> & { required?: boolean }
+>(({ className, required, ...props }, ref) => {
+  if (required)
+    props.children = (
+      <>
+        {props.children} <span className="text-red">*</span>
+      </>
+    );
+  return (
+    <div className={cn(labelVariants({ required, className }))}>
+      <LabelPrimitive.Root ref={ref} {...props} />
+    </div>
+  );
+});
 Label.displayName = LabelPrimitive.Root.displayName;
 
 export { Label };

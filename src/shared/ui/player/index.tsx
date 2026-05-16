@@ -25,31 +25,31 @@ export default function Player({ url }: { url: string }) {
         width: "100%",
         aspectRatio: "16/9",
       }}
-      className="rounded-[12px] overflow-hidden"
+      className="rounded-xlrflow-hidden"
     >
       <ReactPlayer
         slot="media"
         src={url}
         onDoubleClick={() => ref.current?.click()}
         controls={false}
-        className="rounded-[12px] overflow-hidden"
+        className="rounded-xlrflow-hidden"
         style={{
           width: "100%",
           height: "100%",
         }}
       ></ReactPlayer>
       <MediaControlBar className="pb-2">
-        <MediaTimeRange className="w-full h-[12px] media-time-range bg-none" />
+        <MediaTimeRange className="w-full h-3 media-time-range bg-none" />
       </MediaControlBar>
       <MediaControlBar className="w-full flex justify-between mb-2 px-2">
         <div className="flex gap-1 items-center">
-          <div className="flex gap-2 bg-[rgba(0,0,0,0.3)] backdrop-blur-xs p-1 rounded-4xl">
+          <div className="flex gap-2 bg-modal backdrop-blur-xs p-1 rounded-4xl">
             <MediaPlayButton
               className="w-10 h-10 rounded-4xl bg-none"
               noTooltip={true}
             />
           </div>
-          <div className="flex gap-2 p-1 rounded-4xl bg-[rgba(0,0,0,0.3)] backdrop-blur-xs">
+          <div className="flex gap-2 p-1 rounded-4xl bg-modal backdrop-blur-xs">
             <MediaTimeDisplay
               showDuration
               className="h-10 px-2.5 rounded-4xl hover:none bg-none hover:bg-none font-roboto select-none"
@@ -58,8 +58,8 @@ export default function Player({ url }: { url: string }) {
 
           <div
             className={cn(
-              "transition-all duration-250 delay-75 flex gap-0 bg-[rgba(0,0,0,0.3)] backdrop-blur-xs px-1 items-center h-12 rounded-3xl overflow-hidden",
-              seekMediaVolumeRange ? "w-37" : "w-12"
+              "transition-all duration-250 delay-75 flex gap-0 bg-modal backdrop-blur-xs px-1 items-center h-12 rounded-3xl overflow-hidden",
+              seekMediaVolumeRange ? "w-37" : "w-12",
             )}
           >
             <div className="w-10 h-10">
@@ -74,13 +74,13 @@ export default function Player({ url }: { url: string }) {
                 "transition-all duration-250 delay-75 origin-left",
                 seekMediaVolumeRange
                   ? "scale-x-100 visible"
-                  : "scale-x-0 unvisible"
+                  : "scale-x-0 unvisible",
               )}
             >
               <MediaVolumeRange
                 className={cn(
                   "transition-all duration-250 delay-0 p-1 rounded-4xl min-w-25 h-10 py-1",
-                  seekMediaVolumeRange ? "visible" : "unvisible"
+                  seekMediaVolumeRange ? "visible" : "unvisible",
                 )}
                 onMouseEnter={() => setSeekMediaVolumeRange(true)}
                 onMouseLeave={() => setSeekMediaVolumeRange(false)}
@@ -88,7 +88,7 @@ export default function Player({ url }: { url: string }) {
             </div>
           </div>
         </div>
-        <div className="flex gap-2 bg-[rgba(0,0,0,0.3)] backdrop-blur-xs py-1 px-1 rounded-3xl h-full">
+        <div className="flex gap-2 bg-modal backdrop-blur-xs py-1 px-1 rounded-3xl h-full">
           <MediaPlaybackRateButton
             noTooltip={true}
             className="w-10 h-10 rounded-4xl bg-none select-none"

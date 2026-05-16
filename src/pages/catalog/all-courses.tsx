@@ -10,21 +10,23 @@ export async function FetchAllCourses(search?: string, page?: string) {
   const cookieStore = await cookies();
   const role = cookieStore.get("role")?.value;
 
-  const defaultRequest = async () => await api.course.getCoursesCatalog({
-        page: page ? Number.parseInt(page) : undefined,
-        search: search,
+  const defaultRequest = async () =>
+    await api.course.getCoursesCatalog({
+      page: page ? Number.parseInt(page) : undefined,
+      search: search,
     });
 
   return await roleSwitcher(role, {
-      student:  () => sfwr(api.student.getCoursesCatalog, {
+    student: () =>
+      sfwr(api.student.getCoursesCatalog, {
         page: page ? Number.parseInt(page) : undefined,
         search: search,
       }),
-      teacher: defaultRequest,
-      admin: defaultRequest,
-      unauthorized: defaultRequest,
+    teacher: defaultRequest,
+    admin: defaultRequest,
+    unauthorized: defaultRequest,
   });
-};
+}
 
 export default async function AllCoursePage({
   searchParams,

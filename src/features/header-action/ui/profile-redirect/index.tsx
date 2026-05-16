@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export const ProfileRedirect = () => (
   <Link href={Endpoint.PROFILE}>
-    <Button size="large" variant="primary">
+    <Button variant="ghost" size="small">
       Мой профиль
     </Button>
   </Link>

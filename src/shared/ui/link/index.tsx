@@ -8,13 +8,13 @@ export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
     return (
       <NextLink
         className={cn(
-          "font-roboto text-[18px] font-semibold duration-300 transition-colors text-base-400 hover:text-primary-300",
-          className
+          "font-roboto text-[14px] font-normal duration-300 transition-colors text-base-400 hover:text-primary-300",
+          className,
         )}
         ref={ref}
         {...props}
       />
     );
-  }
+  },
 );
 Link.displayName = "Link";

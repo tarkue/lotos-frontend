@@ -12,8 +12,8 @@ const Checkbox = forwardRef<HTMLInputElement, CheckBoxProps>(
     return (
       <div className={CheckboxVariant({ variant, className })}>
         <Icon
-          glyph="done"
-          size="12"
+          glyph={variant === "error" ? "minus" : "done"}
+          size="20"
           color="white"
           className="invisible group-has-checked:nth-[1]:visible"
         />
@@ -30,7 +30,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckBoxProps>(
         />
       </div>
     );
-  }
+  },
 );
 Checkbox.displayName = "Checkbox";
 

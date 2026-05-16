@@ -125,7 +125,7 @@ export const VideoLessonForm: React.FC<VideoLessonFormProps> = ({
           content_url: "",
           text_content: "",
           transcript: "",
-        }
+        },
       );
 
       const fileIds = uploadedFiles.map((file) => file.id);
@@ -133,7 +133,7 @@ export const VideoLessonForm: React.FC<VideoLessonFormProps> = ({
         module.course_id,
         module.id,
         material.id,
-        fileIds
+        fileIds,
       );
 
       clear();
@@ -169,11 +169,7 @@ export const VideoLessonForm: React.FC<VideoLessonFormProps> = ({
                 <Typography.Caption className="text-sm text-black">
                   {index + 1}. {file.name}
                 </Typography.Caption>
-                <Button
-                  variant="ghost"
-                  size="icon-large"
-                  onClick={() => removeFile(file.id)}
-                >
+                <Button variant="ghost" onClick={() => removeFile(file.id)}>
                   <Icon glyph="close" size="12" color="black" />
                 </Button>
               </div>
@@ -190,12 +186,14 @@ export const VideoLessonForm: React.FC<VideoLessonFormProps> = ({
           style={{
             borderRadius: "24px",
             border: `2px dashed ${isDragOver ? "var(--color-primary-300)" : "var(--color-base-200)"}`,
-            backgroundColor: isDragOver ? "var(--color-primary-50)" : "transparent",
+            backgroundColor: isDragOver
+              ? "var(--color-primary-50)"
+              : "transparent",
           }}
           onClick={() => !isUploading && fileInputRef.current?.click()}
           className={cn(
             "flex flex-col items-center justify-center gap-2 p-8 transition-all duration-200",
-            isUploading ? "cursor-not-allowed opacity-50" : "cursor-pointer"
+            isUploading ? "cursor-not-allowed opacity-50" : "cursor-pointer",
           )}
         >
           <input
@@ -213,8 +211,7 @@ export const VideoLessonForm: React.FC<VideoLessonFormProps> = ({
             <span className="text-center text-gray p-4">
               {isDragOver
                 ? "Отпустите файлы здесь"
-                : "Нажмите сюда, чтобы загрузить видео, или просто перетащите его сюда"
-              }
+                : "Нажмите сюда, чтобы загрузить видео, или просто перетащите его сюда"}
             </span>
           )}
         </div>
@@ -227,7 +224,6 @@ export const VideoLessonForm: React.FC<VideoLessonFormProps> = ({
       <div className="flex justify-end w-full">
         <Button
           variant="primary"
-          size="large"
           onClick={handleSave}
           disabled={uploadedFiles.length === 0}
           className="w-min"

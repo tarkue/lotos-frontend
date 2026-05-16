@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export const LoginRedirect = () => (
   <Link href={Endpoint.LOGIN}>
-    <Button size="large" variant="primary">
+    <Button variant="ghost" size="small">
       Вход
     </Button>
   </Link>

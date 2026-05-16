@@ -12,9 +12,10 @@ import { useState } from "react";
 export const Enroll: React.FC<CourseProps> = ({ course }) => {
   const { isAuthenticated, role } = useAuth();
   const [isSent, setIsSent] = useState(false);
-  const isRequested = course.is_enrolled 
-                   || course.application_status === ApplicationStatus.PENDING 
-                   || isSent;
+  const isRequested =
+    course.is_enrolled ||
+    course.application_status === ApplicationStatus.PENDING ||
+    isSent;
   const handle = async () => {
     try {
       await api.student.applyForCourse(course.id);
@@ -32,20 +33,21 @@ export const Enroll: React.FC<CourseProps> = ({ course }) => {
     }
   };
 
-  if (role !== undefined && role !== RoleType.STUDENT || course?.application_status === ApplicationStatus.APPROVED) {
+  if (
+    (role !== undefined && role !== RoleType.STUDENT) ||
+    course?.application_status === ApplicationStatus.APPROVED
+  ) {
     return <></>;
   }
 
   return (
     <Button
-      size="large"
       variant="primary"
       onClick={handle}
       disabled={!isAuthenticated || isRequested}
       className="md:w-min w-full"
     >
       Записаться
-      <Icon glyph="plus" size="20" color={!isAuthenticated || isRequested ? "gray" : "white"} />
     </Button>
   );
 };

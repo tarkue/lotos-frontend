@@ -4,8 +4,10 @@ import { createFieldProps } from "@/src/shared/libs/form-utils";
 import { Endpoint } from "@/src/shared/models/endpoint-enum";
 import { Button } from "@/src/shared/ui/button";
 import { Input } from "@/src/shared/ui/input";
+import { Label } from "@/src/shared/ui/label";
 import { toast } from "@/src/shared/ui/toast";
 import { createFormHook, createFormHookContexts } from "@tanstack/react-form";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import z from "zod";
@@ -64,18 +66,25 @@ export const LoginForm = () => {
       }}
     >
       <div className="flex flex-col gap-3 w-full">
-        <form.AppField
-          {...createFieldProps("email", "example@mail.ru", "email")}
-        />
-        <form.AppField
-          {...createFieldProps("password", "Пароль", "password")}
-        />
+        <div className="flex flex-col gap-2">
+          <Label className="text-dark-gray">Почта</Label>
+          <form.AppField
+            {...createFieldProps("email", "example@mail.ru", "email")}
+          />
+        </div>
+        <div className="flex flex-col gap-2">
+          <Label className="text-dark-gray">Пароль</Label>
+          <form.AppField
+            {...createFieldProps("password", "Пароль", "password")}
+          />
+          <Link href={Endpoint.FORGET_PASSWORD} className="text-light-gray">
+            Забыли пароль?
+          </Link>
+        </div>
       </div>
 
       <form.AppForm>
-        <form.Button type="submit" size="large" className="w-min">
-          Вход
-        </form.Button>
+        <form.Button type="submit">Вход</form.Button>
       </form.AppForm>
     </form>
   );

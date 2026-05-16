@@ -1,15 +1,16 @@
 "use client";
 
 import { useAuth } from "@/src/shared/api/context/auth-context";
-import { SpinnerButton } from "@/src/shared/ui/button";
+import { Button } from "@/src/shared/ui/button";
 import { LoginRedirect } from "./ui/login-redirect";
 import { ProfileRedirect } from "./ui/profile-redirect";
+import { HeaderLinks } from "./ui/links";
 
-export const HeaderAction = () => {
+const HeaderProfileLink = () => {
   const { isAuthenticated } = useAuth();
 
   if (isAuthenticated === undefined) {
-    return <SpinnerButton />;
+    return <Button loading />;
   }
 
   if (isAuthenticated) {
@@ -17,4 +18,13 @@ export const HeaderAction = () => {
   }
 
   return <LoginRedirect />;
+};
+
+export const HeaderAction = () => {
+  return (
+    <div className="flex gap-4">
+      <HeaderLinks />
+      <HeaderProfileLink />
+    </div>
+  );
 };

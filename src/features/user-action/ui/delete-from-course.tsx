@@ -13,12 +13,11 @@ export const generateDeleteFromCourse = (course: Course) => {
       addModal({
         title: "Отчисление с курса",
         description: `Вы действительно хотите отчислить пользователя ${getFullName(
-          user
+          user,
         )} с курса?`,
         buttons: (
           <Button
             variant="primary"
-            size="large"
             onClick={async () => {
               await api.teacher.deleteUserFromCourse(course.id, user.id);
             }}
@@ -29,7 +28,7 @@ export const generateDeleteFromCourse = (course: Course) => {
       });
     };
     return (
-      <Button variant="ghost" size="icon-small" onClick={deleteFromCourse}>
+      <Button variant="ghost" onClick={deleteFromCourse}>
         <Icon glyph="trash" color="black" />
       </Button>
     );

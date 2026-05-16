@@ -4,10 +4,14 @@ import { TabElementProps } from "./props";
 import { TabElementVariant } from "./variant";
 
 export const TabElement = forwardRef<HTMLLIElement, TabElementProps>(
-  ({ className, children, ...props }, ref) => {
+  ({ isActive, className, children, ...props }, ref) => {
     return (
-      <li className={TabElementVariant({ className })} {...props} ref={ref}>
-        <Typography.Subtitle>{children}</Typography.Subtitle>
+      <li
+        className={TabElementVariant({ isActive, className })}
+        {...props}
+        ref={ref}
+      >
+        <Typography.Body bold>{children}</Typography.Body>
       </li>
     );
   },

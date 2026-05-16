@@ -106,7 +106,6 @@ export const CreateLessonModal: React.FC<ModuleProps> = ({ module }) => {
       <div className="flex justify-end w-full">
         <Button
           variant="primary"
-          size="large"
           onClick={handleNext}
           disabled={(!title.trim() && lessonType !== "test") || !lessonType}
           className="w-min"

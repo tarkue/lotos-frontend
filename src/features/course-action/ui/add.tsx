@@ -69,7 +69,7 @@ const CourseCreateForm = () => {
             "title",
             "Название курса",
             "text",
-            "Название курса"
+            "Название курса",
           )}
         />
         <form.AppField
@@ -77,13 +77,13 @@ const CourseCreateForm = () => {
             "description",
             "Описание курса...",
             "text",
-            "Описание курса"
+            "Описание курса",
           )}
         />
       </div>
 
       <form.AppForm>
-        <form.Button type="submit" size="large" className="w-min">
+        <form.Button type="submit" className="w-min">
           Создать
         </form.Button>
       </form.AppForm>
@@ -107,7 +107,7 @@ export const AddCourse = () => {
   }
 
   return (
-    <Button variant="primary" size="large" onClick={handle}>
+    <Button variant="primary" onClick={handle}>
       Создать курс
     </Button>
   );

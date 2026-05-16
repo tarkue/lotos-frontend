@@ -11,7 +11,7 @@ export const ModuleContent = forwardRef<HTMLDivElement, ModuleContentProps>(
       <div
         ref={ref}
         className={cn(
-          "bg-base-100 border border-base-200 p-5 flex flex-col items-center gap-3 rounded-[14px] group md:h-min",
+          "bg-white border-b border-base-border px-6 py-4 gap-3 rounded-0 flex flex-col items-center group md:h-min group-has-checked:border-transparent",
           className,
         )}
         {...props}
@@ -21,15 +21,19 @@ export const ModuleContent = forwardRef<HTMLDivElement, ModuleContentProps>(
             htmlFor="content-module-check"
             className="flex justify-center items-center w-full"
           >
-            <Typography.Body className="md:text-center w-full">
-              <strong>{module.title}</strong>
-            </Typography.Body>
+            <div className="flex flex-col w-full gap-1">
+              <Typography.Caption bold className="text-light-gray w-full">
+                Модуль {module.position}
+              </Typography.Caption>
+              <Typography.Subtitle className="text-black w-full">
+                {module.title}
+              </Typography.Subtitle>
+            </div>
             <input
               type="checkbox"
               id="content-module-check"
               className="hidden"
             />
-
             <Icon
               glyph="arrow-down"
               color="black"
@@ -38,7 +42,6 @@ export const ModuleContent = forwardRef<HTMLDivElement, ModuleContentProps>(
             />
           </label>
         </div>
-        <div className="bg-base-400 h-px w-full max-w-full"></div>
         {module.materials && (
           <div className="transition-all duration-300 h-68 group-has-checked:h-0 w-full">
             <MaterialList

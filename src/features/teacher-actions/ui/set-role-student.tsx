@@ -13,12 +13,11 @@ export const SetRoleStudent: React.FC<UserProps> = ({ user }) => {
     addModal({
       title: "Изменение роли",
       description: `Вы действительно хотите разжаловать преподавателя ${getFullName(
-        user
+        user,
       )}?`,
       buttons: (
         <Button
           variant="primary"
-          size="large"
           onClick={async () => {
             await api.admin.updateUser(user.id, {
               role: "student",
@@ -34,7 +33,7 @@ export const SetRoleStudent: React.FC<UserProps> = ({ user }) => {
   };
 
   return (
-    <Button variant="ghost" size="icon-small" onClick={handle}>
+    <Button variant="ghost" onClick={handle}>
       <Icon glyph="trash" color="black" />
     </Button>
   );

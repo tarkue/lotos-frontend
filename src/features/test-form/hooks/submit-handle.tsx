@@ -1,7 +1,9 @@
-"use client";
 import { Test } from "@/src/entity/test";
 import { api } from "@/src/shared/api";
-import { SubmitAnswerRequestDTO } from "@/src/shared/api/dto/student.dto";
+import {
+  SubmitAnswerRequestDTO,
+  SubmitTestRequestDTO,
+} from "@/src/shared/api/dto/student.dto";
 import { getClientSideCookie } from "@/src/shared/libs/cookie";
 import { formatEndpoint } from "@/src/shared/libs/endpoint";
 import { Endpoint } from "@/src/shared/models/endpoint-enum";
@@ -23,7 +25,7 @@ export const useSubmitTestComplete = (
   return async (formData: FormData) => {
     const data: SubmitAnswerRequestDTO[] = [];
 
-    test.questions?.map(async (el) => {
+    for (const el of test.questions || []) {
       if (el.type === "text") {
         const res = formData.get(el.id.toString());
 
@@ -65,11 +67,15 @@ export const useSubmitTestComplete = (
           });
         } catch {}
       }
-    });
+    }
 
     if (test.questions?.length !== data.length) {
       return;
     }
+
+    const submitPayload: SubmitTestRequestDTO = {
+      answers: data,
+    };
 
     try {
       const { access_token } = await api.auth.forceRefreshToken({
@@ -81,8 +87,9 @@ export const useSubmitTestComplete = (
         materialId,
         test.id,
         attemptId,
-        data,
-        access_token,
+        submitPayload,
+        true,
+        { accessToken: access_token },
       );
 
       const action =

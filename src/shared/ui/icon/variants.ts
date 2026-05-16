@@ -10,14 +10,16 @@ const IconVariants = cva("block bg-no-repeat", {
     },
     color: {
       white: "bg-white",
-      gray: "bg-base-300",
+      "light-gray": "bg-light-gray",
       black: "bg-black",
-      default: "bg-base-500",
+      yellow: "bg-yellow",
+      green: "bg-green",
+      red: "bg-red",
     },
   },
   defaultVariants: {
     size: "24",
-    color: "default",
+    color: "white",
   },
 });
 

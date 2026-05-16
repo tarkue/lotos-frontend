@@ -6,4 +6,5 @@ export interface TabGroupProps extends Omit<
 > {
   children: JSX.Element[];
   onChange?: (value: string) => void;
+  defaultValue?: string;
 }

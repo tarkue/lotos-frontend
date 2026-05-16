@@ -1,17 +1,14 @@
 import { HeaderAction } from "@/src/features/header-action";
-import { Container } from "@/src/shared/ui/container";
 import { Logo } from "@/src/shared/ui/logo";
 import Link from "next/link";
 
 export const Header = () => {
   return (
-    <header className="w-full py-6">
-      <Container className="justify-between items-center">
-        <Link href="/catalog/all">
-          <Logo />
-        </Link>
-        <HeaderAction />
-      </Container>
+    <header className="w-full px-6 py-4 flex justify-between items-center border-b border-b-base-border bg-white">
+      <Link href="/catalog/all">
+        <Logo />
+      </Link>
+      <HeaderAction />
     </header>
   );
 };

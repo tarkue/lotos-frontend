@@ -21,7 +21,10 @@ export default async function UniversalPage({
   }
 
   return (
-    <Container className="flex flex-col gap-6 items-center px-2.5 pb-4 min-h-[calc(100dvh-var(--footer-height-and-padding))] h-max">
+    <Container
+      component="main"
+      className="flex flex-col gap-6 items-center px-2.5 pb-4 min-h-[calc(100dvh-var(--footer-height-and-padding))] h-max"
+    >
       {slug.length === 1 && (
         <Suspense fallback={<Loader />}>
           <CoursePage slug={slug[0]} />

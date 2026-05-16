@@ -79,7 +79,7 @@ export const Create = () => {
     });
   };
   return (
-    <Button variant="primary" size="large" onClick={handle}>
+    <Button variant="primary" onClick={handle}>
       Создать учителя
     </Button>
   );

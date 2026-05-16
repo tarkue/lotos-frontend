@@ -6,11 +6,14 @@ import { ForgetPasswordForm } from "@/src/widgets/forget-password-form";
 
 export default function ForgetPasswordPage() {
   return (
-    <Container className="flex flex-col items-center justify-center pb-[117px] min-h-[calc(100dvh-var(--footer-height-and-padding))]">
+    <Container
+      component="main"
+      className="flex flex-col items-center justify-center pb-[117px] min-h-[calc(100dvh-var(--footer-height-and-padding))]"
+    >
       <div className="max-w-[500px] w-full flex flex-col gap-6">
-        <Typography.H1 className="-mt-12 text-center text-base-500">
+        <Typography.Heading className="-mt-12 text-center text-base-500">
           Восстановление доступа
-        </Typography.H1>
+        </Typography.Heading>
         <ForgetPasswordForm />
         <div className="flex justify-between w-full">
           <Link href={Endpoint.LOGIN} className="text-base-300">

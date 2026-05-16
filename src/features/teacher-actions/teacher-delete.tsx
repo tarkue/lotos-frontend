@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 
 export const generateDeleteFromCourse = (
   course: Course,
-  editors: EditorResponseDTO[]
+  editors: EditorResponseDTO[],
 ) => {
   const TeacherAction: React.FC<UserProps> = ({ user }) => {
     const { addModal, clear } = useModals();
@@ -19,12 +19,11 @@ export const generateDeleteFromCourse = (
       addModal({
         title: "Разжалование редактора",
         description: `Вы действительно хотите забрать доступ у редактора ${getFullName(
-          user
+          user,
         )}?`,
         buttons: (
           <Button
             variant="primary"
-            size="large"
             onClick={async () => {
               const editor = editors.find((el) => el.user.id === user.id)?.id;
 
@@ -42,7 +41,7 @@ export const generateDeleteFromCourse = (
       });
     };
     return (
-      <Button variant="ghost" size="icon-small" onClick={deleteFromCourse}>
+      <Button variant="ghost" onClick={deleteFromCourse}>
         <Icon glyph="trash" color="black" />
       </Button>
     );

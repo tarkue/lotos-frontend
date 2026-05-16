@@ -10,7 +10,7 @@ export const RadioField = forwardRef<HTMLInputElement, RadioFieldProps>(
     return (
       <label
         htmlFor={id}
-        className="flex w-full items-center gap-4 cursor-pointer"
+        className="flex w-full items-center gap-2 cursor-pointer"
       >
         <div className="w-4 h-4">
           <RadioButton
@@ -27,6 +27,6 @@ export const RadioField = forwardRef<HTMLInputElement, RadioFieldProps>(
         </Typography.Body>
       </label>
     );
-  }
+  },
 );
 RadioField.displayName = "RadioField";

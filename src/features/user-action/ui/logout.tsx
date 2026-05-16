@@ -14,7 +14,7 @@ export const Logout = () => {
   };
 
   return (
-    <Button variant="ghost" size="large" onClick={handle}>
+    <Button variant="ghost" onClick={handle}>
       Выйти из аккаунта
     </Button>
   );

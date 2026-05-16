@@ -14,9 +14,9 @@ export const MaterialCard = forwardRef<HTMLDivElement, MaterialCardProps>(
     const content = (
       <div
         className={cn(
-          "relative flex p-2 gap-2.5 w-full justify-between items-center bg-base-100 transition-colors duration-300 rounded-[6px]",
-          !material.is_locked && "hover:bg-base-200",
-          className
+          "relative flex p-2 gap-2.5 w-full justify-between items-center bg-base-100 transition-colors duration-300 rounded-md",
+          !material.is_locked && "hover:bg-base-raised active:bg-base-sunken",
+          className,
         )}
         {...props}
         ref={ref}
@@ -25,7 +25,7 @@ export const MaterialCard = forwardRef<HTMLDivElement, MaterialCardProps>(
           <Typography.Body
             className={cn(
               "w-full text-wrap",
-              material.is_locked ? "text-gray" : "text-black"
+              material.is_locked ? "text-gray" : "text-black",
             )}
           >
             {material.title}
@@ -33,7 +33,10 @@ export const MaterialCard = forwardRef<HTMLDivElement, MaterialCardProps>(
         </div>
         {material.is_completed && <Icon glyph="done" className="bg-success" />}
         {material.is_locked && (
-          <Icon glyph="lock" color={material.is_locked ? "gray" : "black"} />
+          <Icon
+            glyph="lock"
+            color={material.is_locked ? "light-gray" : "black"}
+          />
         )}
       </div>
     );
@@ -47,6 +50,6 @@ export const MaterialCard = forwardRef<HTMLDivElement, MaterialCardProps>(
         {content}
       </Link>
     );
-  }
+  },
 );
 MaterialCard.displayName = "MaterialCard";

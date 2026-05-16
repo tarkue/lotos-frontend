@@ -47,12 +47,7 @@ const ModalContent: React.FC<CourseProps> = ({ course }) => {
         value={title}
         onChange={(e) => setTitle(e.currentTarget.value)}
       />
-      <Button
-        variant="primary"
-        size="large"
-        onClick={handleModal}
-        className="w-min"
-      >
+      <Button variant="primary" onClick={handleModal} className="w-min">
         Создать
       </Button>
     </>
@@ -69,12 +64,7 @@ export const AddModule: React.FC<CourseProps> = ({ course }) => {
     });
   };
   return (
-    <Button
-      size="large"
-      variant="primary"
-      onClick={handle}
-      className="md:w-min w-full"
-    >
+    <Button variant="primary" onClick={handle} className="md:w-min w-full">
       Добавить модуль
     </Button>
   );

@@ -6,9 +6,9 @@ export const Slot = () => {
   return (
     <div className="flex flex-col slot">
       {NUMBERS.map((el, i) => (
-        <Typography.Subtitle component="span" key={i}>
+        <Typography.Body bold component="span" key={i}>
           {el}
-        </Typography.Subtitle>
+        </Typography.Body>
       ))}
     </div>
   );

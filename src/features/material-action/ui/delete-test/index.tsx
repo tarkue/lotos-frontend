@@ -18,7 +18,7 @@ const HandleDeleteButton: React.FC<MaterialProps> = ({ material }) => {
           material.module!.course_id,
           material.module!.id,
           material.id,
-          el.id
+          el.id,
         );
         router.refresh();
         clear();
@@ -32,7 +32,7 @@ const HandleDeleteButton: React.FC<MaterialProps> = ({ material }) => {
     });
   };
   return (
-    <Button variant="primary" size="large" onClick={handle}>
+    <Button variant="primary" onClick={handle}>
       Удалить тест
     </Button>
   );
@@ -60,12 +60,7 @@ export const DeleteTest: React.FC<MaterialProps> = ({ material }) => {
   }
 
   return (
-    <Button
-      variant="ghost"
-      size="large"
-      className="w-full md:w-min"
-      onClick={handle}
-    >
+    <Button variant="ghost" className="w-full md:w-min" onClick={handle}>
       Удалить тест
     </Button>
   );

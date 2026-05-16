@@ -111,7 +111,7 @@ export const PresentationForm: React.FC<PresentationFormProps> = ({
           content_url: "",
           text_content: "",
           transcript: "",
-        }
+        },
       );
 
       const fileIds = uploadedFiles.map((file) => file.id);
@@ -119,7 +119,7 @@ export const PresentationForm: React.FC<PresentationFormProps> = ({
         module.course_id,
         module.id,
         material.id,
-        fileIds
+        fileIds,
       );
 
       clear();
@@ -155,11 +155,7 @@ export const PresentationForm: React.FC<PresentationFormProps> = ({
                 <Typography.Caption className="text-sm text-black">
                   {index + 1}. {file.name}
                 </Typography.Caption>
-                <Button
-                  variant="ghost"
-                  size="icon-large"
-                  onClick={() => removeFile(file.id)}
-                >
+                <Button variant="ghost" onClick={() => removeFile(file.id)}>
                   <Icon glyph="close" size="12" color="black" />
                 </Button>
               </div>
@@ -183,8 +179,8 @@ export const PresentationForm: React.FC<PresentationFormProps> = ({
             isUploading
               ? "cursor-not-allowed opacity-50"
               : isDragging
-              ? "border-primary bg-primary/10 cursor-pointer"
-              : "border-base-300 hover:border-base-400 cursor-pointer"
+                ? "border-primary bg-primary/10 cursor-pointer"
+                : "border-base-300 hover:border-base-400 cursor-pointer"
           }`}
         >
           <input
@@ -214,7 +210,6 @@ export const PresentationForm: React.FC<PresentationFormProps> = ({
       <div className="flex justify-end w-full">
         <Button
           variant="primary"
-          size="large"
           onClick={handleSave}
           disabled={uploadedFiles.length === 0}
           className="w-min"

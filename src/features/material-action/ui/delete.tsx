@@ -16,14 +16,14 @@ const ConfirmDelete = ({ material }: Pick<MaterialActionProps, "material">) => {
       await api.teacher.deleteMaterial(
         material.module!.course_id,
         material.module!.id,
-        material.id
+        material.id,
       );
       clear();
       router.push(
         formatEndpoint(Endpoint.MODULE, [
           material.module?.course_id,
           material.module?.id,
-        ])
+        ]),
       );
       toast({
         title: "Урок успешно удалён",
@@ -39,7 +39,7 @@ const ConfirmDelete = ({ material }: Pick<MaterialActionProps, "material">) => {
   };
 
   return (
-    <Button onClick={handle} variant="primary" size="large">
+    <Button onClick={handle} variant="primary">
       Подтвердить удаление
     </Button>
   );
@@ -57,7 +57,7 @@ export const DeleteMaterial = ({ material }: MaterialActionProps) => {
   };
 
   return (
-    <Button variant="ghost" size="large" onClick={handle}>
+    <Button variant="ghost" onClick={handle}>
       Удалить урок
     </Button>
   );

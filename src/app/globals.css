@@ -2,7 +2,8 @@
 @import "tw-animate-css";
 
 @theme {
-  --breakpoint-sm: 400px;
+  --breakpoint-sm: 440px;
+  --breakpoint-sm-2: 740px;
   --breakpoint-md: 985px;
   --color-error: #f8bbbb;
   --color-warning: #fde39d;
@@ -31,16 +32,6 @@
   --color-green: #0e5f2c;
   --color-yellow: #8c6704;
   --color-red: #731111;
-
-  --color-base-100: #ffffff;
-  --color-base-200: #e8e8e8;
-  --color-base-300: #aaaaaa;
-  --color-base-400: #a3a3a3;
-  --color-base-500: #3a3a3a;
-  --color-base-600: #1b1b1b;
-
-  --color-black: #262626;
-  --color-gray: #aaaaaa;
 }
 
 :root {
@@ -51,25 +42,8 @@
   --media-primary-color: #ffffff;
   --media-control-hover-background: rgba(100, 100, 100, 0.25);
 
-  --footer-height-and-padding: 180px;
-}
-
-.elevation-1 {
-  box-shadow:
-    0 1px 3px 1px rgba(0, 0, 0, 0.1),
-    0 1px 7px 0 rgba(0, 0, 0, 0.1);
-}
-
-.elevation-2 {
-  box-shadow:
-    0 2px 6px 2px rgba(0, 0, 0, 0.1),
-    0 1px 2px 0 rgba(0, 0, 0, 0.1);
-}
-
-.elevation-3 {
-  box-shadow:
-    0 1px 3px 0 rgba(0, 0, 0, 0.1),
-    0 4px 8px 3px rgba(0, 0, 0, 0.1);
+  --header-width: 73px;
+  --footer-height-and-padding: 151px;
 }
 
 .font-roboto {
@@ -88,9 +62,7 @@ html {
   height: 100dvh;
   width: 100%;
 
-  background-color: #ffffff;
-  background: url("/body.svg");
-  background-repeat: repeat;
+  background-color: var(--color-base-gray);
 }
 
 body {
@@ -106,8 +78,7 @@ body {
   padding: 0;
 
   overscroll-behavior-y: contain;
-
-  background: none;
+  background: var(--color-base-gray);
 }
 
 svg *[color] {
@@ -143,7 +114,7 @@ a {
 }
 
 .media-time-range {
-  --media-primary-color: var(--color-primary-400);
+  --media-primary-color: var(--color-primary);
   --media-secondary-color: rgba(0, 0, 0, 0);
   --media-preview-background: rgba(0, 0, 0, 0.3);
   --media-preview-border-radius: 20px;

@@ -1,6 +1,7 @@
 import { CheckboxField } from "@/src/shared/ui/checkbox";
 import { QuestionProps } from "../../models/question";
-import { QuestionWrapper } from "./wrapper";
+import { QuestionBody } from "./wrapper";
+import { getVariant } from "./utils";
 
 export const Multiple = ({ question }: QuestionProps) => {
   const name = question.id.toString();
@@ -9,7 +10,7 @@ export const Multiple = ({ question }: QuestionProps) => {
   }
 
   return (
-    <QuestionWrapper title={question.text}>
+    <QuestionBody title={question.text}>
       <ul className="flex flex-col gap-2 w-full">
         {question.options.map((option, i) => (
           <li key={i}>
@@ -17,11 +18,11 @@ export const Multiple = ({ question }: QuestionProps) => {
               name={name}
               value={option.id}
               field={option.content}
-              variant={option.is_correct ? "success" : "primary"}
+              variant={getVariant(option.is_correct)}
             />
           </li>
         ))}
       </ul>
-    </QuestionWrapper>
+    </QuestionBody>
   );
 };

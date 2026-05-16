@@ -7,6 +7,7 @@ import { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import Head from "next/head";
 import { ModalProvider } from "../shared/ui/modal";
+import { SidebarProvider } from "../shared/ui/sidebar";
 import "./globals.css";
 
 const roboto = Roboto({
@@ -34,8 +35,10 @@ export default function RootLayout({
             <body className={roboto.variable}>
               <ModalProvider>
                 <Header />
-                {children}
-                <Footer />
+                <SidebarProvider>
+                  {children}
+                  <Footer />
+                </SidebarProvider>
                 <Toaster />
               </ModalProvider>
             </body>

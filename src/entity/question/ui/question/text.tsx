@@ -1,6 +1,6 @@
 import { Input } from "@/src/shared/ui/input";
 import { QuestionProps } from "../../models/question";
-import { QuestionWrapper } from "./wrapper";
+import { QuestionBody } from "./wrapper";
 
 export const Text = ({ question }: QuestionProps) => {
   if (question.type !== "text") {
@@ -8,10 +8,10 @@ export const Text = ({ question }: QuestionProps) => {
   }
 
   return (
-    <QuestionWrapper title={question.text}>
+    <QuestionBody title={question.text}>
       <ul className="flex flex-col gap-2 w-full">
         <Input name={question.id.toString()} placeholder="Ответ" />
       </ul>
-    </QuestionWrapper>
+    </QuestionBody>
   );
 };

@@ -6,20 +6,27 @@ import { LoginForm } from "@/src/widgets/login-form";
 
 export default function LoginPage() {
   return (
-    <Container className="flex flex-col items-center justify-center pb-[117px] min-h-[calc(100dvh-var(--footer-height-and-padding))]">
-      <div className="max-w-[500px] w-full flex flex-col gap-6">
-        <Typography.Title className="-mt-12 text-center text-base-500">
-          Вход в личный кабинет
-        </Typography.Title>
-        <LoginForm />
-        <div className="flex justify-between w-full">
-          <Link href={Endpoint.FORGET_PASSWORD} className="text-base-300">
-            Забыли пароль?
-          </Link>
-          <Link href={Endpoint.REGISTER} className="text-base-300">
-            Нет аккаунта?
-          </Link>
+    <Container
+      component="main"
+      className="flex flex-col items-center justify-center pb-[117px] min-h-[calc(100dvh-var(--footer-height-and-padding))]"
+    >
+      <div className="max-w-[500px] w-full flex flex-col gap-5 p-6 rounded-2xl bg-white">
+        <div className="flex flex-col gap-2">
+          <Typography.Heading className="text-center text-black">
+            Вход в личный кабинет
+          </Typography.Heading>
+          <Typography.Body className="text-center text-light-gray">
+            Войдите, чтобы записаться на курсы
+          </Typography.Body>
         </div>
+        <LoginForm />
+
+        <Link
+          href={Endpoint.REGISTER}
+          className="text-dark-gray text-center w-full"
+        >
+          Нет аккаунта?
+        </Link>
       </div>
     </Container>
   );

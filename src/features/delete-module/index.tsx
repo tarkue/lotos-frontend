@@ -29,7 +29,7 @@ const DeleteModuleConfirm: React.FC<ModuleProps> = ({ module }) => {
   };
 
   return (
-    <Button onClick={handle} variant="primary" size="large">
+    <Button onClick={handle} variant="primary">
       Удалить модуль
     </Button>
   );
@@ -51,7 +51,7 @@ export const DeleteModule: React.FC<ModuleProps> = ({ module }) => {
   }
 
   return (
-    <Button variant="ghost" size="large" onClick={handle} className="w-full">
+    <Button variant="ghost" onClick={handle} className="w-full">
       <Icon glyph="trash" color="black" />
       Удалить этот модуль
     </Button>

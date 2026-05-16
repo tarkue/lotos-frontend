@@ -9,7 +9,7 @@ export const CheckboxField = forwardRef<HTMLInputElement, CheckBoxFieldProps>(
   ({ variant, field, className, ...props }, ref) => {
     const id = useId();
     return (
-      <fieldset className="flex w-full items-center gap-4 cursor-pointer">
+      <fieldset className="flex w-full items-center cursor-pointer">
         <Checkbox
           variant={variant}
           className={cn("cursor-pointer", className)}
@@ -17,13 +17,13 @@ export const CheckboxField = forwardRef<HTMLInputElement, CheckBoxFieldProps>(
           {...props}
           ref={ref}
         />
-        <label htmlFor={id} className="cursor-pointer">
+        <label htmlFor={id} className="cursor-pointer pl-3">
           <Typography.Body className="w-full text-wrap select-none">
             {field}
           </Typography.Body>
         </label>
       </fieldset>
     );
-  }
+  },
 );
 CheckboxField.displayName = "CheckboxField";

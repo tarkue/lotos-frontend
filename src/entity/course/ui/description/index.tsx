@@ -7,12 +7,12 @@ export const CourseDescription = ({
 }: CourseProps & { action?: React.FC<CourseProps> }) => {
   const Act = action;
   return (
-    <section className="p-6 flex flex-col gap-4 bg-white border border-base-200 rounded-[13px] w-full">
+    <section className="flex flex-col gap-4 w-full">
       <div className="flex flex-col w-full gap-1">
-        <Typography.Caption className="text-black opacity-20 font-black! w-full">
-          КУРС
-        </Typography.Caption>
-        <div className="flex flex-col w-full gap-2">
+        <Typography.Title className="text-black w-full">
+          О курсе
+        </Typography.Title>
+        <div className="flex flex-col w-full gap-4 bg-white p-6 my-9 rounded-2xl">
           <Typography.Title className="w-full text-wrap">
             {course.title}
           </Typography.Title>

@@ -10,7 +10,6 @@ export const StartTest = ({ material }: MaterialActionProps) => {
     <Button
       onClick={submit}
       variant="primary"
-      size="large"
       className="h-max group font-semibold lower"
       disabled={!!material.completed_at}
     >

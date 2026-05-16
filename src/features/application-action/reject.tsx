@@ -30,7 +30,7 @@ export const Reject = ({
   };
 
   return (
-    <Button variant="ghost" size="icon-small" onClick={approveApplication}>
+    <Button variant="ghost" onClick={approveApplication}>
       <Icon glyph="trash" color="black" />
     </Button>
   );

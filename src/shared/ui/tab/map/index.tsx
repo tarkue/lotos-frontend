@@ -1,5 +1,4 @@
 import { cn } from "@/src/shared/libs/utils";
-import { CSSProperties } from "react";
 import { TabElement } from "../element";
 import { TabGroup } from "../group";
 import { TabListProps } from "./props";
@@ -7,10 +6,15 @@ import { TabListProps } from "./props";
 export const TabMap = <T extends readonly string[]>({
   elements,
   className,
+  defaultValue,
   onChange,
 }: TabListProps<T>) => {
   return (
-    <TabGroup onChange={onChange} className={cn("w-full", className)}>
+    <TabGroup
+      onChange={onChange}
+      defaultValue={defaultValue}
+      className={cn("w-full", className)}
+    >
       {elements.map((tab, index) => (
         <TabElement key={index}>{tab}</TabElement>
       ))}

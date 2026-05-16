@@ -1,6 +1,7 @@
 import { forwardRef, useId } from "react";
 import { RadioButtonProps } from "./props";
 import { RadioButtonVariant } from "./variant";
+import { Icon } from "../icon";
 
 export const RadioButton = forwardRef<HTMLInputElement, RadioButtonProps>(
   ({ variant, className, id, ...props }, ref) => {
@@ -12,7 +13,11 @@ export const RadioButton = forwardRef<HTMLInputElement, RadioButtonProps>(
         className={RadioButtonVariant({ variant, className })}
         htmlFor={id}
       >
-        <div></div>
+        <div>
+          {variant === "error" && (
+            <Icon glyph="minus" color="white" size="20" />
+          )}
+        </div>
         <input
           type="radio"
           className="group hidden"
@@ -22,6 +27,6 @@ export const RadioButton = forwardRef<HTMLInputElement, RadioButtonProps>(
         />
       </label>
     );
-  }
+  },
 );
 RadioButton.displayName = "RadioButton";

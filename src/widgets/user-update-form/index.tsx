@@ -88,14 +88,14 @@ export const UserUpdateForm = ({
             "email",
             "example@mail.ru",
             "email",
-            "Почтовый адрес"
+            "Почтовый адрес",
           )}
         />
       </div>
 
       <form.AppForm>
         <div className="flex gap-4 flex-col md:flex-row">
-          <form.Button type="submit" size="large" className="w-full md:w-min">
+          <form.Button type="submit" className="w-full md:w-min">
             Добавить
           </form.Button>
           {buttons}

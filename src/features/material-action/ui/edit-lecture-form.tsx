@@ -24,7 +24,7 @@ export const EditLectureForm: React.FC<EditLectureFormProps> = ({
   const { addModal, clear } = useModals();
   const [title, setTitle] = useState<string>(material.title || "");
   const [textContent, setTextContent] = useState<string>(
-    material.text_content || ""
+    material.text_content || "",
   );
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -85,12 +85,7 @@ export const EditLectureForm: React.FC<EditLectureFormProps> = ({
         onChange={(e) => setTitle(e.currentTarget.value)}
       />
 
-      <div
-        className={cn(
-          InputVariant({ size: "large" }),
-          "items-start min-h-[200px]"
-        )}
-      >
+      <div className={cn(InputVariant(), "items-start min-h-[200px]")}>
         <textarea
           ref={textareaRef}
           value={textContent}
@@ -102,17 +97,11 @@ export const EditLectureForm: React.FC<EditLectureFormProps> = ({
       </div>
 
       <div className="flex justify-end w-full gap-2">
-        <Button
-          variant="ghost"
-          size="large"
-          onClick={handleAddImage}
-          className="w-min"
-        >
+        <Button variant="ghost" onClick={handleAddImage} className="w-min">
           Добавить изображение
         </Button>
         <Button
           variant="primary"
-          size="large"
           onClick={handleSave}
           disabled={!title.trim() || !textContent.trim()}
           className="w-min"

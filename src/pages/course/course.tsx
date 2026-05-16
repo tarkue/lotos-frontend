@@ -6,14 +6,18 @@ import { Course } from "@/src/widgets/course";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
-const defaultFunc = async <T,>(role: string | undefined, courseId: number, func: () => T) => {
+const defaultFunc = async <T,>(
+  role: string | undefined,
+  courseId: number,
+  func: () => T,
+) => {
   try {
     return await func();
   } catch {
-
-    const course = role == RoleType.STUDENT.toString() 
-      ? await sfwr(api.student.getCoursePublicInfo, courseId)
-      : await api.course.getCoursePublicInfo(courseId);
+    const course =
+      role == RoleType.STUDENT.toString()
+        ? await sfwr(api.student.getCoursePublicInfo, courseId)
+        : await api.course.getCoursePublicInfo(courseId);
 
     course.is_enrolled = false;
     course.modules = [];
@@ -44,13 +48,13 @@ export async function fetchCourse(slug: string) {
         await defaultFunc(
           role,
           courseId,
-          async () => await sfwr(api.teacher.getCourse, courseId)
+          async () => await sfwr(api.teacher.getCourse, courseId),
         ),
       admin: async () =>
         defaultFunc(
           role,
           courseId,
-          async () => await sfwr(api.teacher.getCourse, courseId)
+          async () => await sfwr(api.teacher.getCourse, courseId),
         ),
       unauthorized: async () => {
         const course = await api.course.getCoursePublicInfo(courseId);

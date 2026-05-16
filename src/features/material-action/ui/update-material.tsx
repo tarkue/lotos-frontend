@@ -56,7 +56,7 @@ export const UpdateMaterial: React.FC<MaterialActionProps> = ({
   };
 
   return (
-    <Button variant="primary" size="large" onClick={handleEdit}>
+    <Button variant="primary" onClick={handleEdit}>
       Изменить урок
     </Button>
   );

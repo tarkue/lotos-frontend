@@ -32,7 +32,7 @@ export const FormField = ({
         isValid={field.state.meta.isValid}
       />
       {hasError && (
-        <Label isValid={field.state.meta.isValid}>
+        <Label className="text-red text-[12px]">
           {field.state.meta.errors.map((el) => el.message).join(", ")}
         </Label>
       )}
