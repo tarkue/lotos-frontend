@@ -73,30 +73,37 @@ export const UserUpdateForm = ({
         await form.handleSubmit();
       }}
     >
-      <div className="flex flex-col gap-3 w-full">
-        <form.AppField
-          {...createFieldProps("last_name", "Фамилия", "text", "Фамилия")}
-        />
-        <form.AppField
-          {...createFieldProps("first_name", "Имя", "text", "Имя")}
-        />
-        <form.AppField
-          {...createFieldProps("patronymic", "Отчество", "text", "Отчество")}
-        />
-        <form.AppField
-          {...createFieldProps(
-            "email",
-            "example@mail.ru",
-            "email",
-            "Почтовый адрес",
-          )}
-        />
+      <div className="flex flex-col md:flex-row gap-5 w-full">
+        <div className="flex flex-col w-full gap-4">
+          <form.AppField
+            {...createFieldProps("last_name", "Фамилия", "text", "Фамилия")}
+          />
+          <form.AppField
+            {...createFieldProps("first_name", "Имя", "text", "Имя")}
+          />
+          <form.AppField
+            {...createFieldProps("patronymic", "Отчество", "text", "Отчество")}
+          />
+        </div>
+        <div className="flex flex-col w-full gap-4">
+          <form.AppField
+            {...createFieldProps("group", "РИ-32", "text", "Группа")}
+          />
+          <form.AppField
+            {...createFieldProps(
+              "email",
+              "example@mail.ru",
+              "email",
+              "Почтовый адрес",
+            )}
+          />
+        </div>
       </div>
 
       <form.AppForm>
         <div className="flex gap-4 flex-col md:flex-row">
           <form.Button type="submit" className="w-full md:w-min">
-            Добавить
+            Сохранить изменения
           </form.Button>
           {buttons}
         </div>

@@ -28,7 +28,7 @@ export const TabGroup = ({
   return (
     <ul
       className={cn(
-        "flex flex-col w-auto gap-3 first:rounded-l-2xl",
+        "flex flex-col w-auto gap-0 first:rounded-l-2xl",
         className,
       )}
       {...props}

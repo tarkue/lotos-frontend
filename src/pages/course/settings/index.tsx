@@ -1,6 +1,4 @@
-import { BackButton } from "@/src/features/back";
 import { api } from "@/src/shared/api";
-import { formatEndpoint } from "@/src/shared/libs/endpoint";
 import { roleSwitcher } from "@/src/shared/libs/role-switcher";
 import { sfwr } from "@/src/shared/libs/server-fetch-with-refresh";
 import { Endpoint } from "@/src/shared/models/endpoint-enum";
@@ -49,9 +47,6 @@ export default async function CourseSettingsPage({
   const course = await fetchCourse(slug);
   return (
     <>
-      <div className="w-full">
-        <BackButton endpoint={formatEndpoint(Endpoint.COURSE, [slug])} />
-      </div>
       <Typography.Title className="w-full">Настройки курса</Typography.Title>
       <CourseSettings.TabBarWrapper course={course}>
         {Endpoint.COURSE_SETTINGS_ABOUT.endsWith(route) && (

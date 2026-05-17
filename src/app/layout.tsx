@@ -1,5 +1,6 @@
 import { AuthProvider } from "@/src/shared/api/context/auth-context";
 import { TanstackQueryProvider } from "@/src/shared/context/tanstack";
+import { UserProvider } from "@/src/shared/context/user-context";
 import { Toaster } from "@/src/shared/ui/toast";
 import { Footer } from "@/src/widgets/footer";
 import { Header } from "@/src/widgets/header";
@@ -33,14 +34,16 @@ export default function RootLayout({
               <title>Лотос</title>
             </Head>
             <body className={roboto.variable}>
-              <ModalProvider>
-                <Header />
-                <SidebarProvider>
-                  {children}
-                  <Footer />
-                </SidebarProvider>
-                <Toaster />
-              </ModalProvider>
+              <UserProvider>
+                <ModalProvider>
+                  <Header />
+                  <SidebarProvider>
+                    {children}
+                    <Footer />
+                  </SidebarProvider>
+                  <Toaster />
+                </ModalProvider>
+              </UserProvider>
             </body>
           </TanstackQueryProvider>
         </AuthProvider>

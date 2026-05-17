@@ -11,7 +11,9 @@ export const TabElement = forwardRef<HTMLLIElement, TabElementProps>(
         {...props}
         ref={ref}
       >
-        <Typography.Body bold>{children}</Typography.Body>
+        <Typography.Body bold className="w-full">
+          {children}
+        </Typography.Body>
       </li>
     );
   },
