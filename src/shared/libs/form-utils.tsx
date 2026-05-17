@@ -12,7 +12,7 @@ export const createFieldProps = <T, V extends AnyFieldApi>(
   children: (field: V) => (
     <div className="flex flex-col gap-2">
       {label && (
-        <Typography.Body bold className="p-0 text-dark-gray">
+        <Typography.Body bold className="p-0 text-dark-gray select-none">
           {label}
         </Typography.Body>
       )}

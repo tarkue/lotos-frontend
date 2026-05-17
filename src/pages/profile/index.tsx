@@ -5,10 +5,10 @@ import { sfwr } from "@/src/shared/libs/server-fetch-with-refresh";
 import { Endpoint } from "@/src/shared/models/endpoint-enum";
 import { Container } from "@/src/shared/ui/container";
 import { SidebarPortal } from "@/src/shared/ui/sidebar";
-import { Tab } from "@/src/shared/ui/tab";
 import { Typography } from "@/src/shared/ui/typography";
 import { UserUpdateForm } from "@/src/widgets/user-update-form";
 import { redirect } from "next/navigation";
+import { ProfileTab } from "./tabs";
 
 export async function fetchProfile() {
   try {
@@ -31,11 +31,7 @@ export default async function ProfilePage() {
             {getFullName(user)}
           </Typography.Subtitle>
         </div>
-        <Tab.Map
-          defaultValue="Редактировать данные"
-          elements={["Редактировать данные", "Смена пароля"]}
-          className="h-full"
-        />
+        <ProfileTab defaultValues={0} />
         <UserAction.Logout />
       </SidebarPortal>
       <Container
