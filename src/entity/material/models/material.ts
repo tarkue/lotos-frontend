@@ -13,6 +13,7 @@ export interface Material {
   position: number;
   files?: File[];
   has_tests?: boolean;
+  module_id?: number;
   is_locked?: boolean;
   tests?: Test[];
   is_completed?: boolean;

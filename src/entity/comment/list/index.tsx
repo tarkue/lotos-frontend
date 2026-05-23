@@ -9,7 +9,7 @@ export const CommentListBody = forwardRef<HTMLDivElement, CommentListBodyProps>(
     return (
       <div
         className={cn(
-          "w-full flex flex-col gap-5 px-6 py-5 rounded-[16px]",
+          "w-full flex flex-col gap-5 px-6 py-5 rounded-2xl bg-white",
           className,
         )}
         ref={ref}

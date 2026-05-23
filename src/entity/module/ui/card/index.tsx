@@ -6,23 +6,23 @@ import Link from "next/link";
 import { forwardRef } from "react";
 import { CardRight } from "./card-right";
 import { ModuleCardProps } from "./props";
+import { TabElementVariant } from "@/src/shared/ui/tab/element/variant";
 
 export const ModuleCard = forwardRef<HTMLAnchorElement, ModuleCardProps>(
   ({ className, module, ...props }, ref) => {
     return (
       <Link
         href={formatEndpoint(Endpoint.MODULE, [module.course_id, module.id])}
-        className={cn(
-          "flex gap-12 px-5 py-4 items-center justify-between bg-base-100 border-base-200 border text-base-500 rounded-[10px]",
-          className
-        )}
+        className={cn(TabElementVariant(), className)}
         ref={ref}
         {...props}
       >
-        <Typography.Subtitle>{module.title}</Typography.Subtitle>
+        <Typography.Body bold className="w-full">
+          {module.title}
+        </Typography.Body>
         <CardRight module={module} />
       </Link>
     );
-  }
+  },
 );
 ModuleCard.displayName = "ModuleCard";

@@ -61,6 +61,7 @@ export const AddModule: React.FC<CourseProps> = ({ course }) => {
     addModal({
       title: "Создать модуль",
       fields: <ModalContent course={course} />,
+      maxWidth: "700px",
     });
   };
   return (

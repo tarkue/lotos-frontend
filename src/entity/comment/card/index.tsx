@@ -16,7 +16,7 @@ export const CommentCard = forwardRef<HTMLDivElement, CommentCardProps>(
           <div className="flex gap-2 w-full">
             <Typography.Caption bold>{comment.author_name}</Typography.Caption>
             <Typography.Caption className="text-light-gray">
-              {comment.created_at}
+              {new Date(comment.created_at).toLocaleString()}
             </Typography.Caption>
           </div>
           <Typography.Caption>{comment.content}</Typography.Caption>

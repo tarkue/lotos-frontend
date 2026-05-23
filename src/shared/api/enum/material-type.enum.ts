@@ -3,4 +3,5 @@ export enum MaterialType {
   DOCUMENT = "document",
   PRESENTATION = "presentation",
   TEXT = "text",
+  HOMEWORK = "homework",
 }

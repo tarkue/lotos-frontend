@@ -5,7 +5,7 @@ export const CardRight = ({ module }: { module: Module }) => (
   <>
     {module.completed_materials !== undefined &&
       module.total_materials !== undefined && (
-        <Typography.Body className="px-[14px] py-[3px] text-base-500 bg-base-200 rounded-[16px] ">
+        <Typography.Body className="px-3.5 py-[3px] text-base-500 bg-base-200 rounded-2xl">
           {module.completed_materials}/{module.total_materials}
         </Typography.Body>
       )}

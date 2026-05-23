@@ -51,7 +51,7 @@ export const ModalProvider = ({ children }: { children?: React.ReactNode }) => {
     <ModalContext.Provider value={{ modals, addModal, removeModal, clear }}>
       {children}
       {modals.map((modal, key) => (
-        <ModalContainer key={key} id={modal.id}>
+        <ModalContainer key={key} id={modal.id} maxWidth={modal.maxWidth}>
           <DefaultFormModal
             {...modal}
             className={cn("w-full", modal.className)}

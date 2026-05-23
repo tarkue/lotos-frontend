@@ -1,5 +1,6 @@
 import { Typography } from "@/src/shared/ui/typography";
 import { CourseProps } from "../../models/course";
+import { CourseContent } from "@/src/widgets/course-content";
 
 export const CourseDescription = ({
   course,
@@ -9,9 +10,9 @@ export const CourseDescription = ({
   return (
     <section className="flex flex-col gap-4 w-full">
       <div className="flex flex-col w-full gap-1">
-        <Typography.Title className="text-black w-full">
+        <Typography.Heading className="text-black w-full">
           О курсе
-        </Typography.Title>
+        </Typography.Heading>
         <div className="flex flex-col w-full gap-4 bg-white p-6 my-9 rounded-2xl">
           <Typography.Title className="w-full text-wrap">
             {course.title}
@@ -20,6 +21,7 @@ export const CourseDescription = ({
             {course.description}
           </Typography.Body>
         </div>
+        <CourseContent course={course} />
       </div>
       {Act && <Act course={course} />}
     </section>

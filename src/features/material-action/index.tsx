@@ -7,6 +7,8 @@ import { DeleteMaterial } from "./ui/delete";
 import { DeleteTest } from "./ui/delete-test";
 import { StartTest } from "./ui/start-test";
 import { UpdateMaterial } from "./ui/update-material";
+import { PrevMaterialAction } from "./ui/prev";
+import { NextMaterialAction } from "./ui/next";
 
 export const MaterialAction = (props: MaterialActionProps) => {
   const { role } = useAuth();
@@ -28,3 +30,10 @@ export const MaterialAction = (props: MaterialActionProps) => {
 
   return <></>;
 };
+
+export const NavigationMaterialAction = (props: MaterialActionProps) => (
+  <div className="flex justify-between itemsc-center">
+    <PrevMaterialAction {...props} />
+    <NextMaterialAction {...props} />
+  </div>
+);

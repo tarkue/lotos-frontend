@@ -36,7 +36,7 @@ export interface CourseWithModulesResponseDTO {
   img_url?: string | null;
   created_at: string;
   creator?: UserResponseDTO | null;
-  modules: ModuleResponseDTO[];
+  modules: ModuleWithMaterialsResponseDTO[];
 }
 
 export interface ModuleCreateRequestDTO {

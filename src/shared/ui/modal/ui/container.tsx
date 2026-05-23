@@ -1,12 +1,15 @@
 "use client";
+import { cn } from "@/src/shared/libs/utils";
 import { useModal } from "../context/hooks";
 
 export const ModalContainer = ({
   children,
+  maxWidth,
   id,
 }: {
   children: React.ReactNode;
   id: number;
+  maxWidth?: `${number}px`;
 }) => {
   const { close } = useModal(id);
 
@@ -16,7 +19,11 @@ export const ModalContainer = ({
         role="dialog"
         aria-modal="true"
         open={true}
-        className="flex justify-center items-center sticky z-20 bg-transparent top-0 rounded-3xl m-auto px-4 md:px-0 w-full"
+        style={{ maxWidth }}
+        className={cn(
+          "flex justify-center items-center sticky z-20 bg-transparent top-0 rounded-3xl m-auto px-4 md:px-0",
+          maxWidth && `w-full`,
+        )}
       >
         <div className="flex justify-center relative w-full">{children}</div>
       </dialog>

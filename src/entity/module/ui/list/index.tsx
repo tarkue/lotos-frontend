@@ -4,7 +4,7 @@ import { ModuleListProps } from "./props";
 
 export const ModuleList = ({ modules, className }: ModuleListProps) => {
   return (
-    <ul className={cn("w-full flex flex-col gap-3", className)}>
+    <ul className={cn("w-full flex h-full flex-col gap-3", className)}>
       {modules
         .sort((a, b) => a.position - b.position)
         .map((module, i) => (

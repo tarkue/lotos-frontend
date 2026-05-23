@@ -1,7 +1,7 @@
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 
 export const GetTokenPairFromCookieOrThrow = (
-  cookieStore: ReadonlyRequestCookies
+  cookieStore: ReadonlyRequestCookies,
 ) => {
   const accessToken = cookieStore.get("access_token")?.value;
   const refreshToken = cookieStore.get("refresh_token")?.value;
@@ -17,12 +17,16 @@ export const GetTokenPairFromCookieOrThrow = (
 };
 
 export const getClientSideCookie = (name: string): string | undefined => {
-  const cookieValue = document.cookie
-    .split("; ")
-    .find((row) => row.startsWith(`${name}=`))
-    ?.split("=")[1];
+  try {
+    const cookieValue = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith(`${name}=`))
+      ?.split("=")[1];
 
-  return cookieValue;
+    return cookieValue;
+  } catch {
+    return undefined;
+  }
 };
 
 export function deleteClientSideCookie(name: string) {
@@ -55,7 +59,7 @@ type CookieOptions = {
 export function setCookie(
   name: string,
   value: string,
-  options: CookieOptions = {}
+  options: CookieOptions = {},
 ): void {
   const {
     expires,

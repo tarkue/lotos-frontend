@@ -8,11 +8,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     if (loading) {
       props.children = (
         <PulseLoader
-          color="#FFFFFF"
-          size={7}
+          color="#000"
+          size={6}
           margin={3}
           cssOverride={{
-            height: "27px",
+            height: "24px",
             display: "flex",
             alignItems: "center",
           }}

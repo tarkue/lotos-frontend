@@ -4,6 +4,8 @@ import { Link } from "@/src/shared/ui/link";
 import { Typography } from "@/src/shared/ui/typography";
 import { forwardRef } from "react";
 import { MaterialCardProps } from "./props";
+import { MaterialTypeIconGlyphMap } from "./models";
+import { MaterialType } from "@/src/shared/api/exports";
 
 export const MaterialCard = forwardRef<HTMLDivElement, MaterialCardProps>(
   ({ material, href, className, ...props }, ref) => {
@@ -14,14 +16,19 @@ export const MaterialCard = forwardRef<HTMLDivElement, MaterialCardProps>(
     const content = (
       <div
         className={cn(
-          "relative flex p-2 gap-2.5 w-full justify-between items-center bg-base-100 transition-colors duration-300 rounded-md",
+          "relative flex p-3 gap-2.5 w-full justify-between items-center bg-base-100 transition-colors duration-300 rounded-md",
           !material.is_locked && "hover:bg-base-raised active:bg-base-sunken",
           className,
         )}
         {...props}
         ref={ref}
       >
-        <div className="min-w-0 flex-1">
+        <div className="flex gap-3 min-w-0 flex-1">
+          <Icon
+            size="20"
+            color="light-gray"
+            glyph={MaterialTypeIconGlyphMap[material.type as MaterialType]}
+          />
           <Typography.Body
             className={cn(
               "w-full text-wrap",

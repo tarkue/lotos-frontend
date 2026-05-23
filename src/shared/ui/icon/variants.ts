@@ -11,6 +11,7 @@ const IconVariants = cva("block bg-no-repeat", {
     color: {
       white: "bg-white",
       "light-gray": "bg-light-gray",
+      "dark-gray": "bg-dark-gray",
       black: "bg-black",
       yellow: "bg-yellow",
       green: "bg-green",

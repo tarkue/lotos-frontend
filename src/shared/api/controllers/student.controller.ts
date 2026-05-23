@@ -59,6 +59,7 @@ export class StudentClient extends BaseClient {
     this.getCommentsForTest = this.getCommentsForTest.bind(this);
     this.createCommentForTest = this.createCommentForTest.bind(this);
     this.reactToComment = this.reactToComment.bind(this);
+    this.deleteComment = this.deleteComment.bind(this);
     this.getHomeworkForMaterial = this.getHomeworkForMaterial.bind(this);
     this.submitHomework = this.submitHomework.bind(this);
     this.getMySubmission = this.getMySubmission.bind(this);
@@ -448,6 +449,24 @@ export class StudentClient extends BaseClient {
     return await this.post(
       `/students/comments/${commentId}/reaction`,
       data,
+      options
+        ? {
+            headers: {
+              Authorization: `Bearer ${options?.accessToken}`,
+            },
+          }
+        : undefined,
+    );
+  }
+
+  async deleteComment(
+    commentId: number,
+    options?: {
+      accessToken?: string;
+    },
+  ): Promise<MessageResponseDTO> {
+    return await this.delete(
+      `/students/comments/${commentId}`,
       options
         ? {
             headers: {

@@ -10,7 +10,7 @@ const HeaderProfileLink = () => {
   const { isAuthenticated } = useAuth();
 
   if (isAuthenticated === undefined) {
-    return <Button loading />;
+    return <Button loading variant="ghost" size="small" />;
   }
 
   if (isAuthenticated) {

@@ -17,10 +17,7 @@ export const DefaultFormModal = ({
 
   return (
     <div
-      className={cn(
-        "flex flex-col gap-3 p-5 bg-white max-w-[448px] rounded-3xl",
-        className
-      )}
+      className={cn("flex flex-col gap-3 p-5 bg-white rounded-3xl", className)}
     >
       <div className="flex w-full items-center">
         {title && (

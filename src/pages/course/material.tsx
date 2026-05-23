@@ -1,11 +1,15 @@
 import { Material } from "@/src/entity/material";
 import { MaterialContent } from "@/src/entity/material/ui/content";
-import { MaterialAction } from "@/src/features/material-action";
+import {
+  MaterialAction,
+  NavigationMaterialAction,
+} from "@/src/features/material-action";
 import { api } from "@/src/shared/api";
 import { formatEndpoint } from "@/src/shared/libs/endpoint";
 import { roleSwitcher } from "@/src/shared/libs/role-switcher";
 import { sfwr } from "@/src/shared/libs/server-fetch-with-refresh";
 import { Endpoint } from "@/src/shared/models/endpoint-enum";
+import { CommentList } from "@/src/widgets/comment-list";
 import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
@@ -37,24 +41,43 @@ export async function fetchMaterial(slug: [string, string, string]) {
 
 export async function MaterialPage({
   slug,
+  prevMaterial,
   nextMaterial,
 }: {
   slug: [string, string, string];
+  prevMaterial?: Material;
   nextMaterial?: Material;
 }) {
   const material = await fetchMaterial(slug);
 
   return (
-    <div className="w-full min-h-full flex flex-col">
-      <MaterialContent material={material} />
+    <div className="w-full min-h-full flex flex-col mt-9">
+      <MaterialContent
+        material={material}
+        action={
+          <MaterialAction
+            nextMaterial={nextMaterial}
+            material={material}
+            courseId={slug[0]}
+          />
+        }
+      />
       <Suspense>
-        <div className="flex justify-end h-auto">
-            <MaterialAction
-              nextMaterial={nextMaterial}
-              material={material}
-              courseId={slug[0]}
-            />
-        </div>
+        <NavigationMaterialAction
+          material={material}
+          courseId={slug[0]}
+          prevMaterial={prevMaterial}
+          nextMaterial={nextMaterial}
+        />
+      </Suspense>
+      <Suspense>
+        <section className="mt-6">
+          <CommentList
+            courseId={Number.parseInt(slug[0])}
+            moduleId={Number.parseInt(slug[1])}
+            materialId={Number.parseInt(slug[2])}
+          />
+        </section>
       </Suspense>
     </div>
   );
