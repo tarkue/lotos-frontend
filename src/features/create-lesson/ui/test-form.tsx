@@ -320,7 +320,7 @@ export const AddTestForm = ({ module }: ModuleProps) => {
 
   if (mode === "init") {
     return (
-      <div className="flex flex-col gap-4 max-w-xl">
+      <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-1">
           <Label>Выберите урок, к которому нужно привязать тест:</Label>
           <AsyncSelect
@@ -362,7 +362,7 @@ export const AddTestForm = ({ module }: ModuleProps) => {
   }
 
   return (
-    <div className="flex flex-col gap-4 max-w-xl">
+    <div className="flex flex-col gap-4">
       <Input
         placeholder="Текст вопроса"
         value={currentQuestion.title}

@@ -26,9 +26,8 @@ export class BaseClient {
     this.client = axios.create({
       baseURL,
       timeout: 30000,
-      headers: {
-        "Content-Type": "application/json",
-      },
+      // Убираем Content-Type — axios сам определит нужный тип для FormData
+      headers: {},
     });
 
     this.setupInterceptors();
@@ -36,7 +35,7 @@ export class BaseClient {
 
   private processQueue(
     error: string | null | unknown,
-    token: string | null = null
+    token: string | null = null,
   ): void {
     this.failedQueue.forEach(({ resolve, reject }) => {
       if (error) {
@@ -66,7 +65,7 @@ export class BaseClient {
       },
       (error) => {
         return Promise.reject(error);
-      }
+      },
     );
 
     // Response interceptor for token refresh
@@ -119,7 +118,7 @@ export class BaseClient {
             "/auth/refresh",
             {
               refresh_token: refreshToken,
-            }
+            },
           );
 
           this.tokenStorage.setTokens(response.data);
@@ -140,7 +139,7 @@ export class BaseClient {
           this.handleAuthError();
           return Promise.reject(error);
         }
-      }
+      },
     );
   }
 
@@ -173,12 +172,12 @@ export class BaseClient {
   protected async post<TRequest, TResponse>(
     url: string,
     data?: TRequest,
-    config?: AxiosRequestConfig
+    config?: AxiosRequestConfig,
   ): Promise<TResponse> {
     const response: AxiosResponse<TResponse> = await this.client.post(
       url,
       data,
-      config
+      config,
     );
     return response.data;
   }
@@ -186,12 +185,12 @@ export class BaseClient {
   protected async put<TRequest, TResponse>(
     url: string,
     data?: TRequest,
-    config?: AxiosRequestConfig
+    config?: AxiosRequestConfig,
   ): Promise<TResponse> {
     const response: AxiosResponse<TResponse> = await this.client.put(
       url,
       data,
-      config
+      config,
     );
     return response.data;
   }
@@ -199,19 +198,19 @@ export class BaseClient {
   protected async patch<TRequest, TResponse>(
     url: string,
     data?: TRequest,
-    config?: AxiosRequestConfig
+    config?: AxiosRequestConfig,
   ): Promise<TResponse> {
     const response: AxiosResponse<TResponse> = await this.client.patch(
       url,
       data,
-      config
+      config,
     );
     return response.data;
   }
 
   protected async delete<T>(
     url: string,
-    config?: AxiosRequestConfig
+    config?: AxiosRequestConfig,
   ): Promise<T> {
     const response: AxiosResponse<T> = await this.client.delete(url, config);
     return response.data;

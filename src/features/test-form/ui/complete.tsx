@@ -10,7 +10,7 @@ export const CompleteTestButton = ({ disable }: { disable?: boolean }) => {
       type="submit"
       disabled={disable}
     >
-      {!disable ? "Завершить тест" : <ClipLoader color="#FFFFFF" size={27} />}
+      {!disable ? "Завершить тест" : <ClipLoader color="#222222" size={20} />}
     </Button>
   );
 };

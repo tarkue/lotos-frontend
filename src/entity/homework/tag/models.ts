@@ -3,9 +3,9 @@ import { glyphs, IconProps } from "@/src/shared/ui/icon/props";
 
 type TagVariantString = NonNullable<HomeWorkTagProps["variant"]>;
 type TagIcon = {
-  glyph: glyphs;
-  color: NonNullable<IconProps["color"]>;
-  text: string;
+  glyph?: glyphs;
+  color?: NonNullable<IconProps["color"]>;
+  text?: string;
 };
 
 export const tagContentMap: Record<TagVariantString, TagIcon> = {
@@ -23,5 +23,10 @@ export const tagContentMap: Record<TagVariantString, TagIcon> = {
     color: "green",
     glyph: "done",
     text: "Проверено",
+  },
+  default: {
+    color: undefined,
+    glyph: undefined,
+    text: undefined,
   },
 } as const;

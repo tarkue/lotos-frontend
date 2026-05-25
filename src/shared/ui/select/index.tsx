@@ -8,6 +8,10 @@ type SelectPropsType = Props<Pair<string, string>, false> & {
   invalid?: boolean;
 };
 
+type MultiSelectPropsType = Props<Pair<string, string>, true> & {
+  invalid?: boolean;
+};
+
 type AsyncSelectPropsType<T extends boolean> = AsyncProps<
   Pair<string, string>,
   T,
@@ -17,6 +21,10 @@ type AsyncSelectPropsType<T extends boolean> = AsyncProps<
 };
 
 export const Select = (props: SelectPropsType) => (
+  <ReactSelect unstyled {...defaultProps} {...props} />
+);
+
+export const MultiSelect = (props: MultiSelectPropsType) => (
   <ReactSelect unstyled {...defaultProps} {...props} />
 );
 

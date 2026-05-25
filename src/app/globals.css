@@ -5,9 +5,9 @@
   --breakpoint-sm: 440px;
   --breakpoint-sm-2: 740px;
   --breakpoint-md: 985px;
-  --color-error: #f8bbbb;
-  --color-warning: #fde39d;
-  --color-success: #b9f0cd;
+  --color-status-error: #f8bbbb;
+  --color-status-warning: #fde39d;
+  --color-status-success: #b9f0cd;
 
   --color-modal: rgba(0, 0, 0, 0.3);
 
@@ -42,7 +42,7 @@
   --media-primary-color: #ffffff;
   --media-control-hover-background: rgba(100, 100, 100, 0.25);
 
-  --header-width: 73px;
+  --header-height: 73px;
   --footer-height-and-padding: 151px;
 }
 
@@ -99,6 +99,7 @@ a {
   font-family: var(--roboto-font);
   font-size: 18px;
   line-height: 140%;
+  word-break: break-all;
 }
 
 .markdown-content img {

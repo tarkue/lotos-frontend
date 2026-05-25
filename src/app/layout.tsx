@@ -38,7 +38,7 @@ export default function RootLayout({
                 <ModalProvider>
                   <Header />
                   <SidebarProvider>
-                    {children}
+                    <div className="pt-(--header-height)">{children}</div>
                     <Footer />
                   </SidebarProvider>
                   <Toaster />

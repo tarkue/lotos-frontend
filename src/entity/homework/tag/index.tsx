@@ -7,8 +7,9 @@ import { tagContentMap } from "./models";
 import { Typography } from "@/src/shared/ui/typography";
 
 const HomeWorkTag = forwardRef<HTMLDivElement, HomeWorkTagProps>(
-  ({ variant, className, ...props }, ref) => {
+  ({ variant, className, text: propsText, ...props }, ref) => {
     variant = variant ?? "pending";
+
     const { glyph, color, text } = tagContentMap[variant];
 
     return (
@@ -17,8 +18,10 @@ const HomeWorkTag = forwardRef<HTMLDivElement, HomeWorkTagProps>(
         ref={ref}
         {...props}
       >
-        <Icon glyph={glyph} color={color} />
-        <Typography.Caption bold>{text}</Typography.Caption>
+        {glyph && color && <Icon glyph={glyph} color={color} />}
+        <Typography.Caption bold>
+          {propsText && variant === "default" ? propsText : text}
+        </Typography.Caption>
       </div>
     );
   },

@@ -4,16 +4,20 @@ import { cn } from "../../libs/utils";
 export const Sidebar = forwardRef<
   HTMLElement,
   React.HTMLAttributes<HTMLElement>
->(({ className, ...props }, ref) => {
+>(({ className, children, ...props }, ref) => {
   return (
     <aside
       className={cn(
-        "w-full max-w-[333px] flex flex-col px-4 py-5 gap-4 h-[calc(100dvh-var(--header-width))] bg-white border-r border-r-base-border",
+        "min-w-[333px] w-[333px] h-[calc(100dvh-var(--header-height))] block relative",
         className,
       )}
       {...props}
       ref={ref}
-    ></aside>
+    >
+      <div className="flex flex-col bg-white border-r gap-4 px-4 py-5 h-[calc(100dvh-var(--header-height))] border-r-base-border w-[333px] fixed top-(--header-height)">
+        {children}
+      </div>
+    </aside>
   );
 });
 Sidebar.displayName = "Sidebar";

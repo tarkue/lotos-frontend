@@ -6,13 +6,24 @@ import { MaterialPresentationViewer } from "./content-viewers/presentation-viewe
 import { MaterialTextViewer } from "./content-viewers/text-viewer";
 import { MaterialVideoViewer } from "./content-viewers/video-viewer";
 import { cn } from "@/src/shared/libs/utils";
+import { Suspense } from "react";
+import { MaterialHomeWorkViewer } from "./content-viewers/homework-viewer";
+import { HomeworkStudentItemResponseDTO } from "@/src/shared/api/exports";
 
 export const MaterialContent = ({
   material,
-  action,
+  bodyAction,
+  headerAction,
+  courseId,
+  moduleId,
+  homework,
 }: {
   material: Material;
-  action?: React.ReactNode;
+  bodyAction?: React.ReactNode;
+  headerAction?: React.ReactNode;
+  courseId?: number;
+  moduleId?: number;
+  homework?: HomeworkStudentItemResponseDTO;
 }) => {
   if (!material) {
     return <></>;
@@ -21,11 +32,13 @@ export const MaterialContent = ({
     <section className="w-full flex flex-col gap-6 pb-4">
       <div className={"flex w-full items-center justify-between"}>
         {material.title && (
-          <Typography.Heading className={cn(!action && "text-center")}>
+          <Typography.Heading
+            className={cn("w-full", !headerAction && "text-center")}
+          >
             {material.title}
           </Typography.Heading>
         )}
-        {action}
+        {headerAction}
       </div>
       <div className="p-6 rounded-2xl bg-white w-full">
         {material.type === MaterialType.VIDEO &&
@@ -42,6 +55,12 @@ export const MaterialContent = ({
         {material.type === MaterialType.TEXT && material.text_content && (
           <MaterialTextViewer content={material.text_content} />
         )}
+        {homework && courseId && moduleId && material.id && (
+          <Suspense>
+            <MaterialHomeWorkViewer homework={homework} />
+          </Suspense>
+        )}
+        {bodyAction}
       </div>
     </section>
   );

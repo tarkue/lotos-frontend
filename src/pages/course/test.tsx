@@ -1,11 +1,9 @@
-import { TestContent } from "@/src/entity/test";
 import { TestFinished } from "@/src/features/test-finished";
 import { TestFormWrapper } from "@/src/features/test-form/ui/test-form-wrapper";
 import { api } from "@/src/shared/api";
 import { formatEndpoint } from "@/src/shared/libs/endpoint";
 import { sfwr } from "@/src/shared/libs/server-fetch-with-refresh";
 import { Endpoint } from "@/src/shared/models/endpoint-enum";
-import { TestHeader } from "@/src/widgets/test-header";
 import { redirect } from "next/navigation";
 
 export async function startTest(slug: [number, number, number, number]) {
@@ -38,7 +36,7 @@ export default async function TestPage({
     number,
     number,
     number,
-    number
+    number,
   ];
   const { started_at, id, finished_at, score } = await startTest(ids);
   const test = await getTest(ids);
@@ -56,9 +54,7 @@ export default async function TestPage({
       moduleId={ids[1]}
       materialId={ids[2]}
       attemptId={id}
-    >
-      <TestHeader test={test} startedAt={started_at + "+00:00"} />
-      <TestContent test={test} />
-    </TestFormWrapper>
+      startedAt={started_at}
+    />
   );
 }

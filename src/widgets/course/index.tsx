@@ -9,7 +9,7 @@ import { Typography } from "@/src/shared/ui/typography";
 import { SidebarPortal } from "@/src/shared/ui/sidebar";
 
 export const Course = ({ course }: CourseProps) => {
-  const action = useMemo(
+  const Action = useMemo(
     () => (course.is_enrolled ? CourseAction.ProgressBar : CourseAction.Enroll),
     [course.is_enrolled],
   );
@@ -24,13 +24,14 @@ export const Course = ({ course }: CourseProps) => {
             {course.title}
           </Typography.Subtitle>
         </div>
+        <Action course={course} />
         {course.modules && <ModuleList modules={course.modules} />}
         <Suspense>
           <TeacherCourseActions course={course} />
         </Suspense>
       </SidebarPortal>
       <div className="pt-9 w-full">
-        <CourseDescription course={course} action={action} />
+        <CourseDescription course={course} />
       </div>
     </>
   );

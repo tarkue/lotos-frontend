@@ -106,6 +106,7 @@ export interface MaterialDetailForStudentDTO {
   position: number;
   files: MaterialFileInfoDTO[];
   has_tests: boolean;
+  has_homework: boolean;
   tests: TestBriefInfoDTO[];
   is_completed: boolean;
   completed_at?: string | null;

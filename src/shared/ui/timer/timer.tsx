@@ -14,7 +14,7 @@ export const Timer = forwardRef<HTMLDivElement, TimerProps>(
         ref={ref}
         {...props}
       >
-        {time.hours !== undefined && (
+        {time.hours !== undefined && time.hours > 0 && (
           <>
             <div
               className={cn(

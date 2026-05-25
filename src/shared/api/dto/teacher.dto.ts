@@ -92,6 +92,7 @@ export interface MaterialResponseDTO {
   text_content?: string | null;
   transcript?: string | null;
   position: number;
+  has_homework: boolean;
   files: MaterialFileInfoDTO[];
 }
 

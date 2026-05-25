@@ -4,4 +4,6 @@ import { homeWorkTagVariants } from "./variants";
 export interface HomeWorkTagProps
   extends
     React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof homeWorkTagVariants> {}
+    VariantProps<typeof homeWorkTagVariants> {
+  text?: string;
+}

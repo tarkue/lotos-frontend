@@ -80,6 +80,11 @@ export const CommentList = ({
 
   return (
     <CommentListBody commentLength={totalComments}>
+      <CommentSendForm
+        courseId={courseId}
+        moduleId={moduleId}
+        materialId={materialId}
+      />
       {totalComments > 0 && (
         <ul className="flex flex-col gap-5 w-full relative">
           {comments.map((comment) => (
@@ -97,11 +102,6 @@ export const CommentList = ({
           )}
         </ul>
       )}
-      <CommentSendForm
-        courseId={courseId}
-        moduleId={moduleId}
-        materialId={materialId}
-      />
     </CommentListBody>
   );
 };

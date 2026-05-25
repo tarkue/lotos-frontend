@@ -1,3 +1,4 @@
+"use client";
 import { QuestionList } from "../../question";
 import { TestProps } from "../models/test";
 

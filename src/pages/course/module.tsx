@@ -90,7 +90,7 @@ export async function ModulePage({ slug }: { slug: string[] }) {
       <SidebarPortal>
         <div className="flex gap-3 p-3 bg-base-gray rounded-xl items-center">
           <Link
-            href={formatEndpoint(Endpoint.COURSE, [moduleFromCourse.id])}
+            href={formatEndpoint(Endpoint.COURSE, [moduleFromCourse.course_id])}
             className="hover:bg-[#EAEDF2] rounded-sm"
           >
             <Icon glyph="arrow-left" color="light-gray" size="20" />

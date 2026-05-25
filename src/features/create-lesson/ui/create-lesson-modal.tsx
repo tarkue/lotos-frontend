@@ -10,12 +10,14 @@ import { LectureForm } from "./lecture-form";
 import { PresentationForm } from "./presentation-form";
 import { AddTestForm } from "./test-form";
 import { VideoLessonForm } from "./video-lesson-form";
+import { HomeworkForm } from "./homework-form";
 
 type LessonType =
   | MaterialType.VIDEO
   | MaterialType.TEXT
   | MaterialType.PRESENTATION
   | "test"
+  | "homework"
   | null;
 
 export const CreateLessonModal: React.FC<ModuleProps> = ({ module }) => {
@@ -37,22 +39,32 @@ export const CreateLessonModal: React.FC<ModuleProps> = ({ module }) => {
     if (lessonType === MaterialType.VIDEO) {
       addModal({
         title: "Создать видео-урок",
+        maxWidth: "700px",
         fields: <VideoLessonForm module={module} lessonTitle={title} />,
       });
     } else if (lessonType === MaterialType.TEXT) {
       addModal({
         title: "Создать лекцию",
+        maxWidth: "700px",
         fields: <LectureForm module={module} lessonTitle={title} />,
       });
     } else if (lessonType === MaterialType.PRESENTATION) {
       addModal({
         title: "Создать урок-презентацию",
+        maxWidth: "700px",
         fields: <PresentationForm module={module} lessonTitle={title} />,
       });
     } else if (lessonType === "test") {
       addModal({
         title: "Создать тест",
+        maxWidth: "700px",
         fields: <AddTestForm module={module} />,
+      });
+    } else if (lessonType === "homework") {
+      addModal({
+        title: "Создать домашнее задание",
+        maxWidth: "700px",
+        fields: <HomeworkForm module={module} lessonTitle={title} />,
       });
     }
   };
@@ -89,8 +101,15 @@ export const CreateLessonModal: React.FC<ModuleProps> = ({ module }) => {
             name="lessonType"
             value={"test"}
             checked={lessonType === "test"}
-            onChange={(e) => setLessonType(e.target.value as MaterialType.TEXT)}
+            onChange={(e) => setLessonType(e.target.value as "test")}
             field="Тест"
+          />
+          <RadioField
+            name="lessonType"
+            value={"homework"}
+            checked={lessonType === "homework"}
+            onChange={(e) => setLessonType(e.target.value as "homework")}
+            field="Домашнее задание"
           />
           <RadioField
             name="lessonType"

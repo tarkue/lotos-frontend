@@ -10,6 +10,7 @@ export const AddLesson: React.FC<ModuleProps> = ({ module }) => {
   const handle = () => {
     addModal({
       title: "Создать урок",
+      maxWidth: "700px",
       fields: <CreateLessonModal module={module} />,
     });
   };

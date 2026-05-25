@@ -1,3 +1,4 @@
+"use client";
 import { Question } from "../../models/question";
 import { QuestionFabric } from "../question-fabric";
 

@@ -3,15 +3,18 @@ import { api } from "@/src/shared/api";
 import {
   SubmitAnswerRequestDTO,
   SubmitTestRequestDTO,
+  QuestionResultDTO,
 } from "@/src/shared/api/dto/student.dto";
 import { getClientSideCookie } from "@/src/shared/libs/cookie";
-import { formatEndpoint } from "@/src/shared/libs/endpoint";
-import { Endpoint } from "@/src/shared/models/endpoint-enum";
 import { useModals } from "@/src/shared/ui/modal";
 import { toast } from "@/src/shared/ui/toast";
-import { ToastAction } from "@/src/shared/ui/toast/toast";
-import { useRouter } from "next/navigation";
-import { WrapperText } from "./wrapper-text";
+
+export interface TestSubmissionResult {
+  feedbackText?: string | null;
+  questionResults?: QuestionResultDTO[];
+  score?: number | null;
+  passed?: boolean | null;
+}
 
 export const useSubmitTestComplete = (
   test: Test,
@@ -20,9 +23,10 @@ export const useSubmitTestComplete = (
   materialId: number,
   attemptId: number,
 ) => {
-  const router = useRouter();
   const { addModal } = useModals();
-  return async (formData: FormData) => {
+  return async (
+    formData: FormData,
+  ): Promise<TestSubmissionResult | undefined> => {
     const data: SubmitAnswerRequestDTO[] = [];
 
     for (const el of test.questions || []) {
@@ -92,80 +96,70 @@ export const useSubmitTestComplete = (
         { accessToken: access_token },
       );
 
-      const action =
-        submit.feedback_text && submit.feedback_text.length > 250
-          ? {
-              action: (
-                <ToastAction
-                  altText="Посмотреть весь ответ нейросети"
-                  onClick={() => {
-                    addModal({
-                      title: "Полный ответ",
-                      fields: <WrapperText content={submit.feedback_text!} />,
-                    });
-                  }}
-                >
-                  Посмотреть весь ответ нейросети
-                </ToastAction>
-              ),
-            }
-          : {};
+      // Получаем детальные результаты теста
+      const result = await api.student.getTestResult(attemptId, access_token);
 
       if (submit.blocked) {
         toast({
-          title: `Ваш результат ${submit.score}/100`,
+          title: `Ваш результат ${result.score}/100`,
           description: `Тест разблокируется через ${(
             (Number(new Date()) -
               Number(new Date(submit.blocked_until as string))) /
             1000 /
             60 /
             60
-          ).toFixed(0)} минут. ${submit.feedback_text}`,
-          variant: "neuro",
-          duration: 1000000,
-          ...action,
+          ).toFixed(0)} минут.`,
+          variant: "warning",
         });
-        router.refresh();
-        router.push(
-          formatEndpoint(Endpoint.MATERIAL, [courseId, moduleId, materialId]),
-        );
+        return {
+          feedbackText: submit.feedback_text,
+          questionResults: result.questions_results,
+          score: result.score,
+          passed: result.passed,
+        };
       }
 
-      if (submit.passed) {
+      if (result.passed) {
         if (submit.feedback_text) {
           toast({
-            title: `Ваш результат ${submit.score}/100`,
-            description: submit.feedback_text
-              ? submit.feedback_text.slice(0, 250) + "..."
-              : undefined,
-            variant: "neuro",
-            duration: 1000000,
-            ...action,
+            title: `Ваш результат ${result.score}/100`,
+            variant: "success",
           });
+          return {
+            feedbackText: submit.feedback_text,
+            questionResults: result.questions_results,
+            score: result.score,
+            passed: result.passed,
+          };
         } else {
           toast({
-            title: `Ваш результат ${submit.score}/100`,
+            title: `Ваш результат ${result.score}/100`,
             description: "Доступ к следущему урок открыт.",
             variant: "success",
           });
         }
-        // Обновляем данные страницы после успешного прохождения теста
-        router.refresh();
+        return {
+          feedbackText: null,
+          questionResults: result.questions_results,
+          score: result.score,
+          passed: result.passed,
+        };
       } else {
         toast({
-          title: `Ваш результат ${submit.score}/100`,
-          description: `Тест не пройден. ${submit.feedback_text ? submit.feedback_text.slice(0, 250) + "..." : ""}`,
-          variant: "neuro",
-          duration: 1000000,
-          ...action,
+          title: `Ваш результат ${result.score}/100`,
+          description: "Тест не пройден.",
+          variant: "warning",
         });
+        return {
+          feedbackText: submit.feedback_text,
+          questionResults: result.questions_results,
+          score: result.score,
+          passed: result.passed,
+        };
       }
     } catch (error) {
       console.log(error);
-      router.refresh();
-      router.push(
-        formatEndpoint(Endpoint.MATERIAL, [courseId, moduleId, materialId]),
-      );
+      return undefined;
     }
   };
 };

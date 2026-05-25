@@ -94,6 +94,14 @@ export { QuestionType } from "./enum/question-type.enum";
 export { HomeworkSubmissionFormat } from "./enum/homework-submission-format.enum";
 export { HomeworkReviewResult } from "./enum/homework-review-result.enum";
 
+// Homework format utilities
+export {
+  FORMAT_TO_EXTENSIONS,
+  FORMAT_ACCEPT_STRING,
+  getAcceptForFormats,
+  getExtensionsForFormats,
+} from "./enum/homework-formats";
+
 // Client exports
 export { AdminClient } from "./controllers/admin.controller";
 export { AIClient } from "./controllers/ai.controller";

@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export const Header = () => {
   return (
-    <header className="w-full px-6 py-4 flex justify-between items-center border-b border-b-base-border bg-white">
+    <header className="w-full px-6 py-4 flex justify-between z-10 items-center border-b fixed border-b-base-border bg-white">
       <Link href="/catalog/all">
         <Logo />
       </Link>
