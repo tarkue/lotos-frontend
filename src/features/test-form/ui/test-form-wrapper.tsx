@@ -148,7 +148,7 @@ export const TestFormWrapper = ({
           className="flex flex-col gap-6 w-full mb-8 p-6 bg-white rounded-2xl mt-9"
           onSubmit={handleSubmit}
         >
-          <TestHeader test={test} startedAt={startedAt + "+00:00"} />
+          <TestHeader test={test} startedAt={startedAt} />
           <TestContent test={test} />
 
           <CompleteTestButton disable={loading} />

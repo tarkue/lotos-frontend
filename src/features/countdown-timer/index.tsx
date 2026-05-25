@@ -18,13 +18,11 @@ export const CountDownTimer = ({
 
   useEffect(() => {
     // Вычисляем время окончания на основе startedAt и initialTime
-    // Парсим startedAt явно, чтобы избежать проблем с таймзоной
+    // Парсим startedAt явно в локальной таймзоне клиента
     const start_date = new Date(startedAt);
-    // Если startedAt в формате "YYYY-MM-DD", явно сбрасываем время в 00:00:00
-    // чтобы избежать влияния таймзоны сервера
-    if (startedAt.length === 10) {
-      start_date.setHours(0, 0, 0, 0);
-    }
+    // Если startedAt в формате "YYYY-MM-DD" (без времени),
+    // Date парсит его как начало дня в локальной таймзоне
+    // Это гарантирует корректное использование локального времени браузера
     const startTime = start_date.getTime();
     const totalMilliseconds =
       (initialTime.hours ? initialTime.hours * 60 * 60 * 1000 : 0) +
