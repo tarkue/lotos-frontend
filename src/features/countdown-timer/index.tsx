@@ -18,7 +18,14 @@ export const CountDownTimer = ({
 
   useEffect(() => {
     // Вычисляем время окончания на основе startedAt и initialTime
-    const startTime = new Date(startedAt).getTime();
+    // Парсим startedAt явно, чтобы избежать проблем с таймзоной
+    const start_date = new Date(startedAt);
+    // Если startedAt в формате "YYYY-MM-DD", явно сбрасываем время в 00:00:00
+    // чтобы избежать влияния таймзоны сервера
+    if (startedAt.length === 10) {
+      start_date.setHours(0, 0, 0, 0);
+    }
+    const startTime = start_date.getTime();
     const totalMilliseconds =
       (initialTime.hours ? initialTime.hours * 60 * 60 * 1000 : 0) +
       (initialTime.minutes ? initialTime.minutes * 60 * 1000 : 0) +
@@ -73,7 +80,7 @@ export const CountDownTimer = ({
 
         const hours = Math.floor(difference / (1000 * 60 * 60));
         const minutes = Math.floor(
-          (difference % (1000 * 60 * 60)) / (1000 * 60)
+          (difference % (1000 * 60 * 60)) / (1000 * 60),
         );
         const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
