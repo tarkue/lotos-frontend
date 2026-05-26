@@ -6,17 +6,28 @@ import { useEffect, useRef, useState } from "react";
 interface CountDownTimerProps {
   startedAt: string;
   initialTime?: Time; // Начальное время таймера
+  isSubmitted?: boolean; // Флаг остановки таймера после отправки
 }
 
 export const CountDownTimer = ({
   startedAt,
   initialTime = { hours: 1, minutes: 1, seconds: 1 },
+  isSubmitted = false,
 }: CountDownTimerProps) => {
   const [timeLeft, setTimeLeft] = useState<Time>(initialTime);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const targetTimeRef = useRef<number>(0);
 
   useEffect(() => {
+    // Если тест отправлен, останавливаем таймер
+    if (isSubmitted) {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+      return;
+    }
+
     // Вычисляем время окончания на основе startedAt и initialTime
     // startedAt приходит в формате "YYYY-MM-DD+00:00" (UTC)
     // Конвертируем UTC время в локальное для корректного отображения
@@ -80,7 +91,7 @@ export const CountDownTimer = ({
         clearInterval(intervalRef.current);
       }
     };
-  }, [startedAt, initialTime]);
+  }, [startedAt, initialTime, isSubmitted]);
 
   // Visibility API для корректной работы при сворачивании
   useEffect(() => {

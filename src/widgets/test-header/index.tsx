@@ -7,7 +7,8 @@ import { Typography } from "@/src/shared/ui/typography";
 export const TestHeader = ({
   test,
   startedAt,
-}: TestProps & { startedAt: string }) => {
+  isSubmitted = false,
+}: TestProps & { startedAt: string; isSubmitted?: boolean }) => {
   return (
     <div className="flex w-full justify-between items-center">
       <Typography.Title className="w-full">{test.title}</Typography.Title>
@@ -15,6 +16,7 @@ export const TestHeader = ({
         <CountDownTimer
           startedAt={startedAt}
           initialTime={secondsToTime(test.time_limit_seconds)}
+          isSubmitted={isSubmitted}
         />
       )}
     </div>
