@@ -17,7 +17,7 @@ export const ModuleCard = forwardRef<HTMLAnchorElement, ModuleCardProps>(
         ref={ref}
         {...props}
       >
-        <Typography.Body bold className="w-full">
+        <Typography.Body bold className="w-full truncate">
           {module.title}
         </Typography.Body>
         <CardRight module={module} />

@@ -78,7 +78,7 @@ export async function ModulePage({ slug }: { slug: string[] }) {
   }
 
   const prevMaterial = sortedMaterials.find(
-    (el) => el.position === (currentMaterial?.position || 0) - 1,
+    (el) => el.position === (currentMaterial?.position || 1) - 1,
   );
 
   const nextMaterial = sortedMaterials.find(

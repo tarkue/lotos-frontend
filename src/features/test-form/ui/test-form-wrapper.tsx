@@ -1,5 +1,5 @@
 "use client";
-import { Test, TestProps } from "@/src/entity/test";
+import { Test } from "@/src/entity/test";
 import { useState, useEffect } from "react";
 import { useSubmitTestComplete } from "../hooks/submit-handle";
 import { CompleteTestButton } from "./complete";
@@ -148,7 +148,7 @@ export const TestFormWrapper = ({
           className="flex flex-col gap-6 w-full mb-8 p-6 bg-white rounded-2xl mt-9"
           onSubmit={handleSubmit}
         >
-          <TestHeader test={test} startedAt={startedAt} />
+          <TestHeader test={test} startedAt={startedAt + "+00:00"} />
           <TestContent test={test} />
 
           <CompleteTestButton disable={loading} />
