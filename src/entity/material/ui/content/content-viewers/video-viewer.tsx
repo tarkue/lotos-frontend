@@ -15,7 +15,7 @@ export const MaterialVideoViewer = ({
 }) => {
   return (
     <>
-      <div className="rounded-xl">
+      <div className="gap-4 rounded-xl w-full flex flex-col">
         <Suspense>
           <Player url={url} />
         </Suspense>
