@@ -6,6 +6,7 @@ import { MaterialActionProps } from "../models/material-action";
 import { EditLectureForm } from "./edit-lecture-form";
 import { EditPresentationForm } from "./edit-presentation-form";
 import { EditVideoLessonForm } from "./edit-video-lesson-form";
+import { Icon } from "@/src/shared/ui/icon";
 
 export const UpdateMaterial: React.FC<MaterialActionProps> = ({
   material,
@@ -56,8 +57,8 @@ export const UpdateMaterial: React.FC<MaterialActionProps> = ({
   };
 
   return (
-    <Button variant="primary" onClick={handleEdit}>
-      Изменить урок
+    <Button variant="ghost" size="small" onClick={handleEdit}>
+      <Icon glyph="change" color="dark-gray" size="20" />
     </Button>
   );
 };

@@ -26,6 +26,7 @@ export type {
   ModuleResponseDTO,
   ModuleUpdateRequestDTO,
   ModuleWithMaterialsResponseDTO,
+  PaginatedApplicationsResponseDTO,
   TestsListResponseDTO,
   TestSummaryResponseDTO,
 } from "./dto/teacher.dto";

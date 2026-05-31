@@ -7,15 +7,15 @@ import { InputVariant } from "./variant";
 export const Input = forwardRef<HTMLDivElement, InputProps>(
   (
     { className, size, type, isValid, leftIcon, rightIcon, ...props },
-    elementRef
+    elementRef,
   ) => {
     const ref = useRef<HTMLInputElement>(null);
     return (
       <div
         className={cn(
           InputVariant({ size }),
-          isValid === false && "border-error hover:border-base-200",
-          className
+          isValid === false && "border-error hover:border-none",
+          className,
         )}
         onClick={() => ref.current?.focus()}
         ref={elementRef}
@@ -24,12 +24,12 @@ export const Input = forwardRef<HTMLDivElement, InputProps>(
         <input
           type={type}
           ref={ref}
-          className="font-roboto text-black placeholder-base-300 font-medium w-full outline-0"
+          className="font-roboto text-black placeholder-light-gray font-medium w-full outline-0"
           {...props}
         />
         {rightIcon}
       </div>
     );
-  }
+  },
 );
 Input.displayName = "Input";

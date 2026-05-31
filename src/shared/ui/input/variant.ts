@@ -5,7 +5,7 @@ export const InputVariant = cva(
   {
     variants: {
       size: {
-        default: "px-4 py-3 rounded-[8px]",
+        default: "px-4 rounded-[8px] h-11",
       },
     },
     defaultVariants: {

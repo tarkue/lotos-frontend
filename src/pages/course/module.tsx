@@ -1,5 +1,5 @@
 import { TeacherAddLesson } from "@/src/features/create-lesson";
-import { DeleteModule } from "@/src/features/delete-module";
+import { DeleteModule } from "@/src/features/module-action/ui/delete";
 import { api } from "@/src/shared/api";
 import { formatEndpoint } from "@/src/shared/libs/endpoint";
 import { roleSwitcher } from "@/src/shared/libs/role-switcher";
@@ -17,6 +17,8 @@ import { Typography } from "@/src/shared/ui/typography";
 import Link from "next/link";
 import { Icon } from "@/src/shared/ui/icon";
 import { MaterialList } from "@/src/entity/material";
+import { CourseAction } from "@/src/features/course-action";
+import { ModuleAction } from "@/src/features/module-action";
 
 export async function fetchModule(slug: [string, string]) {
   const cookieStore = await cookies();
@@ -112,9 +114,15 @@ export async function ModulePage({ slug }: { slug: string[] }) {
             courseId={moduleFromCourse.course_id}
           />
         )}
-        {/* Кнопки управления для учителя */}
-        <DeleteModule module={moduleFromCourse} />
-        <TeacherAddLesson module={moduleFromCourse} />
+        <div>
+          <TeacherAddLesson module={moduleFromCourse} />
+        </div>
+        <div className="w-full">
+          <ModuleAction.Edit
+            module={moduleFromCourse}
+            courseId={moduleFromCourse.course_id}
+          />
+        </div>
       </SidebarPortal>
 
       <div className="flex w-full min-h-full h-max gap-6 flex-col-reverse md:flex-row">

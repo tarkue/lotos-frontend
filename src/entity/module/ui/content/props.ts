@@ -3,5 +3,6 @@ import { Module } from "../../models/module";
 
 export interface ModuleContentProps extends React.HTMLAttributes<HTMLDivElement> {
   module: Module;
+  action?: React.FC<Module>;
   defaultChecked?: boolean;
 }

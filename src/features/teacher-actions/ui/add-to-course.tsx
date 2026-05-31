@@ -4,6 +4,7 @@ import { api } from "@/src/shared/api";
 import { EditorResponseDTO } from "@/src/shared/api/dto/teacher.dto";
 import { Button } from "@/src/shared/ui/button";
 import { CheckboxField } from "@/src/shared/ui/checkbox";
+import { Icon } from "@/src/shared/ui/icon";
 import { Input } from "@/src/shared/ui/input";
 import { useModals } from "@/src/shared/ui/modal";
 import { ScrollArea } from "@/src/shared/ui/scroll-area";
@@ -117,8 +118,8 @@ export const AddToCourse = ({
     });
   };
   return (
-    <Button variant="primary" onClick={handle}>
-      Изменить состав
+    <Button variant="ghost" size="small" onClick={handle}>
+      <Icon glyph="change" color="dark-gray" size="20" />
     </Button>
   );
 };

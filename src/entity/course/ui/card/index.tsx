@@ -21,6 +21,8 @@ export const CourseCard = forwardRef<HTMLAnchorElement, CourseCardProps>(
           <Image
             src={course.img_url}
             alt={course.title}
+            width={395}
+            height={144}
             className="w-full h-36 object-cover"
           />
         ) : (

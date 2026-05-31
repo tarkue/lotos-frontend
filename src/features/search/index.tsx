@@ -1,41 +1,32 @@
 "use client";
 import { useSearchParamSetter } from "@/src/shared/hooks/search-param-setter";
-import { Button } from "@/src/shared/ui/button";
 import { Icon } from "@/src/shared/ui/icon";
 import { Input } from "@/src/shared/ui/input";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
-export const QUERY_SEARCH_PARAM = "q";
-
-export const QuerySearch = () => {
+export const QuerySearch = ({ alias = "q" }: { alias?: string }) => {
   const searchParams = useSearchParams();
   const setSearchParam = useSearchParamSetter();
-  const defaultValue = searchParams?.get(QUERY_SEARCH_PARAM);
+  const defaultValue = searchParams?.get(alias);
   const [searchValue, setSearchValue] = useState<string>(
     defaultValue ? defaultValue : "",
   );
 
   const handle = (value: string) => {
-    setSearchParam(QUERY_SEARCH_PARAM, value);
+    setSearchParam(alias, value);
     setSearchValue(value);
   };
 
   return (
-    <div className="flex w-full">
+    <div className="flex w-full max-w-[280px]">
       <Input
+        leftIcon={<Icon glyph="search" color="light-gray" size="20" />}
         placeholder="Поиск"
-        className="rounded-l-2xl rounded-r-none border-r-0 bg-white"
+        className="rounded-l-2xl border-r-0 bg-white"
         value={searchValue}
         onChange={(e) => handle(e.currentTarget.value)}
       />
-      <Button
-        variant="primary"
-        size="small"
-        className="rounded-none rounded-l-none rounded-r-2xl w-11"
-      >
-        <Icon glyph="search" color="white" />
-      </Button>
     </div>
   );
 };

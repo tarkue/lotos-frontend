@@ -4,6 +4,7 @@ import { AddModule } from "./ui/add-module";
 import { Delete } from "./ui/delete";
 import { Enroll } from "./ui/enroll";
 import { None } from "./ui/none";
+import { OpenAbout } from "./ui/open-about";
 import { OpenSettings } from "./ui/open-settings";
 import { ProgressPercentage } from "./ui/progress";
 import { ProgressBarAction } from "./ui/progress-bar";
@@ -18,6 +19,7 @@ export const CourseAction = Object.assign(
     Delete,
     Add: AddCourse,
     OpenSettings,
+    OpenAbout,
     ProgressBar: ProgressBarAction,
-  }
+  },
 );

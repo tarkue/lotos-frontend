@@ -1,6 +1,7 @@
 import { Material } from "@/src/entity/material";
 import { MaterialContent } from "@/src/entity/material/ui/content";
 import {
+  FooterContentMaterialAction,
   MaterialAction,
   NavigationMaterialAction,
 } from "@/src/features/material-action";
@@ -111,16 +112,22 @@ export async function MaterialPage({
           />
         }
         bodyAction={
-          homework && (
-            <Suspense fallback={<div>Загрузка...</div>}>
-              <HomeworkActionsBlock
-                homework={homework}
-                courseId={courseId}
-                moduleId={moduleId}
-                materialId={materialId}
-              />
-            </Suspense>
-          )
+          <>
+            {homework && (
+              <Suspense fallback={<div>Загрузка...</div>}>
+                <HomeworkActionsBlock
+                  homework={homework}
+                  courseId={courseId}
+                  moduleId={moduleId}
+                  materialId={materialId}
+                />
+              </Suspense>
+            )}
+            <FooterContentMaterialAction
+              material={material}
+              courseId={slug[0]}
+            />
+          </>
         }
         courseId={courseId}
         moduleId={moduleId}

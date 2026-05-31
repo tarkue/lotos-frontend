@@ -42,7 +42,7 @@ export const generateDeleteFromCourse = (
     };
     return (
       <Button variant="ghost" onClick={deleteFromCourse}>
-        <Icon glyph="trash" color="black" />
+        <Icon glyph="trash" color="dark-gray" />
       </Button>
     );
   };

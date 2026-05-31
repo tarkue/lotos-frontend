@@ -10,9 +10,9 @@ export const TeacherCourseActions: React.FC<CourseProps> = ({ course }) => {
     return <></>;
   }
   return (
-    <div className="flex w-full justify-between flex-col gap-2">
+    <div className="flex w-full justify-between flex-col gap-3">
+      <CourseAction.OpenAbout course={course} />
       <CourseAction.OpenSettings course={course} />
-      <CourseAction.AddModule course={course} />
     </div>
   );
 };

@@ -1,16 +1,32 @@
 "use client";
-import { UserList } from "@/src/entity/user";
-import { UserListProps } from "@/src/entity/user/models/user.model";
+import React from "react";
+
+import { User, UserListProps } from "@/src/entity/user/models/user.model";
 import { TeacherAction } from "@/src/features/teacher-actions";
-import { Typography } from "@/src/shared/ui/typography";
+import { TableBuilder } from "@/src/shared/ui/table";
+import { getFullName } from "@/src/entity/user";
+
+const ActionWrapper: React.FC<{ row: User }> = ({ row }) => (
+  <TeacherAction.SetRoleStudent user={row} />
+);
 
 export const TeacherListForDelete = ({ users }: UserListProps) => {
-  if (users.length === 0) {
-    return (
-      <Typography.Subtitle className="text-gray w-full text-center">
-        Тут пока ничего нет
-      </Typography.Subtitle>
-    );
-  }
-  return <UserList users={users} action={TeacherAction.SetRoleStudent} />;
+  return (
+    <TableBuilder
+      data={users}
+      columns={[
+        {
+          key: "first_name",
+          header: "Преподаватель",
+          cell: (value, row) => getFullName(row),
+        },
+        {
+          key: "email",
+          header: "Email",
+        },
+      ]}
+      action={ActionWrapper}
+      emptyMessage="Тут пока ничего нет"
+    />
+  );
 };

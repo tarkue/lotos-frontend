@@ -2,6 +2,7 @@
 import { getFullName } from "@/src/entity/user";
 import { api } from "@/src/shared/api";
 import { Button } from "@/src/shared/ui/button";
+import { Icon } from "@/src/shared/ui/icon";
 import { Input } from "@/src/shared/ui/input";
 import { useModals } from "@/src/shared/ui/modal";
 import { RadioField, RadioGroup } from "@/src/shared/ui/radio";
@@ -79,8 +80,8 @@ export const Create = () => {
     });
   };
   return (
-    <Button variant="primary" onClick={handle}>
-      Создать учителя
+    <Button variant="ghost" size="small" onClick={handle}>
+      <Icon glyph="add" color="dark-gray" />
     </Button>
   );
 };

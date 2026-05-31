@@ -1,8 +1,9 @@
 export enum Endpoint {
   MY_COURSES = "/catalog/my",
   ADMINISTRATION = "/admin",
+  ADMINISTRATION_TEACHERS = `${ADMINISTRATION}/teachers`,
+  ADMINISTRATION_COURSES = `${ADMINISTRATION}/courses`,
   ALL_COURSES = "/catalog/all",
-  TEACHERS = "/catalog/teachers",
   CREATED_COURSES = "/catalog/created",
   LOGIN = "/login",
   REGISTER = "/register",

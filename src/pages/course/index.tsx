@@ -11,9 +11,14 @@ export default async function UniversalPage({
   searchParams,
 }: {
   params: Promise<{ slug: string[] }>;
-  searchParams: Promise<{ q?: string; p: string }>;
+  searchParams: Promise<{
+    q?: string;
+    p?: string;
+    teachers_q?: string;
+    teachers_p?: string;
+  }>;
 }) {
-  const { p, q } = await searchParams;
+  const { p, q, ...settingsSearchParams } = await searchParams;
   const { slug } = await params;
 
   if (slug.length > 4) {
@@ -31,7 +36,10 @@ export default async function UniversalPage({
         </Suspense>
       )}
       {slug.length >= 2 && slug[1] === "settings" && (
-        <CourseSettingsPage slug={slug[0]} route={slug[2]} q={q} p={p} />
+        <CourseSettingsPage
+          params={Promise.resolve({ slug: slug[0], route: slug[2] })}
+          searchParams={settingsSearchParams}
+        />
       )}
       {slug.length >= 2 && slug[1] !== "settings" && (
         <Suspense fallback={<Loader />}>

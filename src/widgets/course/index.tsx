@@ -2,11 +2,11 @@
 import { CourseDescription, CourseProps } from "@/src/entity/course";
 import { ModuleList } from "@/src/entity/module";
 import { CourseAction } from "@/src/features/course-action";
-import { Endpoint } from "@/src/shared/models/endpoint-enum";
-import { Suspense, useMemo } from "react";
+import { useMemo } from "react";
 import { TeacherCourseActions } from "./teacher-actions";
 import { Typography } from "@/src/shared/ui/typography";
 import { SidebarPortal } from "@/src/shared/ui/sidebar";
+import { AddModule } from "@/src/features/course-action/ui/add-module";
 
 export const Course = ({ course }: CourseProps) => {
   const Action = useMemo(
@@ -24,14 +24,11 @@ export const Course = ({ course }: CourseProps) => {
             {course.title}
           </Typography.Subtitle>
         </div>
+        <TeacherCourseActions course={course} />
         <Action course={course} />
-        {course.modules && <ModuleList modules={course.modules} />}
-        <Suspense>
-          <TeacherCourseActions course={course} />
-        </Suspense>
       </SidebarPortal>
       <div className="pt-9 w-full">
-        <CourseDescription course={course} />
+        <CourseDescription course={course} action={AddModule} />
       </div>
     </>
   );

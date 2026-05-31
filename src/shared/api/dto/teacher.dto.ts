@@ -128,6 +128,7 @@ export interface EditorResponseDTO {
   course_id: number;
   granted_at: string;
   granted_by?: number | null;
+  full_name: string;
 }
 
 export interface EditorListResponse {
@@ -148,6 +149,14 @@ export interface CourseApplicationResponseDTO {
   reviewer?: UserResponseDTO | null;
 }
 
+export interface PaginatedApplicationsResponseDTO {
+  total: number;
+  page: number;
+  page_size: number;
+  total_pages: number;
+  applications: CourseApplicationResponseDTO[];
+}
+
 export interface CourseApplicationDetailResponseDTO {
   id: number;
   user: UserResponseDTO;
@@ -165,7 +174,7 @@ export interface EnrolledStudentsListResponse {
   total_pages: number;
   students: {
     user: UserResponseDTO;
-    progress: CourseProgressResponseDTO | null;
+    progress: CourseProgressResponseDTO;
   }[];
 }
 

@@ -1,7 +1,7 @@
 "use client";
 import { ModuleProps } from "@/src/entity/module";
 import { TeacherAddLesson } from "@/src/features/create-lesson";
-import { DeleteModule } from "@/src/features/delete-module";
+import { DeleteModule } from "@/src/features/module-action/ui/delete";
 import { useAuth } from "@/src/shared/api/context/auth-context";
 import { RoleType } from "@/src/shared/api/enum/role-type.enum";
 import { Typography } from "@/src/shared/ui/typography";

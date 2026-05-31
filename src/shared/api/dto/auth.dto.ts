@@ -33,6 +33,7 @@ export interface UserResponseDTO {
   group_name?: string | null;
   role_id: RoleType;
   created_at: string;
+  full_name?: string;
 }
 
 export interface MessageResponseDTO {

@@ -27,6 +27,7 @@ import {
   ModuleResponseDTO,
   ModuleUpdateRequestDTO,
   ModuleWithMaterialsResponseDTO,
+  PaginatedApplicationsResponseDTO,
   TestsListResponseDTO,
 } from "../dto/teacher.dto";
 import { PaginatedCommentsResponseDTO } from "../dto/common.dto";
@@ -320,27 +321,26 @@ export class TeacherClient extends BaseClient {
   // Applications
   async getCourseApplications(
     courseId: number,
+    params?: {
+      page?: number;
+      page_size?: number;
+      search?: string;
+    },
     options?: {
       accessToken?: string;
     },
-  ): Promise<CourseApplicationResponseDTO[]> {
-    // 1. Делаем запрос. Типизируем результат как 'any' или создаем интерфейс пагинации
-    const response = await this.get<{
-      applications: CourseApplicationResponseDTO[];
-    }>(
+  ): Promise<PaginatedApplicationsResponseDTO> {
+    return await this.get(
       `/teacher/courses/${courseId}/applications`,
       options
         ? {
+            params,
             headers: {
               Authorization: `Bearer ${options.accessToken}`,
             },
           }
-        : undefined,
+        : { params },
     );
-
-    // 2. Возвращаем только массив заявок, чтобы соответствовать Promise<CourseApplicationResponseDTO[]>
-    // Добавляем проверку на случай, если response или applications не придут
-    return response?.applications || [];
   }
 
   async approveApplication(

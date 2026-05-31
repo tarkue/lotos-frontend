@@ -43,7 +43,7 @@ export const Delete: React.FC<CourseProps> = ({ course }) => {
 
   return (
     <Button variant="ghost" onClick={handle} className="w-fit" type="button">
-      Удалить этот курс
+      Удалить курс
     </Button>
   );
 };
