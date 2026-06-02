@@ -1,4 +1,5 @@
 import { api } from "@/src/shared/api";
+import { PaginatedCoursesResponseDTO } from "@/src/shared/api/exports";
 import { formatEndpoint } from "@/src/shared/libs/endpoint";
 import { sfwr } from "@/src/shared/libs/server-fetch-with-refresh";
 import { Endpoint } from "@/src/shared/models/endpoint-enum";
@@ -15,7 +16,15 @@ export async function fetchMyCourses(search?: string) {
   });
 }
 
-export async function fetchCourseProgress(slug: string, page?: string) {
+export async function fetchCourseProgress(
+  courses: PaginatedCoursesResponseDTO,
+  slug: string,
+  page?: string,
+) {
+  if (!slug && courses.total > 0) {
+    redirect(formatEndpoint(Endpoint.PROGRESS_COURSE, [courses.courses[0].id]));
+  }
+
   return await sfwr(
     api.teacher.getCourseProgressOverview,
     Number.parseInt(slug),
@@ -36,11 +45,7 @@ export default async function ProgressTeacherPage({
   const { p } = await searchParams;
   const courses = await fetchMyCourses();
 
-  if (!slug && courses.courses.length > 0) {
-    redirect(formatEndpoint(Endpoint.PROGRESS_COURSE, [courses.courses[0].id]));
-  }
-
-  const progress = await fetchCourseProgress(slug.slug, p);
+  const progress = await fetchCourseProgress(courses, slug?.slug, p);
 
   return (
     <>
