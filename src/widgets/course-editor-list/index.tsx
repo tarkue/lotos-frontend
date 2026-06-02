@@ -6,7 +6,7 @@ import { QuerySearch } from "@/src/features/search";
 import {
   generateDeleteFromCourse,
   TeacherAction,
-} from "@/src/features/teacher-actions";
+} from "@/src/features/teacher-action";
 import { EditorListResponse } from "@/src/shared/api/exports";
 import { TableBuilder } from "@/src/shared/ui/table";
 import { Typography } from "@/src/shared/ui/typography";

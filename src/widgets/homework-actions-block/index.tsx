@@ -1,6 +1,6 @@
 "use client";
 
-import { HomeworkAction } from "@/src/features/homework-actions";
+import { HomeworkAction } from "@/src/features/homework-action";
 import { HomeworkStudentItemResponseDTO } from "@/src/shared/api/exports";
 import { Typography } from "@/src/shared/ui/typography";
 import { useState } from "react";

@@ -1,6 +1,6 @@
 import { QueryPagination } from "@/src/features/pagination";
 import { QuerySearch } from "@/src/features/search";
-import { TeacherAction } from "@/src/features/teacher-actions";
+import { TeacherAction } from "@/src/features/teacher-action";
 import { api } from "@/src/shared/api";
 import { sfwr } from "@/src/shared/libs/server-fetch-with-refresh";
 import { Typography } from "@/src/shared/ui/typography";

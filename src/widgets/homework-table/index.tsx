@@ -1,6 +1,6 @@
 "use client";
 import { QuerySearch } from "@/src/features/search";
-import { SubmissionAction } from "@/src/features/submission-action";
+import { SubmissionAction } from "@/src/features/submission-actio";
 import { HomeworkSubmissionStatus } from "@/src/shared/api/dto/teacher.dto";
 import {
   HomeworkReviewResult,

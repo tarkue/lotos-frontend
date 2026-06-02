@@ -2,7 +2,7 @@
 import React from "react";
 
 import { User, UserListProps } from "@/src/entity/user/models/user.model";
-import { TeacherAction } from "@/src/features/teacher-actions";
+import { TeacherAction } from "@/src/features/teacher-action";
 import { TableBuilder } from "@/src/shared/ui/table";
 import { getFullName } from "@/src/entity/user";
 
