@@ -14,6 +14,10 @@ const STUDENT_LINKS = [
     label: "Мои курсы",
     href: Endpoint.MY_COURSES,
   },
+  {
+    label: "Прогресс",
+    href: Endpoint.PROGRESS,
+  },
 ] as const;
 
 const TEACHER_LINKS = STUDENT_LINKS;

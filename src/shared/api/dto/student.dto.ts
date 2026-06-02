@@ -29,7 +29,13 @@ export interface EnrolledCourseResponseDTO {
   title: string;
   description?: string | null;
   img_url?: string | null;
-  progress?: CourseProgressResponseDTO | null;
+  completed_lessons: number;
+  completed_tests: number;
+  completed_homework: number;
+  total_lessons: number;
+  total_tests: number;
+  total_homework: number;
+  progress_percentage: number;
 }
 
 export interface EnrolledCourseDetailResponseDTO {
@@ -61,6 +67,7 @@ export interface StudentProgressRowDTO {
   full_name: string;
   group_name?: string | null;
   completed_lessons: number;
+  total_lessons: number;
   completed_tests: number;
   completed_homework: number;
   total_tests: number;

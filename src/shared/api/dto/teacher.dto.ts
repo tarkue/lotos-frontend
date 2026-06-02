@@ -243,6 +243,8 @@ export interface HomeworkSubmissionResponseDTO {
   id: number;
   assignment_id: number;
   student_id: number;
+  full_name?: string | null;
+  group_name?: string | null;
   text_answer?: string | null;
   status: HomeworkSubmissionStatus;
   review_result?: HomeworkReviewResult | null;
@@ -252,6 +254,14 @@ export interface HomeworkSubmissionResponseDTO {
   submitted_at: string;
   updated_at: string;
   files: FileResponseDTO[];
+}
+
+export interface PaginatedHomeworkSubmissionsResponseDTO {
+  total: number;
+  page: number;
+  page_size: number;
+  total_pages: number;
+  submissions: HomeworkSubmissionResponseDTO[];
 }
 
 export interface HomeworkStudentItemResponseDTO {

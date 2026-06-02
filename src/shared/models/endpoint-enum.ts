@@ -10,6 +10,8 @@ export enum Endpoint {
   FORGET_PASSWORD = "forget-password",
   COURSES = "/catalog/courses",
   PROFILE = "/profile",
+  PROGRESS = "/progress",
+  PROGRESS_COURSE = `${PROGRESS}/{}`,
   RESET_PASSWORD = `${PROFILE}/reset-password`,
   COURSE = `${COURSES}/{}`,
   MODULE = `${COURSE}/{}`,

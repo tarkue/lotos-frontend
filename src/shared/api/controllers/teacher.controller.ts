@@ -5,7 +5,6 @@ import { PaginatedCoursesResponseDTO } from "../dto/student.dto";
 import {
   AddEditorRequestDTO,
   CourseApplicationDetailResponseDTO,
-  CourseApplicationResponseDTO,
   CourseCreateRequestDTO,
   CourseProgressOverviewResponseDTO,
   CourseResponseDTO,
@@ -28,6 +27,7 @@ import {
   ModuleUpdateRequestDTO,
   ModuleWithMaterialsResponseDTO,
   PaginatedApplicationsResponseDTO,
+  PaginatedHomeworkSubmissionsResponseDTO,
   TestsListResponseDTO,
 } from "../dto/teacher.dto";
 import { PaginatedCommentsResponseDTO } from "../dto/common.dto";
@@ -128,6 +128,7 @@ export class TeacherClient extends BaseClient {
             headers: {
               Authorization: `Bearer ${options.accessToken}`,
             },
+            params,
           }
         : undefined,
     );
@@ -437,7 +438,7 @@ export class TeacherClient extends BaseClient {
     options?: {
       accessToken?: string;
     },
-  ): Promise<HomeworkSubmissionResponseDTO[]> {
+  ): Promise<PaginatedHomeworkSubmissionsResponseDTO> {
     return await this.get(
       `/teacher/courses/${courseId}/modules/${moduleId}/materials/${materialId}/homework/${assignmentId}/submissions`,
       options
@@ -449,7 +450,6 @@ export class TeacherClient extends BaseClient {
         : undefined,
     );
   }
-
   async reviewHomework(
     courseId: number,
     moduleId: number,

@@ -10,6 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/src/shared/ui/table";
+import { cn } from "../../libs/utils";
 
 // Тип для получения типа вложенного свойства по пути
 type NestedKeyOf<T> = {
@@ -44,6 +45,8 @@ type Column<T> = {
   key: NestedKeyOf<T>;
   header: string;
   cell?: (value: unknown, row: T) => React.ReactNode;
+  variant?: "default" | "danger";
+  rowVariant?: (row: T) => "default" | "danger" | undefined;
 };
 
 type TableBuilderProps<T extends object> = {
@@ -92,8 +95,18 @@ export function TableBuilder<T extends object>({
           <TableRow key={rowIndex}>
             {columns.map((column) => {
               const value = getNestedValue(row, column.key);
+              const variant = column.rowVariant
+                ? column.rowVariant(row)
+                : column.variant;
               return (
-                <TableCell key={column.key}>
+                <TableCell
+                  key={column.key}
+                  className={cn(
+                    "py-5",
+                    variant === "danger" &&
+                      "bg-status-error text-red font-medium",
+                  )}
+                >
                   {column.cell
                     ? column.cell(value as NestedValue<T, NestedKeyOf<T>>, row)
                     : String(value ?? "")}

@@ -6,7 +6,10 @@ import {
   NavigationMaterialAction,
 } from "@/src/features/material-action";
 import { api } from "@/src/shared/api";
-import { HomeworkStudentItemResponseDTO } from "@/src/shared/api/exports";
+import {
+  HomeworkStudentItemResponseDTO,
+  RoleType,
+} from "@/src/shared/api/exports";
 import { formatEndpoint } from "@/src/shared/libs/endpoint";
 import { roleSwitcher } from "@/src/shared/libs/role-switcher";
 import { sfwr } from "@/src/shared/libs/server-fetch-with-refresh";
@@ -16,6 +19,7 @@ import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { Suspense } from "react";
 import { HomeworkActionsBlock } from "@/src/widgets/homework-actions-block";
+import { HomeworkTable } from "@/src/widgets/homework-table";
 
 export async function fetchMaterial(slug: [string, string, string]) {
   const cookieStore = await cookies();
@@ -81,6 +85,27 @@ async function fetchHomework(
   }
 }
 
+async function fetchSubmissions(
+  courseId: number,
+  moduleId: number,
+  materialId: number,
+  assignmentId?: number,
+) {
+  const cookieStore = await cookies();
+  const role = cookieStore.get("role")?.value;
+
+  if (!role || Number.parseInt(role) == RoleType.STUDENT || !assignmentId)
+    return undefined;
+
+  return await sfwr(
+    api.teacher.getHomeworkSubmissions,
+    courseId,
+    moduleId,
+    materialId,
+    assignmentId,
+  );
+}
+
 export async function MaterialPage({
   slug,
   prevMaterial,
@@ -99,8 +124,16 @@ export async function MaterialPage({
     fetchHomework(courseId, moduleId, materialId),
   ]);
 
+  const submissions = await fetchSubmissions(
+    courseId,
+    moduleId,
+    materialId,
+    homework?.id,
+  );
+  console.log(submissions);
+
   return (
-    <div className="w-full min-h-full flex flex-col mt-9">
+    <div className="w-full min-h-full flex flex-col mt-9 gap-6">
       <MaterialContent
         material={material}
         homework={homework}
@@ -132,7 +165,16 @@ export async function MaterialPage({
         courseId={courseId}
         moduleId={moduleId}
       />
-
+      <Suspense>
+        {homework && submissions && (
+          <HomeworkTable
+            submissions={submissions?.submissions}
+            courseId={courseId}
+            moduleId={moduleId}
+            materialId={materialId}
+          />
+        )}
+      </Suspense>
       <Suspense>
         <NavigationMaterialAction
           material={material}

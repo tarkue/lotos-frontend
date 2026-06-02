@@ -6,7 +6,7 @@ import { Typography } from "@/src/shared/ui/typography";
 import { CourseCatalog } from "@/src/widgets/course-catalog";
 import { redirect } from "next/navigation";
 
-export async function FetchMyCourses() {
+export async function fetchMyCourses() {
   try {
     return await sfwr(api.student.getMyCourses);
   } catch {
@@ -15,7 +15,7 @@ export async function FetchMyCourses() {
 }
 
 export default async function MyCoursePage() {
-  const { courses } = await FetchMyCourses();
+  const { courses } = await fetchMyCourses();
 
   if (courses.length === 0) {
     return (

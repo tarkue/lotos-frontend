@@ -1,1 +1,1 @@
-export { default, FetchMyCourses } from "@/src/pages/catalog/my-courses";
+export { default, fetchMyCourses } from "@/src/pages/catalog/my-courses";

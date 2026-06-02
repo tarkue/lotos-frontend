@@ -50,7 +50,7 @@ export const FooterContentMaterialAction = (props: MaterialActionProps) => {
 };
 
 export const NavigationMaterialAction = (props: MaterialActionProps) => (
-  <div className="flex justify-between itemsc-center">
+  <div className="flex justify-between items-center">
     <PrevMaterialAction {...props} />
     <NextMaterialAction {...props} />
   </div>

@@ -1,6 +1,7 @@
 import { AnyFieldApi } from "@tanstack/react-form";
 import { FormField } from "../ui/field";
 import { Typography } from "../ui/typography";
+import { RadioField } from "../ui/radio";
 
 export const createFieldProps = <T, V extends AnyFieldApi>(
   name: T,
@@ -18,5 +19,22 @@ export const createFieldProps = <T, V extends AnyFieldApi>(
       )}
       <FormField field={field} placeholder={placeholder} type={type} />
     </div>
+  ),
+});
+
+export const createFieldRadioProps = <T, V extends AnyFieldApi>(
+  name: T,
+  value: string,
+  label: string,
+) => ({
+  name,
+
+  children: (field: V) => (
+    <RadioField
+      field={label}
+      checked={field.state.value == value}
+      value={value}
+      onChange={() => field.setValue(value)}
+    />
   ),
 });
