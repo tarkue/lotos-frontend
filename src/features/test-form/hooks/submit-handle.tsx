@@ -6,7 +6,6 @@ import {
   QuestionResultDTO,
 } from "@/src/shared/api/dto/student.dto";
 import { getClientSideCookie } from "@/src/shared/libs/cookie";
-import { useModals } from "@/src/shared/ui/modal";
 import { toast } from "@/src/shared/ui/toast";
 
 export interface TestSubmissionResult {
@@ -23,7 +22,6 @@ export const useSubmitTestComplete = (
   materialId: number,
   attemptId: number,
 ) => {
-  const { addModal } = useModals();
   return async (
     formData: FormData,
   ): Promise<TestSubmissionResult | undefined> => {

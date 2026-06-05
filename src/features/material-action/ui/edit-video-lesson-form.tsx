@@ -6,10 +6,10 @@ import { Button } from "@/src/shared/ui/button";
 import { Icon } from "@/src/shared/ui/icon";
 import { Input } from "@/src/shared/ui/input";
 import { useModals } from "@/src/shared/ui/modal";
+import { UploadFile } from "@/src/shared/ui/upload-file";
 import { toast } from "@/src/shared/ui/toast";
 import { Typography } from "@/src/shared/ui/typography";
-import { DragEvent, useRef, useState } from "react";
-import { ClipLoader } from "react-spinners";
+import { useState } from "react";
 
 interface EditVideoLessonFormProps {
   material: Material;
@@ -37,10 +37,9 @@ export const EditVideoLessonForm: React.FC<EditVideoLessonFormProps> = ({
     file: File;
   } | null>(null);
   const [isUploading, setIsUploading] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileSelect = async (files: FileList | null) => {
-    if (!files || files.length === 0) return;
+  const handleFilesChange = async (files: File[]) => {
+    if (files.length === 0) return;
 
     const file = files[0];
     const validTypes = [
@@ -93,15 +92,6 @@ export const EditVideoLessonForm: React.FC<EditVideoLessonFormProps> = ({
     } finally {
       setIsUploading(false);
     }
-  };
-
-  const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-  };
-
-  const handleDrop = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    handleFileSelect(e.dataTransfer.files);
   };
 
   const removeExistingFile = async (fileId: number) => {
@@ -209,66 +199,29 @@ export const EditVideoLessonForm: React.FC<EditVideoLessonFormProps> = ({
       )}
 
       {!currentFile && (
-        <div
-          onDragOver={handleDragOver}
-          onDrop={handleDrop}
-          style={{
-            borderRadius: "24px",
-            border: "2px dashed var(--color-base-200)",
-          }}
-          onClick={() => !isUploading && fileInputRef.current?.click()}
-          className={cn(
-            "flex flex-col items-center justify-center gap-2 p-8 transition-colors",
-            isUploading ? "cursor-not-allowed opacity-50" : "cursor-pointer",
-          )}
-        >
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="video/mp4,video/mpeg,video/quicktime,video/x-ms-wmv,.mp4,.mov,.wmv"
-            onChange={(e) => handleFileSelect(e.target.files)}
-            className="hidden"
-            disabled={isUploading}
-          />
-          {isUploading ? (
-            <ClipLoader size={20} color="#6366f1" />
-          ) : (
-            <span className="text-center text-gray p-4">
-              Нажмите сюда, чтобы загрузить видео, или просто перетащите его
-              сюда
-            </span>
-          )}
-        </div>
+        <UploadFile
+          onFilesChange={handleFilesChange}
+          accept="video/mp4,video/mpeg,video/quicktime,video/x-ms-wmv"
+          multiple={false}
+          className={cn(isUploading && "opacity-50 pointer-events-none")}
+        />
       )}
 
       {currentFile && (
-        <div
-          onDragOver={handleDragOver}
-          onDrop={handleDrop}
-          style={{
-            borderRadius: "24px",
-            border: "2px dashed var(--color-base-200)",
-            height: "80px",
-          }}
-          onClick={() => !isUploading && fileInputRef.current?.click()}
-          className={cn(
-            "flex flex-col items-center justify-center gap-2 transition-colors",
-            isUploading ? "cursor-not-allowed opacity-50" : "cursor-pointer",
-          )}
-        >
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="video/mp4,video/mpeg,video/quicktime,video/x-ms-wmv,.mp4,.mov,.wmv"
-            onChange={(e) => handleFileSelect(e.target.files)}
-            className="hidden"
-            disabled={isUploading}
-          />
-          {isUploading ? (
-            <ClipLoader size={20} color="#6366f1" />
-          ) : (
-            <span className="text-center text-gray">Заменить видео</span>
-          )}
+        <div className="flex items-center justify-between p-2 bg-base-100 rounded">
+          <Typography.Caption className="text-sm text-black">
+            {currentFile.name}
+          </Typography.Caption>
+          <Button
+            variant="ghost"
+            onClick={() =>
+              currentFile.isExisting
+                ? removeExistingFile(currentFile.id)
+                : removeNewFile()
+            }
+          >
+            <Icon glyph="close" size="12" color="black" />
+          </Button>
         </div>
       )}
 

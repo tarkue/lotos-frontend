@@ -6,10 +6,10 @@ import { Button } from "@/src/shared/ui/button";
 import { Icon } from "@/src/shared/ui/icon";
 import { Input } from "@/src/shared/ui/input";
 import { useModals } from "@/src/shared/ui/modal";
+import { UploadFile } from "@/src/shared/ui/upload-file";
 import { toast } from "@/src/shared/ui/toast";
 import { Typography } from "@/src/shared/ui/typography";
-import { DragEvent, useRef, useState } from "react";
-import { ClipLoader } from "react-spinners";
+import { useState } from "react";
 
 interface EditPresentationFormProps {
   material: Material;
@@ -35,10 +35,9 @@ export const EditPresentationForm: React.FC<EditPresentationFormProps> = ({
     Array<{ id: number; name: string; file: File }>
   >([]);
   const [isUploading, setIsUploading] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileSelect = async (files: FileList | null) => {
-    if (!files || files.length === 0) return;
+  const handleFilesChange = async (files: File[]) => {
+    if (files.length === 0) return;
 
     const presentationFiles = Array.from(files).filter((file) => {
       return (
@@ -78,15 +77,6 @@ export const EditPresentationForm: React.FC<EditPresentationFormProps> = ({
       }
     }
     setIsUploading(false);
-  };
-
-  const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-  };
-
-  const handleDrop = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    handleFileSelect(e.dataTransfer.files);
   };
 
   const removeExistingFile = async (fileId: number) => {
@@ -201,71 +191,21 @@ export const EditPresentationForm: React.FC<EditPresentationFormProps> = ({
       </div>
 
       {allFiles.length === 0 && (
-        <div
-          onDragOver={handleDragOver}
-          onDrop={handleDrop}
-          style={{
-            borderRadius: "24px",
-            border: "2px dashed var(--color-base-200)",
-          }}
-          onClick={() => !isUploading && fileInputRef.current?.click()}
-          className={cn(
-            "flex flex-col items-center justify-center gap-2 p-8 transition-colors",
-            isUploading ? "cursor-not-allowed opacity-50" : "cursor-pointer",
-          )}
-        >
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept=".pptx,.ppt,.pdf,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.ms-powerpoint,application/pdf"
-            multiple
-            onChange={(e) => handleFileSelect(e.target.files)}
-            className="hidden"
-            disabled={isUploading}
-          />
-          {isUploading ? (
-            <ClipLoader size={20} color="#6366f1" />
-          ) : (
-            <span className="text-center text-gray p-4">
-              Нажмите сюда, чтобы загрузить презентацию, или просто перетащите
-              ее сюда
-            </span>
-          )}
-        </div>
+        <UploadFile
+          onFilesChange={handleFilesChange}
+          accept=".pptx,.ppt,.pdf,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.ms-powerpoint,application/pdf"
+          multiple={true}
+          className={cn(isUploading && "opacity-50 pointer-events-none")}
+        />
       )}
 
       {allFiles.length > 0 && (
-        <div
-          onDragOver={handleDragOver}
-          onDrop={handleDrop}
-          style={{
-            borderRadius: "24px",
-            border: "2px dashed var(--color-base-200)",
-            height: "80px",
-          }}
-          onClick={() => !isUploading && fileInputRef.current?.click()}
-          className={cn(
-            "flex flex-col items-center justify-center gap-2 transition-colors",
-            isUploading ? "cursor-not-allowed opacity-50" : "cursor-pointer",
-          )}
-        >
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept=".pptx,.ppt,.pdf,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.ms-powerpoint,application/pdf"
-            multiple
-            onChange={(e) => handleFileSelect(e.target.files)}
-            className="hidden"
-            disabled={isUploading}
-          />
-          {isUploading ? (
-            <ClipLoader size={20} color="#6366f1" />
-          ) : (
-            <span className="text-center text-gray">
-              Добавить еще презентацию
-            </span>
-          )}
-        </div>
+        <UploadFile
+          onFilesChange={handleFilesChange}
+          accept=".pptx,.ppt,.pdf,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.ms-powerpoint,application/pdf"
+          multiple={true}
+          className={cn(isUploading && "opacity-50 pointer-events-none")}
+        />
       )}
 
       <span className="text-sm text-base-500">

@@ -2,13 +2,12 @@
 import { ModuleProps } from "@/src/entity/module";
 import { api } from "@/src/shared/api";
 import { MaterialType } from "@/src/shared/api/enum/material-type.enum";
-import { cn } from "@/src/shared/libs/utils";
 import { Button } from "@/src/shared/ui/button";
-import { InputVariant } from "@/src/shared/ui/input/variant";
 import { useModals } from "@/src/shared/ui/modal";
 import { toast } from "@/src/shared/ui/toast";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { AddImageModal } from "./add-image-modal";
+import { TextArea } from "@/src/shared/ui/textarea";
 
 interface LectureFormProps extends ModuleProps {
   lessonTitle: string;
@@ -20,7 +19,6 @@ export const LectureForm: React.FC<LectureFormProps> = ({
 }) => {
   const { addModal, clear } = useModals();
   const [textContent, setTextContent] = useState<string>("");
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleAddImage = () => {
     addModal({
@@ -70,16 +68,12 @@ export const LectureForm: React.FC<LectureFormProps> = ({
 
   return (
     <div className="flex flex-col gap-4 w-full">
-      <div className={cn(InputVariant(), "items-start min-h-[200px]")}>
-        <textarea
-          ref={textareaRef}
-          value={textContent}
-          onChange={(e) => setTextContent(e.target.value)}
-          placeholder="Введите содержимое лекции..."
-          className="font-roboto text-black placeholder-base-300 font-medium w-full outline-0 resize-none min-h-[180px] max-h-[500px]"
-          rows={10}
-        />
-      </div>
+      <TextArea
+        value={textContent}
+        onChange={(e) => setTextContent(e.target.value)}
+        placeholder="Введите содержимое лекции..."
+        rows={10}
+      />
 
       <div className="flex justify-end w-full gap-2">
         <Button variant="ghost" onClick={handleAddImage} className="w-min">

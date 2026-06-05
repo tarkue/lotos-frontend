@@ -22,7 +22,7 @@ export const UpdateMaterial: React.FC<MaterialActionProps> = ({
 
     if (material.type === MaterialType.VIDEO) {
       addModal({
-        title: "Изменить видео-урок",
+        title: "Изменить видеоурок",
         fields: (
           <EditVideoLessonForm
             material={material}

@@ -3,24 +3,22 @@
 import { api } from "@/src/shared/api";
 import { cn } from "@/src/shared/libs/utils";
 import { Button } from "@/src/shared/ui/button";
-import { InputVariant } from "@/src/shared/ui/input/variant";
+import { UploadFile } from "@/src/shared/ui/upload-file";
 import { toast } from "@/src/shared/ui/toast";
 import { Typography } from "@/src/shared/ui/typography";
-import { DragEvent, useRef, useState } from "react";
-import { ClipLoader } from "react-spinners";
+import { useState } from "react";
+import { TextArea } from "@/src/shared/ui/textarea";
 
 export const AddImageModal: React.FC = () => {
-  const [isDragging, setIsDragging] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadedFile, setUploadedFile] = useState<{
     file_url: string;
     original_filename: string;
   } | null>(null);
   const [markdownCode, setMarkdownCode] = useState<string>("");
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileSelect = async (files: FileList | null) => {
-    if (!files || files.length === 0) return;
+  const handleFilesChange = async (files: File[]) => {
+    if (files.length === 0) return;
 
     const file = files[0];
     const validTypes = ["image/jpeg", "image/png", "image/webp"];
@@ -57,25 +55,9 @@ export const AddImageModal: React.FC = () => {
         description: "Не удалось загрузить изображение",
         variant: "error",
       });
-      setIsUploading(false);
     } finally {
       setIsUploading(false);
     }
-  };
-
-  const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDragging(true);
-  };
-
-  const handleDragLeave = () => {
-    setIsDragging(false);
-  };
-
-  const handleDrop = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDragging(false);
-    handleFileSelect(e.dataTransfer.files);
   };
 
   const handleCopy = async () => {
@@ -115,13 +97,13 @@ export const AddImageModal: React.FC = () => {
           <Typography.Body>
             Вставьте эту строку туда, где вы хотите разместить изображение:
           </Typography.Body>
-          <div className={cn(InputVariant(), "items-start min-h-20")}>
-            <textarea
-              value={markdownCode}
-              readOnly
-              className="font-roboto text-black font-medium w-full outline-0 resize-none min-h-[60px]"
-              rows={3}
-            />
+          <div
+            className={cn(
+              "items-start min-h-20",
+              "border border-light-gray rounded-lg p-2",
+            )}
+          >
+            <TextArea value={markdownCode} readOnly rows={3} />
           </div>
         </div>
 
@@ -136,42 +118,12 @@ export const AddImageModal: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-4 w-full">
-      <div
-        onDragOver={handleDragOver}
-        onDragLeave={handleDragLeave}
-        onDrop={handleDrop}
-        style={{
-          borderRadius: "24px",
-          border: "2px dashed var(--color-base-200)",
-          height: "80px",
-        }}
-        onClick={() => fileInputRef.current?.click()}
-        className={cn(
-          "flex flex-col items-center justify-center gap-2 p-8 border-2 border-dashed rounded-lg cursor-pointer transition-colors",
-          isDragging
-            ? "border-primary bg-primary/10"
-            : "border-base-300 hover:border-base-400",
-          isUploading && "opacity-50 cursor-not-allowed",
-        )}
-      >
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="image/jpeg,image/png,image/webp,.jpeg,.jpg,.png,.webp"
-          onChange={(e) => handleFileSelect(e.target.files)}
-          className="hidden"
-          disabled={isUploading}
-        />
-        {isUploading ? (
-          <ClipLoader size={20} color="#6366f1" />
-        ) : (
-          <span className="text-center text-gray">
-            Нажмите сюда, чтобы загрузить изображение, или просто перетащите его
-            сюда
-          </span>
-        )}
-      </div>
-
+      <UploadFile
+        onFilesChange={handleFilesChange}
+        accept="image/jpeg,image/png,image/webp"
+        multiple={false}
+        className={cn(isUploading && "opacity-50 pointer-events-none")}
+      />
       <span className="text-sm text-base-500">
         Поддерживаемые форматы: jpeg, png, webp
       </span>

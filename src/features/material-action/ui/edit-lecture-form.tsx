@@ -2,13 +2,12 @@
 import { Material } from "@/src/entity/material";
 import { AddImageModal } from "@/src/features/create-lesson/ui/add-image-modal";
 import { api } from "@/src/shared/api";
-import { cn } from "@/src/shared/libs/utils";
 import { Button } from "@/src/shared/ui/button";
 import { Input } from "@/src/shared/ui/input";
-import { InputVariant } from "@/src/shared/ui/input/variant";
 import { useModals } from "@/src/shared/ui/modal";
+import { TextArea } from "@/src/shared/ui/textarea";
 import { toast } from "@/src/shared/ui/toast";
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 interface EditLectureFormProps {
   material: Material;
@@ -26,7 +25,6 @@ export const EditLectureForm: React.FC<EditLectureFormProps> = ({
   const [textContent, setTextContent] = useState<string>(
     material.text_content || "",
   );
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleAddImage = () => {
     addModal({
@@ -85,16 +83,13 @@ export const EditLectureForm: React.FC<EditLectureFormProps> = ({
         onChange={(e) => setTitle(e.currentTarget.value)}
       />
 
-      <div className={cn(InputVariant(), "items-start min-h-[200px]")}>
-        <textarea
-          ref={textareaRef}
-          value={textContent}
-          onChange={(e) => setTextContent(e.target.value)}
-          placeholder="Введите содержимое лекции..."
-          className="font-roboto text-black placeholder-base-300 font-medium w-full outline-0 resize-none min-h-[180px] max-h-[500px]"
-          rows={10}
-        />
-      </div>
+      <TextArea
+        value={textContent}
+        onChange={(e) => setTextContent(e.target.value)}
+        placeholder="Введите содержимое лекции..."
+        className="font-roboto text-black placeholder-base-300 font-medium w-full outline-0 resize-none min-h-[180px] max-h-[500px]"
+        rows={10}
+      />
 
       <div className="flex justify-end w-full gap-2">
         <Button variant="ghost" onClick={handleAddImage} className="w-min">

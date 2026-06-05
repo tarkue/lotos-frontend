@@ -2,13 +2,14 @@
 import { ModuleProps } from "@/src/entity/module";
 import { api } from "@/src/shared/api";
 import { MaterialType } from "@/src/shared/api/enum/material-type.enum";
+import { cn } from "@/src/shared/libs/utils";
 import { Button } from "@/src/shared/ui/button";
 import { Icon } from "@/src/shared/ui/icon";
+import { UploadFile } from "@/src/shared/ui/upload-file";
 import { useModals } from "@/src/shared/ui/modal";
 import { toast } from "@/src/shared/ui/toast";
 import { Typography } from "@/src/shared/ui/typography";
-import { DragEvent, useRef, useState } from "react";
-import { ClipLoader } from "react-spinners";
+import { useState } from "react";
 
 interface PresentationFormProps extends ModuleProps {
   lessonTitle: string;
@@ -22,12 +23,10 @@ export const PresentationForm: React.FC<PresentationFormProps> = ({
   const [uploadedFiles, setUploadedFiles] = useState<
     Array<{ id: number; name: string; file: File }>
   >([]);
-  const [isDragging, setIsDragging] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFileSelect = async (files: FileList | null) => {
-    if (!files || files.length === 0) return;
+  const handleFilesChange = async (files: File[]) => {
+    if (files.length === 0) return;
 
     const presentationFiles = Array.from(files).filter((file) => {
       return (
@@ -67,21 +66,6 @@ export const PresentationForm: React.FC<PresentationFormProps> = ({
       }
     }
     setIsUploading(false);
-  };
-
-  const handleDragOver = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDragging(true);
-  };
-
-  const handleDragLeave = () => {
-    setIsDragging(false);
-  };
-
-  const handleDrop = (e: DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    setIsDragging(false);
-    handleFileSelect(e.dataTransfer.files);
   };
 
   const removeFile = (id: number) => {
@@ -164,44 +148,12 @@ export const PresentationForm: React.FC<PresentationFormProps> = ({
         )}
       </div>
 
-      <div className="h-20">
-        <div
-          onDragOver={handleDragOver}
-          onDragLeave={handleDragLeave}
-          onDrop={handleDrop}
-          style={{
-            borderRadius: "24px",
-            border: "2px dashed var(--color-base-200)",
-            height: "80px",
-          }}
-          onClick={() => !isUploading && fileInputRef.current?.click()}
-          className={`flex flex-col items-center min-h-20 justify-center gap-2 p-8 border-2 border-dashed rounded-lg transition-colors ${
-            isUploading
-              ? "cursor-not-allowed opacity-50"
-              : isDragging
-                ? "border-primary bg-primary/10 cursor-pointer"
-                : "border-base-300 hover:border-base-400 cursor-pointer"
-          }`}
-        >
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept=".pptx,.ppt,.pdf,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.ms-powerpoint,application/pdf"
-            multiple
-            onChange={(e) => handleFileSelect(e.target.files)}
-            className="hidden"
-            disabled={isUploading}
-          />
-          {isUploading ? (
-            <ClipLoader size={20} color="#6366f1" />
-          ) : (
-            <span className="text-center text-gray">
-              Нажмите сюда, чтобы загрузить презентацию, или просто перетащите
-              ее сюда
-            </span>
-          )}
-        </div>
-      </div>
+      <UploadFile
+        onFilesChange={handleFilesChange}
+        accept=".pptx,.ppt,.pdf,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.ms-powerpoint,application/pdf"
+        multiple={true}
+        className={cn(isUploading && "opacity-50 pointer-events-none")}
+      />
 
       <span className="text-sm text-base-500">
         Поддерживаемые форматы: pptx, ppt, pdf

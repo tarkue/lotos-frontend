@@ -11,6 +11,7 @@ import { useModals } from "@/src/shared/ui/modal";
 import { toast } from "@/src/shared/ui/toast";
 import { useState } from "react";
 import { Label } from "@/src/shared/ui/label";
+import { TextArea } from "@/src/shared/ui/textarea";
 
 interface HomeworkFormProps extends ModuleProps {
   lessonTitle: string;
@@ -110,11 +111,10 @@ export const HomeworkForm: React.FC<HomeworkFormProps> = ({
       />
       <div className="flex flex-col gap-2 w-full">
         <Label className="text-black">Описание домашнего задания:</Label>
-        <textarea
+        <TextArea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Введите описание домашнего задания..."
-          className="font-roboto text-black placeholder-dark-gray font-medium w-full outline-0 resize-none min-h-[100px] max-h-[300px] rounded-xl border border-base-border bg-base px-4 py-2"
           rows={4}
         />
       </div>

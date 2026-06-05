@@ -14,8 +14,8 @@ export const MaterialVideoViewer = ({
   transcript?: string | null;
 }) => {
   return (
-    <>
-      <div className="gap-4 rounded-xl w-full flex flex-col">
+    <div className="flex flex-col w-full gap-6">
+      <div className="gap-4 rounded-xl overflow-hidden w-full flex flex-col">
         <Suspense>
           <Player url={url} />
         </Suspense>
@@ -33,6 +33,6 @@ export const MaterialVideoViewer = ({
           </Typography.Body>
         </div>
       )}
-    </>
+    </div>
   );
 };
