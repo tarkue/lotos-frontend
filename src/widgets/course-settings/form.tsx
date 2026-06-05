@@ -112,6 +112,7 @@ export const CourseSettingsForm = ({
             "Описание курса...",
             "text",
             "Описание курса",
+            "textarea",
           )}
         />
       </div>

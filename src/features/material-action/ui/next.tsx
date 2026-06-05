@@ -9,7 +9,6 @@ export const NextMaterialAction = ({
   nextMaterial,
   courseId,
 }: MaterialActionProps) => {
-  console.log(nextMaterial);
   const btn = (
     <Button disabled={!nextMaterial}>
       Дальше

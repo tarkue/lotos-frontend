@@ -7,7 +7,6 @@ export const ProgressStudentTable = ({
 }: {
   data: EnrolledCourseResponseDTO[];
 }) => {
-  console.log(data);
   return (
     <TableBuilder
       data={data}

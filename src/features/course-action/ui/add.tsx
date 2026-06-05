@@ -112,6 +112,7 @@ const CourseCreateForm = () => {
             "Описание курса...",
             "text",
             "Описание курса",
+            "textarea",
           )}
         />
       </div>

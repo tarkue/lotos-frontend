@@ -16,9 +16,7 @@ export async function startTest(slug: [number, number, number, number]) {
 
     const current = attmpts.sort((a) => a.attempt_number)[0];
     return current;
-  } catch (error) {
-    console.log(error);
-  }
+  } catch {}
 
   redirect(formatEndpoint(Endpoint.MATERIAL, slug.slice(0, -1)));
 }

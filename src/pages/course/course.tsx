@@ -63,8 +63,7 @@ export async function fetchCourse(slug: string) {
         return course;
       },
     });
-  } catch (e) {
-    console.log(e);
+  } catch {
     notFound();
   }
 }

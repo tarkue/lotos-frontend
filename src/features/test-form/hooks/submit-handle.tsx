@@ -157,8 +157,7 @@ export const useSubmitTestComplete = (
           passed: result.passed,
         };
       }
-    } catch (error) {
-      console.log(error);
+    } catch {
       return undefined;
     }
   };

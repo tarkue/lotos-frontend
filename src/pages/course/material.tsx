@@ -130,7 +130,6 @@ export async function MaterialPage({
     materialId,
     homework?.id,
   );
-  console.log(submissions);
 
   return (
     <div className="w-full min-h-full flex flex-col mt-9 gap-6">

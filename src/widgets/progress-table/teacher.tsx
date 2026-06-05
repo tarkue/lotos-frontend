@@ -7,7 +7,6 @@ export const ProgressTeacherTable = ({
 }: {
   data: CourseProgressOverviewResponseDTO;
 }) => {
-  console.log(data);
   return (
     <TableBuilder
       data={data.students}

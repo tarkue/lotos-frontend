@@ -8,6 +8,7 @@ export const createFieldProps = <T, V extends AnyFieldApi>(
   placeholder: string,
   type: "text" | "email" | "password" | "number" = "text",
   label: string = "",
+  as: "input" | "textarea" = "input",
 ) => ({
   name,
   children: (field: V) => (
@@ -17,7 +18,7 @@ export const createFieldProps = <T, V extends AnyFieldApi>(
           {label}
         </Typography.Body>
       )}
-      <FormField field={field} placeholder={placeholder} type={type} />
+      <FormField field={field} placeholder={placeholder} type={type} as={as} />
     </div>
   ),
 });

@@ -1,24 +1,29 @@
 import { Input } from "@/src/shared/ui/input";
 import { Label } from "@/src/shared/ui/label";
 import { AnyFieldApi } from "@tanstack/react-form";
+import { TextArea } from "../textarea";
 
 interface FormFieldProps {
   field: AnyFieldApi;
   placeholder?: string;
+  as?: "input" | "textarea";
   type?: "text" | "email" | "password" | "number";
 }
 
 export const FormField = ({
   field,
   placeholder,
+  as = "input",
   type = "text",
 }: FormFieldProps) => {
   const hasError =
     !field.state.meta.isValid && field.state.meta.errors.length > 0;
 
+  const Comp = as == "input" ? Input : TextArea;
+
   return (
     <div className="flex flex-col gap-1">
-      <Input
+      <Comp
         id={field.name}
         placeholder={placeholder}
         type={type}

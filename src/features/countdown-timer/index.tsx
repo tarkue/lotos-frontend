@@ -32,16 +32,9 @@ export const CountDownTimer = ({
     // startedAt приходит в формате "YYYY-MM-DD+00:00" (UTC)
     // Конвертируем UTC время в локальное для корректного отображения
     const start_date = new Date(startedAt);
-    console.log("[CountDownTimer] startedAt:", startedAt);
-    console.log(
-      "[CountDownTimer] parsed Date (UTC):",
-      start_date.toISOString(),
-    );
 
     // Получаем timestamp в UTC (Date.getTime() всегда возвращает UTC timestamp)
     const startTime = start_date.getTime();
-
-    console.log("[CountDownTimer] startTime (ms):", startTime);
 
     const totalMilliseconds =
       (initialTime.hours ? initialTime.hours * 60 * 60 * 1000 : 0) +
@@ -49,20 +42,9 @@ export const CountDownTimer = ({
       initialTime.seconds * 1000;
 
     targetTimeRef.current = startTime + totalMilliseconds;
-    console.log("[CountDownTimer] targetTime (ms):", targetTimeRef.current);
-
     const updateTimer = () => {
       const now = Date.now();
       const difference = targetTimeRef.current - now;
-
-      console.log(
-        "[CountDownTimer update] now:",
-        now,
-        "target:",
-        targetTimeRef.current,
-        "diff:",
-        difference,
-      );
 
       if (difference <= 0) {
         setTimeLeft({ hours: 0, minutes: 0, seconds: 0 });
