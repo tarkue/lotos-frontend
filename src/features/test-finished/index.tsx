@@ -18,10 +18,11 @@ export const TestFinished = ({
     const blockedUntilDate = new Date(finished_at);
     const nowDate = new Date();
     blockedUntilDate.setSeconds(
-      new Date(finished_at).getSeconds() + 300 - nowDate.getSeconds()
+      new Date(finished_at).getSeconds() + 300 - nowDate.getSeconds(),
     );
     blockedUntilDate.setSeconds(
-      blockedUntilDate.getSeconds() + -blockedUntilDate.getTimezoneOffset() * 60
+      blockedUntilDate.getSeconds() +
+        -blockedUntilDate.getTimezoneOffset() * 60,
     );
     return blockedUntilDate.toLocaleTimeString("ru-RU", {
       hour: "2-digit",
@@ -36,7 +37,6 @@ export const TestFinished = ({
         description: `Результат за прошлое прохождение в баллах: ${
           score === null ? "неизвестен" : score
         }.`,
-        variant: "neuro",
       });
       router.push(pathname?.slice(0, pathname.length - 2));
     }
