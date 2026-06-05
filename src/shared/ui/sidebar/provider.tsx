@@ -1,10 +1,11 @@
 "use client";
 import { createContext, useContext, useState } from "react";
-import { Sidebar } from "./sidebar";
 
 export interface SidebarContextProps {
-  setOpened: (opened: boolean) => void;
+  setOpened: ((opened: boolean) => void) | undefined;
   setContent: (children: React.ReactNode) => void;
+  opened: boolean;
+  content: React.ReactNode | undefined;
 }
 
 export const SidebarContext = createContext({} as SidebarContextProps);
@@ -15,22 +16,20 @@ export interface SidebarProviderProps {
 
 export const SidebarProvider = ({ children }: SidebarProviderProps) => {
   const [sidebarOpened, setOpened] = useState(false);
-  const [content, setContent] = useState<React.ReactNode>(undefined);
-
-  if (!sidebarOpened || content === undefined) {
-    return (
-      <SidebarContext.Provider value={{ setOpened, setContent }}>
-        {children}
-      </SidebarContext.Provider>
-    );
-  }
+  const [content, setContent] = useState<React.ReactNode | undefined>(
+    undefined,
+  );
 
   return (
-    <SidebarContext.Provider value={{ setOpened, setContent }}>
-      <div className="w-full h-max flex">
-        <Sidebar>{content}</Sidebar>
-        <div className="w-full h-max px-4">{children}</div>
-      </div>
+    <SidebarContext.Provider
+      value={{
+        setOpened: sidebarOpened ? setOpened : undefined,
+        setContent,
+        opened: sidebarOpened,
+        content,
+      }}
+    >
+      {children}
     </SidebarContext.Provider>
   );
 };

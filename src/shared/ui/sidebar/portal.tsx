@@ -9,12 +9,13 @@ export const SidebarPortal = ({ children }: SidebarPortalProps) => {
   const { setOpened, setContent } = useSidebar();
   useEffect(() => {
     if (children === undefined) return;
+    if (!setContent) return;
 
-    setOpened(true);
+    setOpened?.(true);
     setContent(children);
 
     return () => {
-      setOpened(false);
+      setOpened?.(false);
     };
   }, [children, setContent, setOpened]);
 

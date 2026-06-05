@@ -12,7 +12,7 @@ export const HeaderLinks = () => {
     return RoleLinksMap[role];
   }, [role]);
   return (
-    <ul className="flex gap-4 w-full">
+    <ul className="hidden md:flex gap-4 w-full">
       {links.map((el, i) => (
         <li key={i}>
           <Link href={el.href}>
