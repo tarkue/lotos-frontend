@@ -38,13 +38,13 @@ export const CreateLessonModal: React.FC<ModuleProps> = ({ module }) => {
 
     if (lessonType === MaterialType.VIDEO) {
       addModal({
-        title: "Создать видео-урок",
+        title: "Создать видеоурок",
         maxWidth: "700px",
         fields: <VideoLessonForm module={module} lessonTitle={title} />,
       });
     } else if (lessonType === MaterialType.TEXT) {
       addModal({
-        title: "Создать лекцию",
+        title: "Создать текстовый материал",
         maxWidth: "700px",
         fields: <LectureForm module={module} lessonTitle={title} />,
       });
@@ -83,19 +83,28 @@ export const CreateLessonModal: React.FC<ModuleProps> = ({ module }) => {
         <RadioGroup>
           <RadioField
             name="lessonType"
+            value={MaterialType.TEXT}
+            checked={lessonType === MaterialType.TEXT}
+            onChange={(e) => setLessonType(e.target.value as MaterialType.TEXT)}
+            field="Текстовый материал"
+          />
+          <RadioField
+            name="lessonType"
+            value={MaterialType.PRESENTATION}
+            checked={lessonType === MaterialType.PRESENTATION}
+            onChange={(e) =>
+              setLessonType(e.target.value as MaterialType.PRESENTATION)
+            }
+            field="Презентация"
+          />
+          <RadioField
+            name="lessonType"
             value={MaterialType.VIDEO}
             checked={lessonType === MaterialType.VIDEO}
             onChange={(e) =>
               setLessonType(e.target.value as MaterialType.VIDEO)
             }
-            field="Видео-урок"
-          />
-          <RadioField
-            name="lessonType"
-            value={MaterialType.TEXT}
-            checked={lessonType === MaterialType.TEXT}
-            onChange={(e) => setLessonType(e.target.value as MaterialType.TEXT)}
-            field="Лекция"
+            field="Видеоурок"
           />
           <RadioField
             name="lessonType"
@@ -110,15 +119,6 @@ export const CreateLessonModal: React.FC<ModuleProps> = ({ module }) => {
             checked={lessonType === "homework"}
             onChange={(e) => setLessonType(e.target.value as "homework")}
             field="Домашнее задание"
-          />
-          <RadioField
-            name="lessonType"
-            value={MaterialType.PRESENTATION}
-            checked={lessonType === MaterialType.PRESENTATION}
-            onChange={(e) =>
-              setLessonType(e.target.value as MaterialType.PRESENTATION)
-            }
-            field="Презентация"
           />
         </RadioGroup>
       </div>

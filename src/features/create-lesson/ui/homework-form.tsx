@@ -114,7 +114,7 @@ export const HomeworkForm: React.FC<HomeworkFormProps> = ({
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Введите описание домашнего задания..."
-          className="font-roboto text-black placeholder-base-300 font-medium w-full outline-0 resize-none min-h-[100px] max-h-[300px] rounded-[12px] border border-base-border bg-base px-4 py-2"
+          className="font-roboto text-black placeholder-dark-gray font-medium w-full outline-0 resize-none min-h-[100px] max-h-[300px] rounded-xl border border-base-border bg-base px-4 py-2"
           rows={4}
         />
       </div>

@@ -17,9 +17,9 @@ const selectClassNames = {
       isFocused ? "outline-none" : "",
     ),
   option: () =>
-    "flex px-[16px] py-1 text-[16px] rounded-[8px] hover:bg-base-200",
+    "flex px-[16px] py-1 text-[16px] rounded-[8px] hover:bg-base-sunken cursor-pointer",
   menu: () =>
-    "flex flex-col w-full rounded-[10px] bg-base-100 p-1 mt-1 elevation border-base-200 border",
+    "flex flex-col w-full rounded-[10px] bg-white p-1 mt-1 elevation border-base-border border",
   singleValue: () => "text-gray",
   input: () => "text-black",
   placeholder: () => "text-gray",
