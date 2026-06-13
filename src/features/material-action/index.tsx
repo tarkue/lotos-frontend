@@ -4,7 +4,6 @@ import { RoleType } from "@/src/shared/api/enum/role-type.enum";
 import { MaterialActionProps } from "./models/material-action";
 import { MaterialComplete } from "./ui/complete";
 import { DeleteMaterial } from "./ui/delete";
-import { DeleteTest } from "./ui/delete-test";
 import { StartTest } from "./ui/start-test";
 import { PrevMaterialAction } from "./ui/prev";
 import { NextMaterialAction } from "./ui/next";
@@ -14,14 +13,12 @@ export const MaterialAction = (props: MaterialActionProps) => {
   const { role } = useAuth();
 
   if (role === RoleType.STUDENT) {
-    const Action = props.material.has_tests ? StartTest : MaterialComplete;
-    return <Action {...props} />;
+    return null;
   }
 
   if (role === RoleType.ADMIN || role === RoleType.TEACHER) {
     return (
       <div className="w-full flex justify-end gap-2 flex-col md:flex-row">
-        <DeleteTest material={props.material} />
         <DeleteMaterial {...props} />
       </div>
     );
@@ -41,7 +38,7 @@ export const FooterContentMaterialAction = (props: MaterialActionProps) => {
   if (role === RoleType.ADMIN || role === RoleType.TEACHER) {
     return (
       <div className="w-full flex justify-end gap-2 flex-col md:flex-row">
-        <UpdateMaterial {...props} />
+        {props.material.has_tests && <UpdateMaterial {...props} />}
       </div>
     );
   }

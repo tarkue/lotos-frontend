@@ -106,6 +106,30 @@ async function fetchSubmissions(
   );
 }
 
+async function fetchTest(
+  courseId: number,
+  moduleId: number,
+  materialId: number,
+  testId: number,
+) {
+  const cookieStore = await cookies();
+  const role = cookieStore.get("role")?.value;
+
+  try {
+    const test = await roleSwitcher(role, {
+      student: () => undefined,
+      teacher: async () =>
+        await sfwr(api.test.getTest, courseId, moduleId, materialId, testId),
+      admin: async () =>
+        await sfwr(api.test.getTest, courseId, moduleId, materialId, testId),
+      unauthorized: async () => undefined,
+    });
+    return test;
+  } catch {
+    return undefined;
+  }
+}
+
 export async function MaterialPage({
   slug,
   prevMaterial,
@@ -131,11 +155,17 @@ export async function MaterialPage({
     homework?.id,
   );
 
+  const test =
+    material.tests && material.tests.length > 0
+      ? await fetchTest(courseId, moduleId, materialId, material.tests[0].id)
+      : undefined;
+
   return (
     <div className="w-full min-h-full flex flex-col mt-9 gap-6">
       <MaterialContent
         material={material}
         homework={homework}
+        test={test}
         headerAction={
           <MaterialAction
             nextMaterial={nextMaterial}
@@ -161,8 +191,6 @@ export async function MaterialPage({
             />
           </>
         }
-        courseId={courseId}
-        moduleId={moduleId}
       />
       <Suspense>
         {homework && submissions && (

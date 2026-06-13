@@ -6,6 +6,7 @@ import { MaterialActionProps } from "../models/material-action";
 import { EditLectureForm } from "./edit-lecture-form";
 import { EditPresentationForm } from "./edit-presentation-form";
 import { EditVideoLessonForm } from "./edit-video-lesson-form";
+import { EditTestForm } from "./edit-test-form";
 import { Icon } from "@/src/shared/ui/icon";
 
 export const UpdateMaterial: React.FC<MaterialActionProps> = ({
@@ -19,6 +20,22 @@ export const UpdateMaterial: React.FC<MaterialActionProps> = ({
 
     const moduleId = material.module.id;
     const courseIdNum = Number.parseInt(courseId);
+
+    // Сначала проверяем наличие теста — он может быть у материала любого типа
+    if (material.tests && material.tests.length > 0) {
+      addModal({
+        title: "Редактировать тест",
+        maxWidth: "600px",
+        fields: (
+          <EditTestForm
+            material={material}
+            courseId={courseIdNum}
+            moduleId={moduleId}
+          />
+        ),
+      });
+      return;
+    }
 
     if (material.type === MaterialType.VIDEO) {
       addModal({

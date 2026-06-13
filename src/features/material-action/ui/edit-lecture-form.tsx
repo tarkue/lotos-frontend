@@ -8,6 +8,8 @@ import { useModals } from "@/src/shared/ui/modal";
 import { TextArea } from "@/src/shared/ui/textarea";
 import { toast } from "@/src/shared/ui/toast";
 import { useState } from "react";
+import { EditTestForm } from "./edit-test-form";
+import { Icon } from "@/src/shared/ui/icon";
 
 interface EditLectureFormProps {
   material: Material;
@@ -30,6 +32,20 @@ export const EditLectureForm: React.FC<EditLectureFormProps> = ({
     addModal({
       title: "Добавить изображение",
       fields: <AddImageModal />,
+    });
+  };
+
+  const handleEditTest = () => {
+    addModal({
+      title: "Редактировать тест",
+      maxWidth: "600px",
+      fields: (
+        <EditTestForm
+          material={material}
+          courseId={courseId}
+          moduleId={moduleId}
+        />
+      ),
     });
   };
 
@@ -91,7 +107,21 @@ export const EditLectureForm: React.FC<EditLectureFormProps> = ({
         rows={10}
       />
 
+      {material.has_tests && (
+        <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg">
+          <Icon glyph="test" color="dark-gray" size="20" />
+          <span className="text-sm text-gray-700">
+            Тест привязан к этому материалу
+          </span>
+        </div>
+      )}
+
       <div className="flex justify-end w-full gap-2">
+        {material.has_tests && (
+          <Button variant="ghost" onClick={handleEditTest} className="w-min">
+            Редактировать тест
+          </Button>
+        )}
         <Button variant="ghost" onClick={handleAddImage} className="w-min">
           Добавить изображение
         </Button>

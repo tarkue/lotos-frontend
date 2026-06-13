@@ -8,22 +8,24 @@ import { MaterialVideoViewer } from "./content-viewers/video-viewer";
 import { cn } from "@/src/shared/libs/utils";
 import { Suspense } from "react";
 import { MaterialHomeWorkViewer } from "./content-viewers/homework-viewer";
-import { HomeworkStudentItemResponseDTO } from "@/src/shared/api/exports";
+import {
+  HomeworkStudentItemResponseDTO,
+  TestWithQuestionsResponseDTO,
+} from "@/src/shared/api/exports";
+import { MaterialTestViewer } from "./test-viewer";
 
 export const MaterialContent = ({
   material,
   bodyAction,
   headerAction,
-  courseId,
-  moduleId,
   homework,
+  test,
 }: {
   material: Material;
   bodyAction?: React.ReactNode;
   headerAction?: React.ReactNode;
-  courseId?: number;
-  moduleId?: number;
   homework?: HomeworkStudentItemResponseDTO;
+  test?: TestWithQuestionsResponseDTO;
 }) => {
   if (!material) {
     return <></>;
@@ -55,9 +57,14 @@ export const MaterialContent = ({
         {material.type === MaterialType.TEXT && material.text_content && (
           <MaterialTextViewer content={material.text_content} />
         )}
-        {homework && courseId && moduleId && material.id && (
+        {homework && (
           <Suspense>
             <MaterialHomeWorkViewer homework={homework} />
+          </Suspense>
+        )}
+        {test && (
+          <Suspense>
+            <MaterialTestViewer test={test} />
           </Suspense>
         )}
         {bodyAction}

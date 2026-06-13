@@ -1,10 +1,8 @@
 "use client";
 
-import { ModuleProps } from "@/src/entity/module";
-import { QuestionField } from "@/src/entity/question";
+import { QuestionField } from "@/src/entity/question/ui/question-field";
 import { api } from "@/src/shared/api";
 import { QuestionType } from "@/src/shared/api/enum/question-type.enum";
-import { MaterialType } from "@/src/shared/api/exports";
 import { formatEndpoint } from "@/src/shared/libs/endpoint";
 import { Endpoint } from "@/src/shared/models/endpoint-enum";
 import { Button } from "@/src/shared/ui/button";
@@ -14,31 +12,92 @@ import { useModals } from "@/src/shared/ui/modal";
 import { toast } from "@/src/shared/ui/toast";
 import { useRouter } from "next/navigation";
 import { useCallback, useMemo, useState } from "react";
+import { Material } from "@/src/entity/material/models/material";
 
-export interface Question {
+export interface EditableQuestion {
+  id?: number;
   title: string;
   fields: {
+    id?: number;
     title: string;
     isTrue: boolean;
   }[];
 }
 
-type Mode = "init" | "ai" | "hand";
+interface EditTestFormProps {
+  material: Material;
+  courseId: number;
+  moduleId: number;
+}
 
-export const AddTestForm = ({ module }: ModuleProps) => {
+type Mode = "init" | "edit";
+
+export const EditTestForm: React.FC<EditTestFormProps> = ({
+  material,
+  courseId,
+  moduleId,
+}) => {
   const [mode, setMode] = useState<Mode>("init");
-  const [questions, setQuestions] = useState<Question[]>([]);
+  const [questions, setQuestions] = useState<EditableQuestion[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const { clear } = useModals();
   const router = useRouter();
 
-  const [materialId, setMaterialId] = useState<number>();
+  const test = material.tests?.[0];
+
   const [testId, setTestId] = useState<number>();
-  const [answersCount, setAnswersCount] = useState<number>();
-  const [time, setTime] = useState<number>();
+  const [answersCount, setAnswersCount] = useState<number | undefined>(
+    test?.num_questions,
+  );
+  const [time, setTime] = useState<number | undefined>(
+    test?.time_limit_seconds ? test.time_limit_seconds / 60 : undefined,
+  );
+
+  // Если тест уже существует, загружаем его вопросы
+  const loadExistingTest = useCallback(async () => {
+    if (!test) return;
+
+    try {
+      // Используем teacher API для получения вопросов с is_correct
+      const testDetail = await api.test.getTest(
+        courseId,
+        moduleId,
+        material.id,
+        test.id,
+      );
+
+      const loadedQuestions: EditableQuestion[] =
+        testDetail.questions?.map((q) => ({
+          id: q.id,
+          title: q.text,
+          fields: q.options.map((o) => ({
+            id: o.id,
+            title: o.content,
+            isTrue: o.is_correct, // Теперь получаем правильный ответ
+          })),
+        })) || [];
+
+      setQuestions(loadedQuestions);
+      setTestId(testDetail.id);
+      setAnswersCount(testDetail.num_questions ?? 0);
+      setTime(
+        testDetail.time_limit_seconds ? testDetail.time_limit_seconds / 60 : 0,
+      );
+      setMode("edit");
+      setCurrentQuestionIndex(0);
+    } catch (error) {
+      console.error("Ошибка загрузки теста:", error);
+      toast({
+        title: "Ошибка загрузки теста",
+        description:
+          error instanceof Error ? error.message : "Неизвестная ошибка",
+        variant: "error",
+      });
+    }
+  }, [courseId, moduleId, material.id, test]);
 
   const createEmptyQuestion = useCallback(
-    (): Question => ({
+    (): EditableQuestion => ({
       title: "",
       fields: Array(4)
         .fill(null)
@@ -92,132 +151,8 @@ export const AddTestForm = ({ module }: ModuleProps) => {
     return true;
   }, [time, answersCount]);
 
-  const handleAi = async () => {
-    if (!validate()) return;
-
-    try {
-      toast({ title: "Создание материала..." });
-
-      // Создаем материал типа TEST
-      const materialRes = await api.teacher.createMaterial(
-        module.course_id,
-        module.id,
-        {
-          type: MaterialType.DOCUMENT,
-          title: `Тест: ${module.title}`,
-          position: (module.materials?.length || 0) + 1,
-        },
-      );
-
-      const newMaterialId = materialRes.id;
-      setMaterialId(newMaterialId);
-
-      toast({ title: "Генерация теста..." });
-
-      const res = await api.ai.generateTest(
-        module.course_id,
-        module.id,
-        newMaterialId,
-        {
-          num_questions: answersCount!,
-          time_limit_minutes: time!,
-          target_material_id: newMaterialId,
-        },
-      );
-
-      setTestId(res.id);
-
-      const data: Question[] = res.questions.map((el) => ({
-        title: el.text,
-        fields: el.options.map((o) => ({
-          title: o.content,
-          isTrue: o.is_correct,
-        })),
-      }));
-
-      // Удаляем автоматически сгенерированные вопросы если нужно редактировать
-      if (res.questions && res.questions.length > 0) {
-        for (const q of res.questions) {
-          try {
-            await api.test.deleteQuestion(
-              module.course_id,
-              module.id,
-              newMaterialId,
-              q.test_id,
-              q.id,
-            );
-          } catch (deleteError) {
-            console.warn("Не удалось удалить вопрос:", deleteError);
-          }
-        }
-      }
-
-      setQuestions(data);
-      setMode("ai");
-      setCurrentQuestionIndex(0);
-      toast({ title: "Тест сгенерирован 🎉" });
-    } catch (error) {
-      console.error("Ошибка генерации теста:", error);
-      toast({
-        title: "Ошибка генерации теста",
-        description:
-          error instanceof Error ? error.message : "Неизвестная ошибка",
-        variant: "warning",
-      });
-    }
-  };
-
-  const handleHand = async () => {
-    if (!validate()) return;
-
-    try {
-      toast({ title: "Создание материала..." });
-
-      // Создаем материал типа TEST
-      const materialRes = await api.teacher.createMaterial(
-        module.course_id,
-        module.id,
-        {
-          type: MaterialType.DOCUMENT,
-          title: `Тест: ${module.title}`,
-          position: (module.materials?.length || 0) + 1,
-        },
-      );
-
-      const newMaterialId = materialRes.id;
-      setMaterialId(newMaterialId);
-
-      const res = await api.test.createTest(
-        module.course_id,
-        module.id,
-        newMaterialId,
-        {
-          num_questions: answersCount!,
-          time_limit_seconds: time! * 60,
-          status: "draft",
-          title: module.title,
-          pass_threshold: 100,
-        },
-      );
-
-      setTestId(res.id);
-      setQuestions([]);
-      setMode("hand");
-      setCurrentQuestionIndex(0);
-      toast({ title: "Тест создан, начните добавлять вопросы" });
-    } catch (error) {
-      console.error("Ошибка при создании теста:", error);
-      toast({
-        title: "Ошибка создания теста",
-        description:
-          error instanceof Error ? error.message : "Неизвестная ошибка",
-        variant: "warning",
-      });
-    }
-  };
-
   const updateCurrentQuestion = useCallback(
-    (updates: Partial<Question>) => {
+    (updates: Partial<EditableQuestion>) => {
       setQuestions((prev) => {
         const newQuestions = [...prev];
         newQuestions[currentQuestionIndex] = {
@@ -255,11 +190,11 @@ export const AddTestForm = ({ module }: ModuleProps) => {
     try {
       toast({ title: "Сохранение теста..." });
 
-      if (!materialId) {
+      if (!testId) {
         toast({
           title: "Ошибка",
-          description: "Материал не создан",
-          variant: "warning",
+          description: "Тест не найден",
+          variant: "error",
         });
         return;
       }
@@ -300,39 +235,46 @@ export const AddTestForm = ({ module }: ModuleProps) => {
             ? QuestionType.MULTIPLE
             : QuestionType.SINGLE;
 
-        await api.test.createQuestion(
-          module.course_id,
-          module.id,
-          materialId,
-          testId!,
-          {
-            text: question.title,
-            type,
-            position: index + 1,
-            options: validAnswers.map((q) => ({
-              content: q.title,
-              is_correct: q.isTrue,
-            })),
-          },
-        );
+        const questionData = {
+          text: question.title,
+          type,
+          position: index + 1,
+          options: validAnswers.map((q) => ({
+            content: q.title,
+            is_correct: q.isTrue,
+          })),
+        };
+
+        if (question.id) {
+          // Обновляем существующий вопрос
+          await api.test.updateQuestion(
+            courseId,
+            moduleId,
+            material.id,
+            testId,
+            question.id,
+            questionData,
+          );
+        } else {
+          // Создаем новый вопрос
+          await api.test.createQuestion(
+            courseId,
+            moduleId,
+            material.id,
+            testId,
+            questionData,
+          );
+        }
       }
 
-      await api.test.updateTest(
-        module.course_id,
-        module.id,
-        materialId,
-        testId!,
-        { status: "published" },
-      );
+      await api.test.updateTest(courseId, moduleId, material.id, testId, {
+        status: "published",
+      });
 
       toast({ title: "Тест сохранён ✅" });
       clear();
       router.push(
-        formatEndpoint(Endpoint.MATERIAL, [
-          module.course_id,
-          module.id,
-          materialId,
-        ]),
+        formatEndpoint(Endpoint.MATERIAL, [courseId, moduleId, material.id]),
       );
     } catch (error) {
       console.error("Ошибка при сохранении теста:", error);
@@ -340,7 +282,42 @@ export const AddTestForm = ({ module }: ModuleProps) => {
         title: "Ошибка сохранения теста",
         description:
           error instanceof Error ? error.message : "Неизвестная ошибка",
-        variant: "warning",
+        variant: "error",
+      });
+    }
+  };
+
+  const handleLoadTest = async () => {
+    if (!validate()) return;
+    await loadExistingTest();
+  };
+
+  const handleCreateNew = async () => {
+    if (!validate()) return;
+
+    try {
+      toast({ title: "Создание теста..." });
+
+      const res = await api.test.createTest(courseId, moduleId, material.id, {
+        num_questions: answersCount!,
+        time_limit_seconds: time! * 60,
+        status: "draft",
+        title: material.id.toString(),
+        pass_threshold: 100,
+      });
+
+      setTestId(res.id);
+      setQuestions([]);
+      setMode("edit");
+      setCurrentQuestionIndex(0);
+      toast({ title: "Тест создан, начните добавлять вопросы" });
+    } catch (error) {
+      console.error("Ошибка при создании теста:", error);
+      toast({
+        title: "Ошибка создания теста",
+        description:
+          error instanceof Error ? error.message : "Неизвестная ошибка",
+        variant: "error",
       });
     }
   };
@@ -348,6 +325,31 @@ export const AddTestForm = ({ module }: ModuleProps) => {
   if (mode === "init") {
     return (
       <div className="flex flex-col gap-4">
+        {test ? (
+          <div className="flex flex-col gap-2 p-4 bg-base-100 rounded-lg">
+            <Label>Найден существующий тест:</Label>
+            <div className="text-sm">
+              <div>Название: {test.title}</div>
+              <div>Вопросов: {test.num_questions}</div>
+              <div>
+                Время:{" "}
+                {test.time_limit_seconds
+                  ? `${test.time_limit_seconds / 60} мин`
+                  : "не ограничено"}
+              </div>
+            </div>
+            <Button onClick={handleLoadTest}>
+              Редактировать существующий тест
+            </Button>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-2 p-4 bg-base-100 rounded-lg">
+            <p>
+              Тест ещё не создан. Настройте параметры для создания нового теста.
+            </p>
+          </div>
+        )}
+
         <div className="flex flex-col gap-1">
           <Label>Установите время для прохождения теста в минутах:</Label>
           <Input
@@ -363,11 +365,7 @@ export const AddTestForm = ({ module }: ModuleProps) => {
           onChange={(e) => setAnswersCount(handleNumeric(e.target.value))}
         />
 
-        <Button onClick={handleAi}>Сгенерировать тест</Button>
-
-        <Button variant="ghost" onClick={handleHand}>
-          Создать тест вручную
-        </Button>
+        {!test && <Button onClick={handleCreateNew}>Создать тест</Button>}
       </div>
     );
   }
@@ -389,6 +387,7 @@ export const AddTestForm = ({ module }: ModuleProps) => {
           onChange={(e) => {
             const newFields = [...currentQuestion.fields];
             newFields[index] = {
+              id: field.id,
               title: e.target.value,
               isTrue: e.target.checked,
             };

@@ -3,4 +3,5 @@ export interface GenerateTestRequestDTO {
   question_types?: string[];
   pass_threshold?: number;
   time_limit_minutes?: number;
+  target_material_id?: number;
 }

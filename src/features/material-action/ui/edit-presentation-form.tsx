@@ -10,6 +10,7 @@ import { UploadFile } from "@/src/shared/ui/upload-file";
 import { toast } from "@/src/shared/ui/toast";
 import { Typography } from "@/src/shared/ui/typography";
 import { useState } from "react";
+import { EditTestForm } from "./edit-test-form";
 
 interface EditPresentationFormProps {
   material: Material;
@@ -22,7 +23,7 @@ export const EditPresentationForm: React.FC<EditPresentationFormProps> = ({
   courseId,
   moduleId,
 }) => {
-  const { clear } = useModals();
+  const { clear, addModal } = useModals();
   const [title, setTitle] = useState<string>(material.title || "");
   const [existingFiles, setExistingFiles] = useState(
     material.files?.map((f) => ({
@@ -35,6 +36,20 @@ export const EditPresentationForm: React.FC<EditPresentationFormProps> = ({
     Array<{ id: number; name: string; file: File }>
   >([]);
   const [isUploading, setIsUploading] = useState(false);
+
+  const handleEditTest = () => {
+    addModal({
+      title: "Редактировать тест",
+      maxWidth: "600px",
+      fields: (
+        <EditTestForm
+          material={material}
+          courseId={courseId}
+          moduleId={moduleId}
+        />
+      ),
+    });
+  };
 
   const handleFilesChange = async (files: File[]) => {
     if (files.length === 0) return;
@@ -212,7 +227,21 @@ export const EditPresentationForm: React.FC<EditPresentationFormProps> = ({
         Поддерживаемые форматы: pptx, ppt, pdf
       </span>
 
-      <div className="flex justify-end w-full">
+      {material.has_tests && (
+        <div className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg">
+          <Icon glyph="test" color="dark-gray" size="20" />
+          <span className="text-sm text-gray-700">
+            Тест привязан к этому материалу
+          </span>
+        </div>
+      )}
+
+      <div className="flex justify-end w-full gap-2">
+        {material.has_tests && (
+          <Button variant="ghost" onClick={handleEditTest} className="w-min">
+            Редактировать тест
+          </Button>
+        )}
         <Button
           variant="primary"
           onClick={handleSave}

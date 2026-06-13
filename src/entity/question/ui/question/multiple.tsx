@@ -46,6 +46,7 @@ export const Multiple = ({
                 field={option.content}
                 variant={variant}
                 disabled={isSubmitted}
+                defaultChecked={option.is_correct}
               />
             </li>
           );

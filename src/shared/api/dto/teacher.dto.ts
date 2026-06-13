@@ -93,7 +93,9 @@ export interface MaterialResponseDTO {
   transcript?: string | null;
   position: number;
   has_homework: boolean;
+  has_tests: boolean;
   files: MaterialFileInfoDTO[];
+  tests?: TestSummaryResponseDTO[];
 }
 
 export interface FileResponseDTO {
