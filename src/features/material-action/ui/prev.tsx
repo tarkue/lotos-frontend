@@ -1,34 +1,28 @@
-import { Link } from "@/src/shared/ui/link";
-import { MaterialActionProps } from "../models/material-action";
-import { Button } from "@/src/shared/ui/button";
-import { Icon } from "@/src/shared/ui/icon";
 import { formatEndpoint } from "@/src/shared/libs/endpoint";
 import { Endpoint } from "@/src/shared/models/endpoint-enum";
+import { buttonVariants } from "@/src/shared/ui/button/variants";
+import { Icon } from "@/src/shared/ui/icon";
+import { Link } from "@/src/shared/ui/link";
+import { MaterialNavigationProps } from "../models/material-action";
 
 export const PrevMaterialAction = ({
   prevMaterial,
   courseId,
-}: MaterialActionProps) => {
-  const btn = (
-    <Button variant="secondary" disabled={!prevMaterial}>
-      <Icon glyph="arrow-left" color="black" size="20" />
-      Назад
-    </Button>
-  );
-
-  if (!prevMaterial) {
-    return undefined;
-  }
+  moduleId,
+}: MaterialNavigationProps) => {
+  if (!prevMaterial) return null;
 
   return (
     <Link
       href={formatEndpoint(Endpoint.MATERIAL, [
         courseId,
-        prevMaterial.module_id,
+        moduleId,
         prevMaterial.id,
       ])}
+      className={buttonVariants({ variant: "secondary" })}
     >
-      {btn}
+      <Icon glyph="arrow-left" color="black" size="20" />
+      Назад
     </Link>
   );
 };

@@ -1,7 +1,7 @@
 "use client";
 import { useAuth } from "@/src/shared/api/context/auth-context";
 import { RoleType } from "@/src/shared/api/enum/role-type.enum";
-import { MaterialActionProps } from "./models/material-action";
+import { MaterialActionProps, MaterialNavigationProps } from "./models/material-action";
 import { MaterialComplete } from "./ui/complete";
 import { DeleteMaterial } from "./ui/delete";
 import { StartTest } from "./ui/start-test";
@@ -46,7 +46,7 @@ export const FooterContentMaterialAction = (props: MaterialActionProps) => {
   return <></>;
 };
 
-export const NavigationMaterialAction = (props: MaterialActionProps) => (
+export const NavigationMaterialAction = (props: MaterialNavigationProps) => (
   <div className="flex flex-wrap items-center justify-between gap-3">
     <PrevMaterialAction {...props} />
     <NextMaterialAction {...props} />

@@ -168,7 +168,6 @@ export async function MaterialPage({
         test={test}
         headerAction={
           <MaterialAction
-            nextMaterial={nextMaterial}
             material={material}
             courseId={slug[0]}
           />
@@ -186,6 +185,7 @@ export async function MaterialPage({
               </Suspense>
             )}
             <FooterContentMaterialAction
+              key={material.id}
               material={material}
               courseId={slug[0]}
             />
@@ -204,8 +204,8 @@ export async function MaterialPage({
       </Suspense>
       <Suspense>
         <NavigationMaterialAction
-          material={material}
           courseId={slug[0]}
+          moduleId={moduleId}
           prevMaterial={prevMaterial}
           nextMaterial={nextMaterial}
         />

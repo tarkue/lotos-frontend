@@ -1,5 +1,4 @@
 import { TeacherAddLesson } from "@/src/features/create-lesson";
-import { DeleteModule } from "@/src/features/module-action/ui/delete";
 import { api } from "@/src/shared/api";
 import { formatEndpoint } from "@/src/shared/libs/endpoint";
 import { roleSwitcher } from "@/src/shared/libs/role-switcher";
@@ -17,7 +16,6 @@ import { Typography } from "@/src/shared/ui/typography";
 import Link from "next/link";
 import { Icon } from "@/src/shared/ui/icon";
 import { MaterialList } from "@/src/entity/material";
-import { CourseAction } from "@/src/features/course-action";
 import { ModuleAction } from "@/src/features/module-action";
 
 export async function fetchModule(slug: [string, string]) {
@@ -64,28 +62,23 @@ export default async function SuspensedModulePage({
 export async function ModulePage({ slug }: { slug: string[] }) {
   const moduleFromCourse = await fetchModule([slug[0], slug[1]]);
 
-  // 1. Находим текущий материал (из URL или первый в списке)
   const currentMaterialId = slug[2] ? Number.parseInt(slug[2]) : null;
 
   const sortedMaterials = [...(moduleFromCourse.materials || [])].sort(
     (a, b) => a.position - b.position,
   );
 
-  const currentMaterial = currentMaterialId
-    ? sortedMaterials.find((m) => m.id === currentMaterialId)
-    : sortedMaterials[0]; // По умолчанию первый
+  const currentIndex = currentMaterialId
+    ? sortedMaterials.findIndex((material) => material.id === currentMaterialId)
+    : 0;
+  const currentMaterial = sortedMaterials[currentIndex];
 
   if (!currentMaterial && !moduleFromCourse.materials?.length) {
     return <ModuleNotFound module={moduleFromCourse} />;
   }
 
-  const prevMaterial = sortedMaterials.find(
-    (el) => el.position === (currentMaterial?.position || 1) - 1,
-  );
-
-  const nextMaterial = sortedMaterials.find(
-    (el) => el.position === (currentMaterial?.position || 0) + 1,
-  );
+  const prevMaterial = sortedMaterials[currentIndex - 1];
+  const nextMaterial = sortedMaterials[currentIndex + 1];
 
   return (
     <>

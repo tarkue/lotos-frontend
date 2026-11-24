@@ -1,49 +1,50 @@
 "use client";
 import { api } from "@/src/shared/api";
-import { formatEndpoint } from "@/src/shared/libs/endpoint";
-import { Endpoint } from "@/src/shared/models/endpoint-enum";
+import { cn } from "@/src/shared/libs/utils";
 import { Button } from "@/src/shared/ui/button";
 import { Icon } from "@/src/shared/ui/icon";
-import { useRouter } from "next/navigation";
+import { toast } from "@/src/shared/ui/toast";
 import { useState } from "react";
 import { MaterialActionProps } from "../models/material-action";
 
-export const MaterialComplete = ({
-  material,
-  nextMaterial,
-  courseId,
-}: MaterialActionProps) => {
-  const [isCompleted, setIsCompleted] = useState<boolean>(
-    material.is_completed ? material.is_completed : false,
-  );
-  const router = useRouter();
+export const MaterialComplete = ({ material, courseId }: MaterialActionProps) => {
+  const [isCompleted, setIsCompleted] = useState(!!material.is_completed);
+  const [isSaving, setIsSaving] = useState(false);
+
   const handle = async () => {
-    if (material.module) {
-      const ids = [Number.parseInt(courseId), material.module.id];
-      await api.student.completeMaterial(ids[0], ids[1], material.id);
+    if (!material.module || isSaving) return;
+
+    setIsSaving(true);
+    try {
+      await api.student.completeMaterial(
+        Number.parseInt(courseId),
+        material.module.id,
+        material.id,
+      );
       setIsCompleted(true);
-      if (nextMaterial !== undefined) {
-        router.push(
-          formatEndpoint(Endpoint.MATERIAL, [...ids, nextMaterial.id]),
-        );
-      }
+    } catch {
+      toast({
+        title: "Не удалось отметить урок изученным",
+        description: "Попробуйте ещё раз.",
+        variant: "error",
+      });
+    } finally {
+      setIsSaving(false);
     }
   };
 
   return (
     <Button
+      type="button"
       onClick={handle}
-      variant={isCompleted ? "primary" : "secondary"}
-      className="h-max group font-semibold lower"
-      disabled={isCompleted}
+      className={cn(
+        "mt-4 min-h-11 w-full sm:w-fit",
+        isCompleted && "disabled:cursor-default disabled:bg-status-success disabled:text-green",
+      )}
+      disabled={isCompleted || isSaving}
     >
       Изучено
-      <Icon
-        size="20"
-        glyph="done"
-        color="white"
-        className="duration-300 transition group-hover:bg-black group-disabled:group-hover:bg-gray"
-      />
+      {isCompleted && <Icon size="20" glyph="done" color="green" />}
     </Button>
   );
 };
