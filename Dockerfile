@@ -8,6 +8,7 @@ RUN npx browserslist@latest --update-db
 
 COPY . .
 
+ARG BACKEND_ORIGIN
 RUN npm run build
 
 RUN addgroup -g 1001 -S nodejs
