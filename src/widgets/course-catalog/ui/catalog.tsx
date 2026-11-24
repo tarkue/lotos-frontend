@@ -5,6 +5,6 @@ export const CourseCatalogWrapper = ({
   children,
 }: CourseCatalogWrapperProps) => {
   return (
-    <Container className="flex flex-col gap-5 pb-12">{children}</Container>
+    <Container className="flex flex-col gap-5 px-0 pb-8 md:pb-12">{children}</Container>
   );
 };

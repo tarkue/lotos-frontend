@@ -105,15 +105,21 @@ a {
   font-family: var(--roboto-font);
   font-size: 18px;
   line-height: 140%;
-  word-break: break-all;
+  overflow-wrap: anywhere;
 }
 
 .markdown-content img {
-  padding: 32px;
+  padding: 16px 0;
   width: 100%;
   height: auto;
   max-width: 1000px;
   margin: 0 auto;
+}
+
+@media (min-width: 740px) {
+  .markdown-content img {
+    padding: 32px;
+  }
 }
 
 .markdown-content p {

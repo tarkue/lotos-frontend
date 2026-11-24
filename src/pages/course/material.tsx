@@ -161,7 +161,7 @@ export async function MaterialPage({
       : undefined;
 
   return (
-    <div className="w-full min-h-full flex flex-col mt-9 gap-6">
+    <div className="mt-5 flex min-h-full w-full flex-col gap-5 md:mt-9 md:gap-6">
       <MaterialContent
         material={material}
         homework={homework}

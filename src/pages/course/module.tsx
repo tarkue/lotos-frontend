@@ -93,11 +93,12 @@ export async function ModulePage({ slug }: { slug: string[] }) {
         <div className="flex gap-3 p-3 bg-base-gray rounded-xl items-center">
           <Link
             href={formatEndpoint(Endpoint.COURSE, [moduleFromCourse.course_id])}
-            className="hover:bg-[#EAEDF2] rounded-sm"
+            aria-label="К описанию курса"
+            className="grid size-11 shrink-0 place-items-center rounded-lg hover:bg-base-border focus-visible:outline-2 focus-visible:outline-primary"
           >
             <Icon glyph="arrow-left" color="light-gray" size="20" />
           </Link>
-          <div className="flex flex-col gap-1">
+          <div className="flex min-w-0 flex-col gap-1">
             <Typography.Caption className="text-light-gray">
               Модуль {moduleFromCourse.position}
             </Typography.Caption>

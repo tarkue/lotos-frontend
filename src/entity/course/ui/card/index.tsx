@@ -28,11 +28,11 @@ export const CourseCard = forwardRef<HTMLAnchorElement, CourseCardProps>(
         ) : (
           <div className="w-full h-36 bg-base-border"></div>
         )}
-        <div className="flex flex-col bg-white p-5 pt-3 w-full">
+        <div className="flex flex-col bg-white p-4 md:p-5 md:pt-3 w-full">
           <Typography.Body bold className="w-full text-black">
             {course.title}
           </Typography.Body>
-          <Typography.Caption className="w-full text-dark-gray line-clamp-4 min-h-16">
+          <Typography.Caption className="w-full text-dark-gray line-clamp-3 md:line-clamp-4 md:min-h-16">
             {course.description}
           </Typography.Caption>
         </div>

@@ -38,21 +38,22 @@ export default async function AllCoursePage({
   const { total_pages, courses } = await FetchAllCourses(q, p);
 
   return (
-    <div className="w-full gap-6 flex flex-col">
-      <div className="flex w-full max-md:flex-col justify-between gap-2">
-        <div className="flex flex-col w-full gap-1">
-          <Typography.Heading className="text-black">
-            Каталог курсов
-          </Typography.Heading>
-          <Typography.Body className="text-dark-gray">
-            Полный список курсов, которые есть на платформе.
-          </Typography.Body>
-        </div>
+    <div className="flex w-full flex-col gap-5 md:gap-6">
+      <div className="flex w-full flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <Typography.Heading className="text-black">
+          Каталог курсов
+        </Typography.Heading>
         <AllCoursesActions />
       </div>
-      <div className="w-full gap-4 flex flex-col">
+      {courses.length > 0 ? (
         <AllCourseList courses={courses} />
-      </div>
+      ) : (
+        <div className="rounded-xl bg-white p-5 text-center">
+          <Typography.Body className="text-dark-gray">
+            {q ? "Курсы не найдены" : "В каталоге пока нет курсов"}
+          </Typography.Body>
+        </div>
+      )}
       <QueryPagination total={total_pages} />
     </div>
   );

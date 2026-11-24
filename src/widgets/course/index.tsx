@@ -27,7 +27,7 @@ export const Course = ({ course }: CourseProps) => {
         <TeacherCourseActions course={course} />
         <Action course={course} />
       </SidebarPortal>
-      <div className="pt-9 w-full">
+      <div className="w-full pt-5 md:pt-9">
         <CourseDescription course={course} action={AddModule} />
       </div>
     </>
