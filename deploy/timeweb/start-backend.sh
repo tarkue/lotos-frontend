@@ -2,7 +2,7 @@
 set -eu
 
 pg_bin=$(pg_config --bindir)
-export DB_HOST=127.0.0.1 DB_PORT=5432
+export DB_PORT=5432
 pg_data=${TMPDIR:-/tmp}/lotos-demo-postgresql
 
 pg_run() {
@@ -35,14 +35,16 @@ fi
 
 if ! pg_run "$pg_bin/pg_ctl" -D "$pg_data" status >/dev/null 2>&1; then
     pg_run "$pg_bin/pg_ctl" -D "$pg_data" -l "$pg_data/server.log" \
-        -o "-h $DB_HOST -p $DB_PORT -k $pg_data" -w start
+        -o "-c listen_addresses= -p $DB_PORT -k $pg_data" -w start
 fi
 
 export PGPASSWORD="$DB_PASSWORD"
-if ! "$pg_bin/psql" -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -Atqc 'SELECT 1' >/dev/null 2>&1; then
-    "$pg_bin/createdb" -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" "$DB_NAME"
+if ! "$pg_bin/psql" -h "$pg_data" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -Atqc 'SELECT 1' >/dev/null 2>&1; then
+    "$pg_bin/createdb" -h "$pg_data" -p "$DB_PORT" -U "$DB_USER" "$DB_NAME"
 fi
 unset PGPASSWORD
 
+# Both PostgreSQL drivers use this host query parameter as the socket directory.
+export DB_HOST="" DB_NAME="$DB_NAME?host=$pg_data"
 python -m alembic upgrade head
-exec python -m uvicorn timeweb_app:app --host 0.0.0.0 --port 8000
+exec python -m uvicorn timeweb_app:app --fd "$DEMO_HTTP_FD"
