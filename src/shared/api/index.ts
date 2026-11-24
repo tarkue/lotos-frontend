@@ -97,6 +97,14 @@ export class ApiClient {
       ? publicBaseURL
       : `${publicBaseURL}/`;
 
+    if (normalizedBaseURL.startsWith("/")) {
+      const base = new URL(normalizedBaseURL, "https://local.invalid");
+      const fileURL = new URL(url, base);
+      return fileURL.origin === base.origin
+        ? `${fileURL.pathname}${fileURL.search}${fileURL.hash}`
+        : fileURL.toString();
+    }
+
     return new URL(url, normalizedBaseURL).toString();
   }
 
