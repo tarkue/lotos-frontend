@@ -1,6 +1,8 @@
 "use client";
 import { CourseProps } from "@/src/entity/course";
 import { api } from "@/src/shared/api";
+import { useAuth } from "@/src/shared/api/context/auth-context";
+import { RoleType } from "@/src/shared/api/enum/role-type.enum";
 import { formatEndpoint } from "@/src/shared/libs/endpoint";
 import { Endpoint } from "@/src/shared/models/endpoint-enum";
 import { Button } from "@/src/shared/ui/button";
@@ -56,6 +58,11 @@ const ModalContent: React.FC<CourseProps> = ({ course }) => {
 
 export const AddModule: React.FC<CourseProps> = ({ course }) => {
   const { addModal } = useModals();
+  const { role } = useAuth();
+
+  if (role !== RoleType.TEACHER && role !== RoleType.ADMIN) {
+    return null;
+  }
 
   const handle = () => {
     addModal({

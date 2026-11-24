@@ -25,11 +25,11 @@ const resolveApiBaseUrl = (): string => {
     return serverApiUrl ?? DEFAULT_API_BASE_URL;
   }
 
-  return publicApiUrl ?? serverApiUrl ?? DEFAULT_API_BASE_URL;
+  return publicApiUrl ?? DEFAULT_API_BASE_URL;
 };
 
 const resolvePublicApiBaseUrl = (): string => {
-  return process.env.NEXT_PUBLIC_API ?? process.env.SERVER_API_URL ?? DEFAULT_API_BASE_URL;
+  return process.env.NEXT_PUBLIC_API ?? DEFAULT_API_BASE_URL;
 };
 
 export class ApiClient {
