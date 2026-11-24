@@ -10,16 +10,13 @@ interface NumberListProps {
   onSelect?: (el: number) => void;
 }
 
-const Pagination = ({ total, onSelect, selected = 1 }: NumberListProps) => {
-  const [selectedNumber, setSelectedNumber] = useState<number>(
-    selected === null ? 1 : selected
-  );
+const Pagination = ({ total, onSelect, selected }: NumberListProps) => {
+  const [localSelection, setLocalSelection] = useState(1);
+  const selectedNumber = selected ?? localSelection;
 
   const onClick = (el: number) => {
-    if (onSelect) {
-      onSelect(el);
-    }
-    setSelectedNumber(el);
+    onSelect?.(el);
+    setLocalSelection(el);
   };
 
   if (total <= 1) return <></>;

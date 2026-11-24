@@ -10,7 +10,7 @@ export const QueryPagination = ({ total }: { total: number }) => {
   const searchParams = useSearchParams();
   const setSearchParam = useSearchParamSetter();
   const searchParam = searchParams?.get(PAGINATION_SEARCH_PARAM);
-  const selected = searchParam ? Number.parseInt(searchParam) : undefined;
+  const selected = searchParam ? Number.parseInt(searchParam) : 1;
 
   const handle = (currentPage: number) => {
     setSearchParam(PAGINATION_SEARCH_PARAM, currentPage.toString());

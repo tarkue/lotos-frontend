@@ -4,19 +4,22 @@ import { Icon } from "@/src/shared/ui/icon";
 import { Input } from "@/src/shared/ui/input";
 import { X } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 
 export const QuerySearch = ({ alias = "q" }: { alias?: string }) => {
   const searchParams = useSearchParams();
   const setSearchParam = useSearchParamSetter();
-  const defaultValue = searchParams?.get(alias);
-  const [searchValue, setSearchValue] = useState<string>(
-    defaultValue ? defaultValue : "",
-  );
+  const query = searchParams?.get(alias) ?? "";
+  const [draft, setDraft] = useState(query);
+  const [isPending, startTransition] = useTransition();
+  const searchValue = isPending ? draft : query;
 
   const handle = (value: string) => {
-    setSearchParam(alias, value);
-    setSearchValue(value);
+    const pageParam = alias === "q" ? "p" : alias.replace(/_q$/, "_p");
+    setDraft(value);
+    startTransition(() => {
+      setSearchParam(alias, value, pageParam === alias ? undefined : pageParam);
+    });
   };
 
   return (

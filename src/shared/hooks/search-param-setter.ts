@@ -7,11 +7,21 @@ export const useSearchParamSetter = () => {
   const router = useRouter();
 
   return useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams?.toString());
-      params.set(name, value);
+    (name: string, value: string, resetParam?: string) => {
+      if (!pathname) return;
 
-      router.push(pathname + "?" + params.toString());
+      const params = new URLSearchParams(searchParams?.toString());
+      if (value) {
+        params.set(name, value);
+      } else {
+        params.delete(name);
+      }
+      if (resetParam) {
+        params.delete(resetParam);
+      }
+
+      const query = params.toString();
+      router.push(query ? `${pathname}?${query}` : pathname);
     },
     [searchParams, router, pathname]
   );
