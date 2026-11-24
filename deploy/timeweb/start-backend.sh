@@ -44,5 +44,5 @@ if ! "$pg_bin/psql" -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME" -Atq
 fi
 unset PGPASSWORD
 
-alembic upgrade head
-exec uvicorn timeweb_app:app --host 0.0.0.0 --port 8000
+python -m alembic upgrade head
+exec python -m uvicorn timeweb_app:app --host 0.0.0.0 --port 8000
