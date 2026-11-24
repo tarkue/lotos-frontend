@@ -13,7 +13,7 @@ export const CourseDescription = ({
         <Typography.Heading className="text-black w-full">
           О курсе
         </Typography.Heading>
-        <div className="flex flex-col w-full gap-4 bg-white p-6 my-9 rounded-2xl">
+        <div className="flex flex-col w-full gap-4 bg-white p-4 sm:p-6 my-3 sm:my-9 rounded-2xl">
           <Typography.Title className="w-full text-wrap">
             {course.title}
           </Typography.Title>

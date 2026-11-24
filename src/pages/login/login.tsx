@@ -8,9 +8,9 @@ export default function LoginPage() {
   return (
     <Container
       component="main"
-      className="flex flex-col items-center justify-center pb-[117px] min-h-[calc(100dvh-var(--footer-height-and-padding))]"
+      className="flex flex-col items-center justify-center py-8 sm:pb-[117px] min-h-[calc(100dvh-var(--footer-height-and-padding))]"
     >
-      <div className="max-w-[500px] w-full flex flex-col gap-5 p-6 rounded-2xl bg-white">
+      <div className="max-w-[500px] w-full flex flex-col gap-5 p-4 sm:p-6 rounded-2xl bg-white">
         <div className="flex flex-col gap-2">
           <Typography.Heading className="text-center text-black">
             Вход в личный кабинет

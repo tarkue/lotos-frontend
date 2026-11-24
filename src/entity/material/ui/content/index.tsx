@@ -32,7 +32,7 @@ export const MaterialContent = ({
   }
   return (
     <section className="w-full flex flex-col gap-6 pb-4">
-      <div className={"flex w-full items-center justify-between"}>
+      <div className={"flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"}>
         {material.title && (
           <Typography.Heading
             className={cn("w-full", !headerAction && "text-center")}
@@ -42,7 +42,7 @@ export const MaterialContent = ({
         )}
         {headerAction}
       </div>
-      <div className="p-6 rounded-2xl bg-white w-full">
+      <div className="p-4 sm:p-6 rounded-2xl bg-white w-full">
         {material.type === MaterialType.VIDEO &&
           material.files &&
           material.files.length > 0 && (

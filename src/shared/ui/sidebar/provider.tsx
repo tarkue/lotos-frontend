@@ -17,19 +17,15 @@ export const SidebarProvider = ({ children }: SidebarProviderProps) => {
   const [sidebarOpened, setOpened] = useState(false);
   const [content, setContent] = useState<React.ReactNode>(undefined);
 
-  if (!sidebarOpened || content === undefined) {
-    return (
-      <SidebarContext.Provider value={{ setOpened, setContent }}>
-        {children}
-      </SidebarContext.Provider>
-    );
-  }
+  const hasSidebar = sidebarOpened && content !== undefined;
 
   return (
     <SidebarContext.Provider value={{ setOpened, setContent }}>
-      <div className="w-full h-max flex">
-        <Sidebar>{content}</Sidebar>
-        <div className="w-full h-max px-4">{children}</div>
+      <div className={hasSidebar ? "flex w-full flex-col md:flex-row" : undefined}>
+        {hasSidebar && <Sidebar>{content}</Sidebar>}
+        <div className={hasSidebar ? "w-full min-w-0 px-3 md:px-4" : undefined}>
+          {children}
+        </div>
       </div>
     </SidebarContext.Provider>
   );

@@ -8,7 +8,7 @@ export default function RegisterPage() {
       component="main"
       className="flex flex-col items-center justify-center"
     >
-      <div className="max-w-[520px] w-full flex flex-col gap-5 p-6 rounded-2xl bg-white my-9">
+      <div className="max-w-[520px] w-full flex flex-col gap-5 p-4 sm:p-6 rounded-2xl bg-white my-9">
         <div className="flex flex-col w-full gap-2">
           <Typography.Heading className="text-center text-black">
             Регистрация

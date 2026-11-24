@@ -42,7 +42,7 @@ export default async function ResetPasswordPage() {
           <Typography.Title className="text-black">
             Смена пароля
           </Typography.Title>
-          <section className="w-full p-6 rounded-2xl bg-white">
+          <section className="w-full p-4 sm:p-6 rounded-2xl bg-white">
             <UpdatePasswordForm />
           </section>
         </div>

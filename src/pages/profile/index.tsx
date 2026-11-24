@@ -42,7 +42,7 @@ export default async function ProfilePage() {
           <Typography.Title className="text-black">
             Редактировать данные
           </Typography.Title>
-          <section className="w-full p-6 rounded-2xl bg-white">
+          <section className="w-full p-4 sm:p-6 rounded-2xl bg-white">
             <UserUpdateForm defaultValues={user} />
           </section>
         </div>

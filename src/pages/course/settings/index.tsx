@@ -134,7 +134,7 @@ export default async function CourseSettingsPage({
       <div className="flex flex-col gap-9 w-full mt-9">
         <div className="flex flex-col gap-4 w-full">
           <Typography.Heading className="w-full">Настройки</Typography.Heading>
-          <div className="w-full min-h-full flex flex-col bg-white p-6 rounded-2xl">
+          <div className="w-full min-h-full flex flex-col bg-white p-4 sm:p-6 rounded-2xl">
             <CourseSettings.Form course={course} action={CourseAction.Delete} />
           </div>
         </div>

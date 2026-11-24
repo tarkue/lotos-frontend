@@ -5,7 +5,10 @@ export const CloseModal = ({ close }: { close: () => void }) => {
   return (
     <Button
       variant="ghost"
-      className="z-10 block min-w-[30px] min-h-[30px] max-w-[30px] max-h-[30px]"
+      size="none"
+      type="button"
+      aria-label="Закрыть окно"
+      className="z-10 size-11 shrink-0 sm:size-8"
       onClick={close}
     >
       <Icon glyph="close" size="20" color="black" />

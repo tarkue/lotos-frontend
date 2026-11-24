@@ -8,10 +8,10 @@ export default function ForgetPasswordPage() {
   return (
     <Container
       component="main"
-      className="flex flex-col items-center justify-center pb-[117px] min-h-[calc(100dvh-var(--footer-height-and-padding))]"
+      className="flex flex-col items-center justify-center py-8 sm:pb-[117px] min-h-[calc(100dvh-var(--footer-height-and-padding))]"
     >
       <div className="max-w-[500px] w-full flex flex-col gap-6">
-        <Typography.Heading className="-mt-12 text-center text-base-500">
+        <Typography.Heading className="text-center sm:-mt-12 text-base-500">
           Восстановление доступа
         </Typography.Heading>
         <ForgetPasswordForm />

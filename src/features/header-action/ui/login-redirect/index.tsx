@@ -1,11 +1,16 @@
 import { Endpoint } from "@/src/shared/models/endpoint-enum";
-import { Button } from "@/src/shared/ui/button";
+import { buttonVariants } from "@/src/shared/ui/button/variants";
 import Link from "next/link";
 
 export const LoginRedirect = () => (
-  <Link href={Endpoint.LOGIN}>
-    <Button variant="ghost" size="small">
-      Вход
-    </Button>
+  <Link
+    href={Endpoint.LOGIN}
+    className={buttonVariants({
+      variant: "ghost",
+      size: "small",
+      className: "min-h-11 justify-start md:min-h-0 md:justify-center",
+    })}
+  >
+    Вход
   </Link>
 );

@@ -10,8 +10,8 @@ export const TestHeader = ({
   isSubmitted = false,
 }: TestProps & { startedAt: string; isSubmitted?: boolean }) => {
   return (
-    <div className="flex w-full justify-between items-center">
-      <Typography.Title className="w-full">{test.title}</Typography.Title>
+    <div className="flex w-full flex-wrap items-center justify-between gap-3">
+      <Typography.Title className="min-w-0 flex-1 [overflow-wrap:anywhere]">{test.title}</Typography.Title>
       {test.time_limit_seconds && (
         <CountDownTimer
           startedAt={startedAt}

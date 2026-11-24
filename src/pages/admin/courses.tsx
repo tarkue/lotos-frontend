@@ -23,7 +23,7 @@ export default async function AllCoursePage({
   return (
     <div className="w-full gap-6 flex flex-col">
       <div className="w-full gap-4 flex flex-col">
-        <div className="flex justify-between items-center w-full">
+        <div className="flex w-full flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex flex-col gap-1">
             <Typography.Title className="text-dark-gray">
               Курсы
@@ -32,7 +32,7 @@ export default async function AllCoursePage({
               Информация о всех курсах
             </Typography.Body>
           </div>
-          <div className="flex gap-3">
+          <div className="flex w-full flex-wrap items-center gap-3 sm:w-auto sm:flex-nowrap">
             <QuerySearch />
           </div>
         </div>

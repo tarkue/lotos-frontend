@@ -27,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <>
-      <html lang="en">
+      <html lang="ru">
         <AuthProvider>
           <TanstackQueryProvider>
             <Head>
@@ -37,10 +37,12 @@ export default function RootLayout({
               <UserProvider>
                 <ModalProvider>
                   <Header />
-                  <SidebarProvider>
-                    <div className="pt-(--header-height)">{children}</div>
-                    <Footer />
-                  </SidebarProvider>
+                  <div className="pt-(--header-height)">
+                    <SidebarProvider>
+                      {children}
+                      <Footer />
+                    </SidebarProvider>
+                  </div>
                   <Toaster />
                 </ModalProvider>
               </UserProvider>

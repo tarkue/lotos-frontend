@@ -145,7 +145,7 @@ export const TestFormWrapper = ({
         isSubmitted={isSubmitted}
       >
         <form
-          className="flex flex-col gap-6 w-full mb-8 p-6 bg-white rounded-2xl mt-9"
+          className="flex flex-col gap-6 w-full mb-8 p-4 sm:p-6 bg-white rounded-2xl mt-9"
           onSubmit={handleSubmit}
         >
           <TestHeader

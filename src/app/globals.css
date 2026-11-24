@@ -42,8 +42,14 @@
   --media-primary-color: #ffffff;
   --media-control-hover-background: rgba(100, 100, 100, 0.25);
 
-  --header-height: 73px;
+  --header-height: 60px;
   --footer-height-and-padding: 151px;
+}
+
+@media (min-width: 985px) {
+  :root {
+    --header-height: 73px;
+  }
 }
 
 .font-roboto {

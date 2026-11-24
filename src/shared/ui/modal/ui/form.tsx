@@ -17,11 +17,11 @@ export const DefaultFormModal = ({
 
   return (
     <div
-      className={cn("flex flex-col gap-3 p-5 bg-white rounded-3xl", className)}
+      className={cn("flex min-w-0 flex-col gap-3 p-4 sm:p-5 bg-white rounded-3xl", className)}
     >
-      <div className="flex w-full items-center">
+      <div className="flex w-full items-start gap-2">
         {title && (
-          <Typography.Subtitle className="w-full">{title}</Typography.Subtitle>
+          <Typography.Subtitle className="min-w-0 flex-1 [overflow-wrap:anywhere]">{title}</Typography.Subtitle>
         )}
         <CloseModal close={close} />
       </div>
@@ -32,7 +32,7 @@ export const DefaultFormModal = ({
       )}
       {fields}
       {buttons && (
-        <div className="flex w-full items-center gap-6">{buttons}</div>
+        <div className="flex w-full flex-wrap items-center gap-3 sm:gap-6">{buttons}</div>
       )}
     </div>
   );
