@@ -116,7 +116,7 @@ export const CourseSettingsForm = ({
           )}
         />
       </div>
-      <div className="flex gap-1">
+      <div className="flex flex-wrap gap-2">
         <form.AppForm>
           <form.Button type="submit" className="w-min">
             Изменить

@@ -51,7 +51,7 @@ export const UserList = () => {
         onChange={(e) => setSearch(e.currentTarget.value)}
       />
       <div className="w-full">
-        <ScrollArea className="w-full overflow-y-hidden">
+        <ScrollArea className="w-full max-h-[45dvh] overflow-auto">
           <RadioGroup className="flex flex-col gap-1 w-full">
             {data?.users.map((el, i) => (
               <div key={i} className="flex w-full items-center gap-1">
@@ -80,7 +80,14 @@ export const Create = () => {
     });
   };
   return (
-    <Button variant="ghost" size="small" onClick={handle}>
+    <Button
+      variant="ghost"
+      size="small"
+      type="button"
+      aria-label="Добавить преподавателя"
+      className="min-h-11 min-w-11"
+      onClick={handle}
+    >
       <Icon glyph="add" color="dark-gray" />
     </Button>
   );

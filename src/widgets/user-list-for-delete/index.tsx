@@ -26,7 +26,7 @@ export const UserListForDelete = ({
 
   return (
     <div className="w-full flex flex-col gap-6">
-      <div className="flex justify-between w-full items-center">
+      <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-col gap-1 w-full">
           <Typography.Title className="text-dark-gray">
             Студенты курса
@@ -35,7 +35,7 @@ export const UserListForDelete = ({
             Все люди, обучающиеся на курсе
           </Typography.Body>
         </div>
-        <div className="flex gap-3 w-full justify-end">
+        <div className="flex w-full flex-wrap items-center gap-3 sm:justify-end">
           <QuerySearch alias="students_q" />
         </div>
       </div>

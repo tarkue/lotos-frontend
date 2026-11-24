@@ -48,7 +48,7 @@ export const ApplicationList = ({
 
   return (
     <div className="w-full flex flex-col gap-6">
-      <div className="flex justify-between w-full items-center">
+      <div className="flex w-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-col gap-1 w-full">
           <Typography.Title className="text-dark-gray">
             Заявки на курс
