@@ -6,8 +6,11 @@ import { MaterialActionProps } from "../models/material-action";
 export const StartTest = ({ material }: MaterialActionProps) => {
   const submit = useStartTestSubmit(material);
 
+  if (!submit) return null;
+
   return (
     <Button
+      type="button"
       onClick={submit}
       variant="primary"
       disabled={!!material.completed_at}

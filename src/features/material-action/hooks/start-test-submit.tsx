@@ -7,48 +7,45 @@ import { Button } from "@/src/shared/ui/button";
 import { useModals } from "@/src/shared/ui/modal";
 import { useRouter } from "next/navigation";
 
-const StartTestButton = ({ material }: { material: Material }) => {
+export const useStartTestSubmit = (material: Material) => {
   const router = useRouter();
-  const { clear } = useModals();
+  const { clear, addModal } = useModals();
+  const test = material.tests?.[0];
+  const lessonModule = material.module;
 
-  const handle = () => {
-    if (material.tests !== undefined && material.tests.length > 0) {
-      clear();
-      const link = formatEndpoint(Endpoint.TEST, [
-        material.module?.course_id,
-        material.module?.id,
-        material.id,
-        material.tests[0].id,
-      ]);
-      router.push(link);
-    }
+  if (!test || !lessonModule) return;
+
+  const link = formatEndpoint(Endpoint.TEST, [
+    lessonModule.course_id,
+    lessonModule.id,
+    material.id,
+    test.id,
+  ]);
+
+  const startTest = () => {
+    clear();
+    router.push(link);
   };
 
-  return (
-    <>
-      <Button variant="primary" onClick={handle}>
-        Начать тест
-      </Button>
-    </>
-  );
-};
+  if (!test.time_limit_seconds) return startTest;
 
-export const useStartTestSubmit = (material: Material) => {
-  const { clear, addModal } = useModals();
-  if (!material.tests || !material.tests[0].time_limit_seconds) {
-    return () => {};
-  }
-
-  const time = secondsToTime(material.tests[0].time_limit_seconds);
+  const { hours, minutes, seconds } = secondsToTime(test.time_limit_seconds);
+  const duration = [
+    hours ? `${hours} ч` : null,
+    minutes ? `${minutes} мин` : null,
+    seconds ? `${seconds} с` : null,
+  ].filter(Boolean).join(" ");
 
   return () => {
     clear();
     addModal({
       title: "Начать тест",
-      description: `После нажатия кнопки ниже вас перенаправит на страницу с тестом и запуститься таймер, тест идет ${
-        time.hours && time.hours > 0 ? time.hours + " час" : ""
-      }${time.minutes > 0 ? time.minutes + " минут" : ""}`,
-      buttons: <StartTestButton material={material} />,
+      description: `На тест отведено ${duration}. Таймер запустится после начала теста.`,
+      buttons: (
+        <Button type="button" variant="primary" onClick={startTest}>
+          Начать тест
+        </Button>
+      ),
     });
   };
 };

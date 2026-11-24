@@ -1,6 +1,8 @@
 "use client";
-import { Module, ModuleProps } from "@/src/entity/module";
+import { ModuleProps } from "@/src/entity/module";
 import { api } from "@/src/shared/api";
+import { useAuth } from "@/src/shared/api/context/auth-context";
+import { RoleType } from "@/src/shared/api/enum/role-type.enum";
 import { formatEndpoint } from "@/src/shared/libs/endpoint";
 import { Endpoint } from "@/src/shared/models/endpoint-enum";
 import { Button } from "@/src/shared/ui/button";
@@ -58,6 +60,11 @@ export const EditModule: React.FC<ModuleProps & { courseId: number }> = ({
   courseId,
 }) => {
   const { addModal } = useModals();
+  const { role } = useAuth();
+
+  if (role !== RoleType.TEACHER && role !== RoleType.ADMIN) {
+    return null;
+  }
 
   const handle = () => {
     addModal({
